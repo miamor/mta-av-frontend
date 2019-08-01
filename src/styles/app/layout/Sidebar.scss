@@ -5,7 +5,6 @@
     }
 
     background-color: #4e3558;
-    min-width: 200px;
     color: white;
 
     .Title{
@@ -15,14 +14,33 @@
     }
 
     .Menu{
-        .Item{
-            padding: 12px;
-            padding-left: 20px;
-            cursor: pointer;
-        }
         
-        i{
-            margin-right: 10px;
+        width: 200px;
+
+        a{
+            .Item{
+                padding: 12px;
+                padding-left: 20px;
+                cursor: pointer;
+                color: white;
+    
+                &:hover{
+                    background-color: #311b31;
+                    text-decoration: none;
+                }
+    
+                i{
+                    margin-right: 10px;
+                }
+            }
+
+            text-decoration: none;
+            width: 100%;
+            display: inline-block;
+            &.active{
+                background-color: #311b31;
+                border-left: 5px solid #e600e6;
+            }
         }
     }
 }
