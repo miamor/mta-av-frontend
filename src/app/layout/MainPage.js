@@ -7,7 +7,7 @@ import ScanPage from '../scan/ScanPage'
 class MainPage extends Component{
     render(){
         return(
-            <div>
+            <div className='MainPage'>
                 <Switch>
                     <Route path='/a/dashboard' component={DashboardPage} />
                     <Route path='/a/scan' component={ScanPage} />

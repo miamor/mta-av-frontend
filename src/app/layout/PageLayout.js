@@ -7,10 +7,12 @@ import Sidebar from './Sidebar'
 class PageLayout extends Component{
     render(){
         return(
-            <div>
-                <Header />
+            <div className='d-flex PageLayout'>
                 <Sidebar />
-                <MainPage />
+                <div className='Right'>
+                    <Header />
+                    <MainPage />
+                </div>
             </div>
         )
     }
