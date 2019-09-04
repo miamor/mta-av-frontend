@@ -12,7 +12,8 @@
     "react-dropzone": "^10.1.7",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "reactstrap": "^8.0.1"
+    "reactstrap": "^8.0.1",
+    "recharts": "^1.7.1"
   },
   "scripts": {
     "start": "react-scripts start",
