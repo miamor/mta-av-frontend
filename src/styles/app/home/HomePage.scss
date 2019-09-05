@@ -1,0 +1,25 @@
+.HomePage{
+    width: calc(100vw - 270px);
+    height: 100%;
+    display: flex;
+
+    .Table{
+        width: 50%; 
+        background-color: white;
+    }
+
+    .Detail{
+        width: 50%;
+        margin-left: 10px;
+        background-color: white;
+
+        .Header{
+            width: 100%;
+            background-color: #4e3558;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            line-height: 2;
+        }
+    }
+}

@@ -23,7 +23,6 @@ class DashboardPage extends Component{
 
         return(
             <div className='DashboardPage'>
-                <div className='Title'>MTA Security Dashboard</div>
                 <div className='MenuPeriod'>
                     <div>Period</div>
                     <Dropdown isOpen={isOpen} toggle={this._toggle}>
