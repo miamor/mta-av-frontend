@@ -1,7 +1,7 @@
 .MainPage{
     background-color: #f2f2f2;
     height: calc(100vh - 54px);
-    width: calc(100vw - 200px);
+    min-width: calc(100vw - 200px);
     padding: 30px;
     overflow: auto;
 }

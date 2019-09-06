@@ -38,23 +38,23 @@ class DashboardPage extends Component{
                     </Dropdown>
                 </div>
                 <div className='Main'>
-                    <div className='Item'>
+                    <div className='Item row'>
                         <div className='ItemTitle'>DDI Dash</div>
                     </div>
-                    <div className='Row'>
-                        <div className='Item'>
+                    <div className='row'>
+                        <div className='Item col'>
                             <div className='ItemTitle'>Malicious DNS Queries Blocked</div>
                             <div className='ItemCount'>510,263</div>
                         </div>
-                        <div className='Item Last'>
+                        <div className='Item Last col'>
                             <div className='ItemTitle'>DNS Attack Event</div>
                             <div className='ItemCount'>37,276</div>
                         </div>
                     </div>
-                    <div className='Row'>
-                        <div className='Item'>
+                    <div className='row'>
+                        <div className='Item col'>
                             <div className='ItemTitle'>DNS Firewall Attack Categories</div>
-                            <ResponsiveContainer height={300}>
+                            <ResponsiveContainer height={300} width={300}>
                                 <PieChart>
                                     <Pie data={pie1} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
                                         {
@@ -67,9 +67,9 @@ class DashboardPage extends Component{
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                        <div className='Item'>
+                        <div className='Item col'>
                             <div className='ItemTitle'>DNS Firewall Threat Levels</div>
-                            <ResponsiveContainer height={300}>
+                            <ResponsiveContainer height={300} width={300}>
                                 <PieChart>
                                     <Pie data={pie2} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
                                         {
@@ -82,9 +82,9 @@ class DashboardPage extends Component{
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                        <div className='Item'>
+                        <div className='Item col'>
                             <div className='ItemTitle'>Top DNS Clients</div>
-                            <ResponsiveContainer height={300}>
+                            <ResponsiveContainer height={300} width={300}>
                                 <PieChart>
                                     <Pie data={pie3} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
                                         {
@@ -97,9 +97,9 @@ class DashboardPage extends Component{
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
-                        <div className='Item Last'>
+                        <div className='Item Last col'>
                             <div className='ItemTitle'>Top DNS Domains</div>
-                            <ResponsiveContainer height={300}>
+                            <ResponsiveContainer height={300} width={300}>
                                 <PieChart>
                                     <Pie data={pie4} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
                                         {
@@ -113,10 +113,10 @@ class DashboardPage extends Component{
                             </ResponsiveContainer>
                         </div>                        
                     </div>
-                    <div className='Item'>
+                    <div className='Item row'>
                         <div className='ItemTitle'>DNS Firewall</div>
                     </div>
-                    <div className='Item'>
+                    <div className='Item row'>
                         <div className='ItemTitle'>DNS Attack Trend</div>
                         <ResponsiveContainer height={300}>
                             <AreaChart width={600} height={400} data={area}>
@@ -128,8 +128,8 @@ class DashboardPage extends Component{
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
-                    <div className='Row'>
-                        <div className='Item'>
+                    <div className='row'>
+                        <div className='Item col'>
                             <div className='ItemTitle'>Top RPZ L2 Domains</div>
                             <Table striped>
                                 <thead>
@@ -142,7 +142,7 @@ class DashboardPage extends Component{
                                 <tbody>
                                     {
                                         table_domain.map((item, index) => (
-                                            <tr key={`domain-index`}>
+                                            <tr key={`domain-${index}`}>
                                                 <th scope='row'>{index+1}</th>
                                                 <td>{item.domain}</td>
                                                 <td>{item.value}</td>
@@ -152,7 +152,7 @@ class DashboardPage extends Component{
                                 </tbody>
                             </Table>
                         </div>
-                        <div className='Item'>
+                        <div className='Item col Last'>
                             <div className='ItemTitle'>DNS Firewall Top Clients</div>
                             <Table striped>
                                 <thead>
@@ -165,7 +165,7 @@ class DashboardPage extends Component{
                                 <tbody>
                                     {
                                         table_client.map((item, index) => (
-                                            <tr key={`domain-index`}>
+                                            <tr key={`domain-${index}`}>
                                                 <th scope='row'>{index+1}</th>
                                                 <td>{item.client}</td>
                                                 <td>{item.value}</td>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
+import {getUserData} from '../../services/AuthServices'
 
 class Sidebar extends Component{
 
@@ -33,6 +34,15 @@ class Sidebar extends Component{
                             About Us
                         </div>
                     </NavLink>
+                    {
+                        getUserData().isAdmin &&
+                        <NavLink to='/a/user'>
+                            <div className='Item'>
+                                <i className="fas fa-users"></i>
+                                Users
+                            </div>
+                        </NavLink>
+                    }
                 </div>
             </div>
         )

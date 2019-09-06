@@ -1,7 +1,7 @@
 .Header{
     height: 54px;
     display: flex;
-    width: calc(100vw - 200px);
+    //width: calc(100vw - 200px);
 
 
 
@@ -43,8 +43,7 @@
     }
 
     .RightHeader{
-        min-width: 150px;
-        width: 150px;
+        min-width: 130px;
         align-self: center;
         justify-content: space-between;
         i{

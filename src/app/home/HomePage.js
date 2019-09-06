@@ -25,8 +25,8 @@ class HomePage extends Component{
         const {selected} = this.state
 
         return(
-            <div className='HomePage'>
-                <div className='Table'>
+            <div className='HomePage row'>
+                <div className='Table col'>
                     <Table striped>
                         <thead>
                             <tr>
@@ -52,7 +52,7 @@ class HomePage extends Component{
                         </tbody>
                     </Table>
                 </div>
-                <div className='Detail'>
+                <div className='Detail col'>
                     <div className='Header'>{table_event[selected].name}</div>
                     <Table striped>
                         <tbody>

@@ -1,15 +1,15 @@
 .HomePage{
-    width: calc(100vw - 270px);
+    min-width: calc(100vw - 270px);
     height: 100%;
     display: flex;
 
     .Table{
-        width: 50%; 
+        padding: 0;
         background-color: white;
     }
 
     .Detail{
-        width: 50%;
+        padding: 0;
         margin-left: 10px;
         background-color: white;
 

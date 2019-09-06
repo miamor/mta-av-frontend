@@ -1,7 +1,16 @@
 import React, {Component} from 'react'
 import {Input} from 'reactstrap'
 
+import {logoutUser} from '../../services/AuthServices'
+import getHistory from '../../services/helpers/getHistory'
+
 class Header extends Component{
+
+    _handleLogout = () => {
+        logoutUser()
+        getHistory().push('/login')
+    }
+
     render(){
         return(
             <div className='Header'>
@@ -15,7 +24,7 @@ class Header extends Component{
                 <div className='RightHeader'>
                     <i className="fas fa-globe"></i>
                     <i className="fas fa-bell"></i>
-                    <i className="fas fa-cog"></i>
+                    <i className="fas fa-sign-out-alt" onClick={this._handleLogout}></i>
                 </div>
 
             </div>
