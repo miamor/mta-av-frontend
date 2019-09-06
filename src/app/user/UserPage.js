@@ -3,7 +3,6 @@ import {Table,} from 'reactstrap'
 import {Redirect} from 'react-router-dom'
 
 import {list_user} from './asset'
-import getHistory from '../../services/helpers/getHistory'
 import {getUserData} from '../../services/AuthServices'
 
 class UserPage extends Component{
