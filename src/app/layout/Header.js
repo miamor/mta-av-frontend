@@ -19,7 +19,7 @@ class Header extends Component{
                     <div className='LeftMenu'>
                         <i className="fas fa-bars"></i>
                     </div>
-                    <div className='TitleHeader'>mtaAV Antivirus</div>
+                    <div className='TitleHeader'>MTA Deep Inspector</div>
                 </div>
                 <div className='RightHeader'>
                     <i className="fas fa-globe"></i>

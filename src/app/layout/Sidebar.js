@@ -8,18 +8,18 @@ class Sidebar extends Component{
 
         return(
             <div className='Sidebar'>
-                <div className='Title'>mtaAV Antivirus</div>
+                <div className='Title'>mtaDeepInspector</div>
                 <div className='Menu'>
-                    <NavLink to='/a/home'>
-                        <div className='Item'>
-                            <i className="fas fa-home"></i>
-                            Home
-                        </div>
-                    </NavLink>
                     <NavLink to='/a/dashboard'>
                         <div className='Item'>
                             <i className="fas fa-chart-bar"></i>
                             Dashboard
+                        </div>
+                    </NavLink>
+                    <NavLink to='/a/home'>
+                        <div className='Item'>
+                            <i className="fas fa-home"></i>
+                            Live Events
                         </div>
                     </NavLink>
                     <NavLink to='/a/scan'>

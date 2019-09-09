@@ -4,13 +4,13 @@
         display: none;
     }
 
-    background-color: #4e3558;
+    background-color: #3F6826;
     color: white;
 
     .Title{
         font-family: 'Courier New', Courier, monospace;
         padding: 15px;
-        background-color: #311b31;
+        background-color: #004F00;
     }
 
     .Menu{
@@ -25,7 +25,7 @@
                 color: white;
     
                 &:hover{
-                    background-color: #311b31;
+                    background-color: #004F00;
                     text-decoration: none;
                 }
     
@@ -38,7 +38,7 @@
             width: 100%;
             display: inline-block;
             &.active{
-                background-color: #311b31;
+                background-color: #004F00;
                 border-left: 5px solid #e600e6;
             }
         }
