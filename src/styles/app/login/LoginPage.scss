@@ -1,0 +1,26 @@
+.LoginPage{
+    background-color: #004F00;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    padding: 100px 40%;
+
+    .HeaderLogin{
+        font-size: 30px;
+        font-weight: bold; 
+        width: 100%;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .Message{
+        margin-bottom: 10px;
+    }
+
+    .ButtonLogin{
+        background-color: white;
+        color: #4e3558;
+        font-weight: bold;
+        margin-left: 40%;
+    }
+}

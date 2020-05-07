@@ -1,0 +1,38 @@
+.DashboardPage{
+    max-width: calc(100vw - 290px);
+    height: 100%;
+
+    .MenuPeriod{
+    }
+
+    .Main{
+        margin-top: 20px;
+        font-size: 15px;
+
+        .Last{
+            margin-right: 0px !important;
+        }
+
+        .row{
+            margin-right: 0 !important;
+        }
+
+        .Item{
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: white;
+            //width: 100%;
+            margin-right: 5px;
+            font-weight: bold;
+
+            .ItemTitle{
+
+            }
+
+            .ItemCount{
+                font-size: 50px;
+                text-align: center;
+            }
+        }
+    }
+}

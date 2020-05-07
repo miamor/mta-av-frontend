@@ -1,0 +1,56 @@
+.Header{
+    height: 54px;
+    display: flex;
+    //width: calc(100vw - 200px);
+
+
+
+    .LeftHeader{
+        display: flex;
+        width: 100%;
+        margin-left: 10px;
+        align-self: center;
+        
+        input{
+            @media only screen and (max-width: 768px) {
+                display: none;
+            }
+        }
+
+        .LeftMenu{
+            
+            @media only screen and (min-width: 768px) {
+                display: none;
+            }
+            
+            i{
+                font-size: 25px;
+                margin: 0 10px;
+            }
+        }
+
+        .TitleHeader{
+
+            @media only screen and (min-width: 768px) {
+                display: none;
+            }
+
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+    .RightHeader{
+        min-width: 130px;
+        align-self: center;
+        justify-content: space-between;
+        i{
+            font-size: 22px;
+            margin: 0 10px;
+            color: gray;
+            cursor: pointer;
+        }
+    }
+}
