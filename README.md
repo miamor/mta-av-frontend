@@ -1,3 +1,18 @@
+sudo ufw allow from your_other_server_ip/32 to any port 27017
+
+
+sudo nano /etc/mongodb.conf
+...
+logappend=true
+
+bind_ip = 127.0.0.1,your_server_ip
+#port = 27017
+
+...
+https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-18-04
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
