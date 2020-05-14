@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 
 const baseStyle = {
@@ -32,7 +32,48 @@ const rejectStyle = {
 };
 
 function StyledDropzone(props) {
-    
+
+    let responseContent = 'No file'
+
+    const onDrop = useCallback((acceptedFiles) => {
+        responseContent = 'Uploading...'
+        acceptedFiles.forEach((file) => {
+            let data = new FormData()
+            data.append('files[]', file)
+
+            console.log(file)
+            console.log(data)
+
+            fetch('http://192.168.1.118:5002/api/v1/capture/check', {
+                // content-type header should not be specified!
+                method: 'POST',
+                body: data,
+            }).then(response => response.json())
+            .then(success => {
+                // Do something with the successful response
+                console.log('success')
+                console.log(success)
+                responseContent = success['message']
+            }).catch(error => {
+                // this.setState({ errorMessage: error.toString() });
+                console.error('There was an error!', error);
+            });
+
+            responseContent = 'Checking...'
+
+            // const reader = new FileReader()
+        
+            // reader.onabort = () => console.log('file reading was aborted')
+            // reader.onerror = () => console.log('file reading has failed')
+            // reader.onload = () => {
+            // // Do whatever you want with the file contents
+            //     const binaryStr = reader.result
+            //     console.log(binaryStr)
+            // }
+            // reader.readAsArrayBuffer(file)
+        })
+        
+    }, [])
     const {
         getRootProps,
         getInputProps,
@@ -40,13 +81,8 @@ function StyledDropzone(props) {
         isDragAccept,
         isDragReject,
         acceptedFiles
-    } = useDropzone({
-        maxSize: 20000000,
-        onDropRejected: () => {
-            alert('This file more than 20MB')
-        }
-    });
-
+    } = useDropzone({onDrop})
+    
     const style = useMemo(() => ({
         ...baseStyle,
         ...(isDragActive ? activeStyle : {}),
@@ -60,10 +96,11 @@ function StyledDropzone(props) {
 
     const acceptedFilesItems = acceptedFiles.map(file => (
         <li key={file.path} style={{padding: '10px'}}>
-            {file.path} - {file.size} bytes
+            Checking {file.path}...
         </li>
     ));
-
+    
+    
     return (
         <div className="container">
             <div {...getRootProps({style})}>

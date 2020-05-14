@@ -9,6 +9,7 @@
     }
 
     .Detail{
+        position: sticky;
         padding: 0;
         margin-left: 10px;
         background-color: white;
@@ -20,6 +21,24 @@
             font-weight: bold;
             padding: 10px;
             line-height: 2;
+            position: sticky;
+            top:-30px
         }
+
+        table{
+            position: sticky;
+            top:25px
+        }
+    }
+
+    // .Table, .Table tbody, .Table tr{
+    //     position: relative;
+    //     width: 100%;
+    // }
+
+    .file_name{
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
