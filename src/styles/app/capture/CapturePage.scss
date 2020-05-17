@@ -3,36 +3,28 @@
     // height: 100%;
 
     .Table{
+        position: relative;
+        width: 100%;
         padding: 0;
         background-color: white;
+
+        table, tbody, tr{
+            position: relative;
+            width: 100%
+        }
+        table {
+            table-layout:fixed;
+        }
+        td {
+            overflow:hidden;
+        }
+        td.stt{
+            width:20px!important
+        }
 
         thead{
             font-weight:600;
-            font-size:1.1rem
-        }
-    }
-
-    .Detail{
-        position: sticky;
-        padding: 0;
-        margin-left: 10px;
-        background-color: white;
-
-        .Header{
-            width: 100%;
-            background-color: #004F00;
-            color: white;
-            font-weight: bold;
-            padding: 10px;
-            line-height: 2;
-            position: sticky;
-            top:-30px;
-            z-index:10;
-        }
-
-        table{
-            position: sticky;
-            top:25px
+            // font-size:1.1rem
         }
     }
 
@@ -42,7 +34,7 @@
     // }
 
     .file_name{
-        max-width: 290px;
+        max-width: 40%;
         overflow: hidden;
         text-overflow: ellipsis;
     }

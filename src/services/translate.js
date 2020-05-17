@@ -7,6 +7,9 @@ export const translate = {
     'Settings': 'Cài đặt',
     // '': '',
 
+    'Drag & drop some files here, or click to select files': 'Kéo thả để upload hoặc click để chọn file',
+    'Checking': 'Đang quét',
+
     'Malicious files detected': 'Tổng số file mã độc đã quét được',
     'Basic settings': 'Cấu hình',
     'Sandbox': 'Sandbox',

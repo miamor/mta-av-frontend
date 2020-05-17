@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Table } from 'reactstrap'
 import { translate } from '../../services/translate'
 
 class CaptureDetailPage extends Component {
@@ -11,7 +10,7 @@ class CaptureDetailPage extends Component {
 
     componentDidMount() {
 
-        const { history, location, match } = this.props
+        const { match } = this.props
 
         this.setState({ isLoading: true })
 

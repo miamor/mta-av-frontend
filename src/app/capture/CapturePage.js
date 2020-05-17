@@ -62,11 +62,11 @@ class CapturePage extends Component{
                     <Table striped>
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th width='5%'>#</th>
                                 <th>{translate['File name']}</th>
-                                <th>{translate['Size']}</th>
-                                <th>{translate['Time received']}</th>
-                                <th>{translate['Status']}</th>
+                                <th>Hash</th>
+                                <th width='13%'>{translate['Size']}</th>
+                                <th width='13%'>{translate['Status']}</th>
                                 <th>{translate['Source IP']}</th>
                             </tr>
                         </thead>
@@ -74,7 +74,7 @@ class CapturePage extends Component{
                         {
                             list_capture.map((item, index) => (
                                 <tr key={`domain-${index}`} onClick={() => this._handleSelect(index)} style={{cursor: 'pointer'}}>
-                                    <th scope='row'>{index+1}</th>
+                                    <td class='stt' scope='row'>{index+1}</td>
                                     <td class='file_name'>
                                         <a href={`/a/capture/${ item.hash }`}>
                                             {item.file_name}
@@ -82,7 +82,6 @@ class CapturePage extends Component{
                                     </td>
                                     <td>{item.hash}</td>
                                     <td>{item.file_size}</td>
-                                    {/* <td>{item.time_received}</td> */}
                                     <th style={{color:this._getColor(item.status)}}>{item.status}</th>
                                     <td>{item.source_ip}</td>
                                 </tr>

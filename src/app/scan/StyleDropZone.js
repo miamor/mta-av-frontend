@@ -1,6 +1,8 @@
-import React, {useMemo, useCallback} from 'react';
+import React, {useMemo, useCallback, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import getMAC, { isMAC } from 'getmac'
+import { networkInterfaces } from 'os';
+import { translate } from '../../services/translate';
 
 const baseStyle = {
     flex: 1,
@@ -32,15 +34,18 @@ const rejectStyle = {
     borderColor: '#ff1744'
 };
 
-function StyledDropzone(props) {
+function StyleDropzone(props) {
 
-    let responseContent = 'No file'
+    const [uploadStt, setUploadStt] = useState(0);
+    // 0: none | 1: progressing | 2: success | -1: error
+    const [respCont, setResp] = useState(1);
 
     var macaddress = require('macaddress');
     const os = require('os');
-
     const onDrop = useCallback((acceptedFiles) => {
-        responseContent = 'Uploading...'
+        setResp('Uploading...')
+        // uploadStt = 1
+        setUploadStt(1)
         acceptedFiles.forEach((file) => {
             let data = new FormData()
             data.append('files[]', file)
@@ -53,30 +58,25 @@ function StyledDropzone(props) {
 
             console.log('arch', os)
 
-            console.log('interfaces ####################\n',
-            os.getNetworkInterfaces({all: true}))
-
             macaddress.one(function (err, mac) {
                 console.log('err', err)
                 console.log("Mac address for this host: %s", mac); 
             });
 
-            // fetch('http://192.168.126.26:5002/api/v1/capture/check', {
-            //     // content-type header should not be specified!
-            //     method: 'POST',
-            //     body: data,
-            // }).then(response => response.json())
-            // .then(success => {
-            //     // Do something with the successful response
-            //     console.log('success')
-            //     console.log(success)
-            //     responseContent = success['message']
-            // }).catch(error => {
-            //     // this.setState({ errorMessage: error.toString() });
-            //     console.error('There was an error!', error);
-            // });
-
-            responseContent = 'Checking...'
+            fetch('http://192.168.126.26:5002/api/v1/capture/check', {
+                // content-type header should not be specified!
+                method: 'POST',
+                body: data,
+            }).then(response => response.json())
+            .then(success => {
+                // Do something with the successful response
+                console.log('success')
+                console.log(success)
+                setResp(success['message'])
+            }).catch(error => {
+                // this.setState({ errorMessage: error.toString() });
+                console.error('There was an error!', error);
+            });
 
             // const reader = new FileReader()
         
@@ -86,6 +86,7 @@ function StyledDropzone(props) {
             // // Do whatever you want with the file contents
             //     const binaryStr = reader.result
             //     console.log(binaryStr)
+            //     console.logbinaryStr['byteLength'])
             // }
             // reader.readAsArrayBuffer(file)
         })
@@ -109,28 +110,40 @@ function StyledDropzone(props) {
         isDragActive,
         isDragReject,
         isDragAccept
-    ]);
+    ])
 
     const acceptedFilesItems = acceptedFiles.map(file => (
-        <li key={file.path} style={{padding: '10px'}}>
-            Checking {file.path}...
-        </li>
-    ));
+        <div key={file.path} style={{padding: '10px'}}>
+            {translate['Checking']} {file.path}...
+        </div>
+    ))
     
     
+    const interfaces = networkInterfaces()
+    console.log('interfaces', interfaces)
+
+    console.log('uploadStt', uploadStt)
+    console.log('respCont', respCont)
+
     return (
         <div className="container">
-            <div {...getRootProps({style})}>
+            {uploadStt === 0 ? (
+            <div class="dropzone" {...getRootProps({style})}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>{translate['Drag & drop some files here, or click to select files']}</p>
+                <p>* {translate['Limit size']}: 10MB</p>
             </div>
-            <aside>
-                <ul>
-                    {acceptedFilesItems}
-                </ul>
-            </aside>
+            ) : uploadStt === 1 ? (
+            <div>
+                {acceptedFilesItems}
+            </div>
+            ) : (
+            <div>
+                {respCont}
+            </div>
+            ) }
         </div>
     )
 }
 
-export default StyledDropzone
+export default StyleDropzone
