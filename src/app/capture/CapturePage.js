@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {Table} from 'reactstrap'
+import {translate} from '../../services/translate'
 
 // import {table_event} from './sample'
 
-class HomePage extends Component{
+class CapturePage extends Component{
 
     state = {
         selected: 0,
@@ -14,7 +15,7 @@ class HomePage extends Component{
     componentDidMount() {
         this.setState({ isLoading: true });
      
-        fetch('http://192.168.126.25:5002/api/v1/capture')
+        fetch('http://192.168.126.26:5002/api/v1/capture')
         .then(response => response.json())
         .then(data => {
             data.map((item, index) => {
@@ -54,16 +55,19 @@ class HomePage extends Component{
         }
 
         return(
-            <div className='HomePage row'>
-                <div className='Table col'>
+            <div className='CapturePage'>
+                <h1 className='PageTitle'>{translate['Scan History']}</h1>
+
+                <div className='Table'>
                     <Table striped>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>File Name</th>
-                                <th>Size</th>
-                                <th>Received Time</th>
-                                <th>Status</th>
+                                <th>{translate['File name']}</th>
+                                <th>{translate['Size']}</th>
+                                <th>{translate['Time received']}</th>
+                                <th>{translate['Status']}</th>
+                                <th>{translate['Source IP']}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,46 +75,25 @@ class HomePage extends Component{
                             list_capture.map((item, index) => (
                                 <tr key={`domain-${index}`} onClick={() => this._handleSelect(index)} style={{cursor: 'pointer'}}>
                                     <th scope='row'>{index+1}</th>
-                                    <td class='file_name'>{item.file_name}</td>
+                                    <td class='file_name'>
+                                        <a href={`/a/capture/${ item.hash }`}>
+                                            {item.file_name}
+                                        </a> 
+                                    </td>
+                                    <td>{item.hash}</td>
                                     <td>{item.file_size}</td>
-                                    <td>{item.time_received}</td>
+                                    {/* <td>{item.time_received}</td> */}
                                     <th style={{color:this._getColor(item.status)}}>{item.status}</th>
+                                    <td>{item.source_ip}</td>
                                 </tr>
                             ))
                         }
                         </tbody>
                     </Table>
                 </div>
-                <div className='Detail col'>
-                    <div className='Header'>{list_capture[selected].file_name}</div>
-                    <Table striped>
-                        <tbody>
-                            <tr>
-                                <th>Size</th>
-                                <td>{list_capture[selected].file_size}</td>
-                            </tr>
-                            <tr>
-                                <th>Time Received</th>
-                                <td>{list_capture[selected].time_received}</td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <th style={{color:this._getColor(list_capture[selected].status)}}>{list_capture[selected].status}</th>
-                            </tr>
-                            <tr>
-                                <th>MD5</th>
-                                <td>{list_capture[selected].md5}</td>
-                            </tr>
-                            <tr>
-                                <th>File Type</th>
-                                <td>{list_capture[selected].file_extension}</td>
-                            </tr>
-                        </tbody>
-                    </Table>     
-                </div>
             </div>
         )
     }
 }
 
-export default HomePage
+export default CapturePage

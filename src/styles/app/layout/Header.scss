@@ -1,19 +1,46 @@
 .Header{
-    height: 54px;
+    height: 60px;
     display: flex;
     //width: calc(100vw - 200px);
-
-
+    background:#fff;
+    border-bottom:1px solid #eaeaea;
 
     .LeftHeader{
         display: flex;
-        width: 100%;
+        width: 70%;
         margin-left: 10px;
+        height:100%;
+        line-height: 33px;
         align-self: center;
         
-        input{
-            @media only screen and (max-width: 768px) {
-                display: none;
+        a{
+            &:hover{
+                background-color: #004F00;
+            }
+
+            .Item{
+                padding: 12px;
+                padding-left: 20px;
+                cursor: pointer;
+                color: #004F00;
+    
+                &:hover{
+                    text-decoration: none;
+                    color:#fff
+                }
+    
+                i{
+                    margin-right: 10px;
+                }
+            }
+
+            text-decoration: none;
+            display: inline-block;
+            &.active{
+                background-color: #004F00;
+                .Item{
+                    color:#fff;
+                }
             }
         }
 
@@ -43,9 +70,25 @@
     }
 
     .RightHeader{
-        min-width: 130px;
-        align-self: center;
+        float: right;
+        width: 30%;
+        align-self: right;
         justify-content: space-between;
+
+        padding:10px 0;
+
+        .search-form{
+            position: relative;
+            width:60%;
+            float:left
+        }
+
+        input{
+            @media only screen and (max-width: 768px) {
+                display: none;
+            }
+        }
+
         i{
             font-size: 22px;
             margin: 0 10px;

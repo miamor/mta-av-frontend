@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
 import {getUserData} from '../../services/AuthServices'
+import { translate } from '../../services/translate'
 
 class Sidebar extends Component{
 
@@ -13,25 +14,31 @@ class Sidebar extends Component{
                     <NavLink to='/a/dashboard'>
                         <div className='Item'>
                             <i className="fas fa-chart-bar"></i>
-                            Dashboard
+                            {translate['Dashboard']}
                         </div>
                     </NavLink>
-                    <NavLink to='/a/home'>
+                    <NavLink to='/a/capture'>
                         <div className='Item'>
                             <i className="fas fa-home"></i>
-                            Live Events
+                            {translate['Scan History']}
                         </div>
                     </NavLink>
                     <NavLink to='/a/scan'>
                         <div className='Item'>
                             <i className="fab fa-stumbleupon-circle"></i>
-                            Scan
+                            {translate['Scan']}
+                        </div>
+                    </NavLink>
+                    <NavLink to='/a/settings'>
+                        <div className='Item'>
+                            <i className="fas fa-gear"></i>
+                            {translate['Settings']}
                         </div>
                     </NavLink>
                     <NavLink to='/a/about'>
                         <div className='Item'>
                             <i className="fas fa-user-friends"></i>
-                            About Us
+                            {translate['About Us']}
                         </div>
                     </NavLink>
                     {
@@ -39,7 +46,7 @@ class Sidebar extends Component{
                         <NavLink to='/a/user'>
                             <div className='Item'>
                                 <i className="fas fa-users"></i>
-                                Users
+                                {translate['Users']}
                             </div>
                         </NavLink>
                     }

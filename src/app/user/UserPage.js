@@ -4,6 +4,7 @@ import {Redirect} from 'react-router-dom'
 
 import {list_user} from './asset'
 import {getUserData} from '../../services/AuthServices'
+import { translate } from '../../services/translate'
 
 class UserPage extends Component{
 
@@ -19,6 +20,8 @@ class UserPage extends Component{
 
         return(
             <div className='UserPage'>
+                <h1 className='PageTitle'>{translate['Users']}</h1>
+
                 <div className='Table row'>
                     <Table striped>
                         <thead>

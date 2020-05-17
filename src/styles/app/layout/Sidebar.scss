@@ -6,16 +6,23 @@
 
     background-color: #3F6826;
     color: white;
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
 
     .Title{
         font-family: 'Courier New', Courier, monospace;
         padding: 15px;
         background-color: #004F00;
+        font-weight:600;
+        font-size:1.2rem;
+        height:60px
     }
 
     .Menu{
         
-        width: 200px;
+        width: 230px;
 
         a{
             .Item{
@@ -39,7 +46,7 @@
             display: inline-block;
             &.active{
                 background-color: #004F00;
-                border-left: 5px solid #e600e6;
+                // border-left: 5px solid #e600e6;
             }
         }
     }

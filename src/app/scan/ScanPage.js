@@ -1,19 +1,20 @@
 import React, {Component} from 'react'
 
 import StyleDropZone from './StyleDropZone'
+import { translate } from '../../services/translate'
 
 class ScanPage extends Component{
     render(){
         return(
             <div className='ScanPage'>
-                <div className='Title'>Virus Scanner</div>
+                <h1 className='PageTitle'>{translate['Virus Scanner']}</h1>
                 <div className='FileUpload'>
-                    <h5>Upload File</h5>
+                    <h5>{translate['Upload File']}</h5>
                     <StyleDropZone />
-                </div>
-                <div className='Desc'>
-                    <div>1. You can UPLOAD any files, but there is 20MB limit per file.</div>
-                    <div>2. Supports Rar/Zip decompression, but it must be less than 20 files.</div>
+
+                    <div className='Desc'>
+                        <div>* {translate['Limit size']}: 10MB</div>
+                    </div>
                 </div>
             </div>
         )

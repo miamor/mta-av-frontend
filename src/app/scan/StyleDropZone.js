@@ -1,5 +1,6 @@
 import React, {useMemo, useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
+import getMAC, { isMAC } from 'getmac'
 
 const baseStyle = {
     flex: 1,
@@ -35,6 +36,9 @@ function StyledDropzone(props) {
 
     let responseContent = 'No file'
 
+    var macaddress = require('macaddress');
+    const os = require('os');
+
     const onDrop = useCallback((acceptedFiles) => {
         responseContent = 'Uploading...'
         acceptedFiles.forEach((file) => {
@@ -44,20 +48,33 @@ function StyledDropzone(props) {
             console.log(file)
             console.log(data)
 
-            fetch('http://192.168.126.25:5002/api/v1/capture/check', {
-                // content-type header should not be specified!
-                method: 'POST',
-                body: data,
-            }).then(response => response.json())
-            .then(success => {
-                // Do something with the successful response
-                console.log('success')
-                console.log(success)
-                responseContent = success['message']
-            }).catch(error => {
-                // this.setState({ errorMessage: error.toString() });
-                console.error('There was an error!', error);
+            // var addr = getMAC()
+            // console.log('addr', addr)
+
+            console.log('arch', os)
+
+            console.log('interfaces ####################\n',
+            os.getNetworkInterfaces({all: true}))
+
+            macaddress.one(function (err, mac) {
+                console.log('err', err)
+                console.log("Mac address for this host: %s", mac); 
             });
+
+            // fetch('http://192.168.126.26:5002/api/v1/capture/check', {
+            //     // content-type header should not be specified!
+            //     method: 'POST',
+            //     body: data,
+            // }).then(response => response.json())
+            // .then(success => {
+            //     // Do something with the successful response
+            //     console.log('success')
+            //     console.log(success)
+            //     responseContent = success['message']
+            // }).catch(error => {
+            //     // this.setState({ errorMessage: error.toString() });
+            //     console.error('There was an error!', error);
+            // });
 
             responseContent = 'Checking...'
 

@@ -1,8 +1,14 @@
-.PageLayout{
-    height: 100vh;
-    width: 100vw;
-    
-    .Right{
-        width: 100%;
-    }
+body {
+  font-size: 0.9rem;
+  font-family: "Muli";
+  background-color: #f6f6f6;
+}
+
+.PageLayout {
+  // height: 100vh;
+  // width: 100vw;
+  position: relative;
+  width: 100%;
+
+  // width: 100%;
 }
