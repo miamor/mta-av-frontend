@@ -1,7 +1,89 @@
-.MainPage{
-    background-color: #f2f2f2;
-    height: calc(100vh - 54px);
-    min-width: calc(100vw - 200px);
-    padding: 30px;
-    overflow: auto;
+.MainPage {
+  // height: calc(100vh - 54px);
+  // min-width: calc(100vw - 230px);
+  padding: 30px;
+  width: 100%;
+  // overflow: auto;
+  width: 70%;
+  margin: 40px 15%;
+  border:1px solid #e9e9e9;
+  border-radius:20px;
+  background:#fff;
+
+  @media only screen and (max-width: 1300px) {
+    width:90%;
+    margin: 40px 5%
+  }
+
+}
+.MainPage > * {
+  position: relative;
+}
+
+.PageTitle {
+  display: block;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+.PageTitle:before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  // background: rgba(63,104,38, .3);
+  background: rgba(99, 132, 79, 0.2);
+}
+
+.cardo {
+  margin-top: 30px;
+}
+.cardo-header {
+  display: flex;
+  width: calc(100% - 26px);
+  align-items: center;
+  border-top: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+  height: 36px;
+  // color:#333;
+  line-height: 36px;
+  padding: 6px 13px;
+
+  h3 {
+    font-size: 1rem !important;
+    display: block;
+    margin: 0;
+    font-weight: 600;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+}
+.cardo-content {
+  padding: 5px 13px;
+}
+.rows {
+  display: table-row;
+  line-height: 1.9;
+}
+.cardo-content .cardo-content-list .label {
+  display: table-cell;
+  color: var(--vt-ui-key-val-table-cardo-content-list-label-color, #333);
+  font-weight: normal;
+  width: 200px;
+  padding-right: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardo-content .cardo-content-list .label[hidden] {
+  display: none;
+}
+.cardo-content .cardo-content-list .value {
+  display: table-cell;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  color: var(--vt-ui-key-val-table-cardo-content-list-value-color, #333);
 }

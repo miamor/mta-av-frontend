@@ -1,0 +1,41 @@
+.CapturePage{
+    // min-width: calc(100vw - 300px);
+    // height: 100%;
+
+    .Table{
+        position: relative;
+        width: 100%;
+        padding: 0;
+        background-color: white;
+
+        table, tbody, tr{
+            position: relative;
+            width: 100%
+        }
+        table {
+            table-layout:fixed;
+        }
+        td {
+            overflow:hidden;
+        }
+        td.stt{
+            width:20px!important
+        }
+
+        thead{
+            font-weight:600;
+            // font-size:1.1rem
+        }
+    }
+
+    // .Table, .Table tbody, .Table tr{
+    //     position: relative;
+    //     width: 100%;
+    // }
+
+    .file_name{
+        max-width: 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
