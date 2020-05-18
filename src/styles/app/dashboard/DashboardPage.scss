@@ -1,38 +1,41 @@
-.DashboardPage{
-    max-width: calc(100vw - 320px);
-    height: 100%;
+.DashboardPage {
+  max-width: calc(100vw - 320px);
+  height: 100%;
 
-    .MenuPeriod{
+  .MenuPeriod {
+  }
+
+  .Main {
+    margin-top: 20px;
+    font-size: 15px;
+
+    .Last {
+      margin-right: 0px !important;
     }
 
-    .Main{
-        margin-top: 20px;
-        font-size: 15px;
-
-        .Last{
-            margin-right: 0px !important;
-        }
-
-        .row{
-            margin-right: 0 !important;
-        }
-
-        .Item{
-            padding: 10px;
-            margin-bottom: 5px;
-            background-color: white;
-            //width: 100%;
-            margin-right: 5px;
-            font-weight: bold;
-
-            .ItemTitle{
-
-            }
-
-            .ItemCount{
-                font-size: 50px;
-                text-align: center;
-            }
-        }
+    .row {
+      margin-right: 0 !important;
     }
+
+    .Item {
+      padding: 10px;
+      margin-bottom: 5px;
+      background-color: white;
+      //width: 100%;
+      margin-right: 5px;
+      font-weight: bold;
+
+      .ItemTitle {
+      }
+
+      .ItemCount {
+        font-size: 50px;
+        text-align: center;
+      }
+    }
+
+    .cardos-header h3 {
+      margin-bottom: 10px;
+    }
+  }
 }

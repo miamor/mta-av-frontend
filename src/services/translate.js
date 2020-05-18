@@ -11,6 +11,10 @@ export const translate = {
     'Checking': 'Đang quét',
 
     'Malicious files detected': 'Tổng số file mã độc đã quét được',
+    'IPs containing malicious files detected': 'Số IP phát hiện có chứa mã độc',
+    'Traffic sent': 'Lượng traffic',
+    'IP sent most traffic': 'Top các IP gửi nhiều traffic',
+    'IP detected most malwares': 'Top các IP bị phát hiện chứa nhiều mã độc',
     'Basic settings': 'Cấu hình',
     'Sandbox': 'Sandbox',
 

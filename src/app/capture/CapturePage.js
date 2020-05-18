@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Table} from 'reactstrap'
 import {translate} from '../../services/translate'
+import {bytesToSize} from '../../services/bytesToSize'
 
 // import {table_event} from './sample'
 
@@ -54,6 +55,8 @@ class CapturePage extends Component{
             return <p>Empty</p>
         }
 
+        console.log('list_capture', list_capture)
+
         return(
             <div className='CapturePage'>
                 <h1 className='PageTitle'>{translate['Scan History']}</h1>
@@ -62,12 +65,13 @@ class CapturePage extends Component{
                     <Table striped>
                         <thead>
                             <tr>
-                                <th width='5%'>#</th>
-                                <th>{translate['File name']}</th>
-                                <th>Hash</th>
-                                <th width='13%'>{translate['Size']}</th>
-                                <th width='13%'>{translate['Status']}</th>
+                                <th width='3%'>#</th>
+                                <th width='25%'>{translate['File name']}</th>
+                                <th width='25%'>Hash</th>
+                                <th width='8%'>{translate['Size']}</th>
+                                <th width='8%'>{translate['Status']}</th>
                                 <th>{translate['Source IP']}</th>
+                                <th>{translate['Destination IP']}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,14 +80,15 @@ class CapturePage extends Component{
                                 <tr key={`domain-${index}`} onClick={() => this._handleSelect(index)} style={{cursor: 'pointer'}}>
                                     <td class='stt' scope='row'>{index+1}</td>
                                     <td class='file_name'>
-                                        <a href={`/a/capture/${ item.hash }`}>
+                                        <a href={`/a/capture/${ item.capture_id }`}>
                                             {item.file_name}
                                         </a> 
                                     </td>
                                     <td>{item.hash}</td>
-                                    <td>{item.file_size}</td>
+                                    <td>{bytesToSize(item.file_size)}</td>
                                     <th style={{color:this._getColor(item.status)}}>{item.status}</th>
                                     <td>{item.source_ip}</td>
+                                    <td>{item.destination_ip}</td>
                                 </tr>
                             ))
                         }

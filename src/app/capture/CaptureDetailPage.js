@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { translate } from '../../services/translate'
+import {bytesToSize} from '../../services/bytesToSize'
 
 class CaptureDetailPage extends Component {
 
@@ -16,7 +17,7 @@ class CaptureDetailPage extends Component {
 
         // hash = match.params.hash
 
-        fetch('http://192.168.126.26:5002/api/v1/capture/' + match.params.hash)
+        fetch('http://192.168.126.26:5002/api/v1/capture/' + match.params.capture_id)
             .then(response => response.json())
             .then(item => {
                 console.log(item)
@@ -24,6 +25,9 @@ class CaptureDetailPage extends Component {
                     item.status = 'OK'
                 } else {
                     item.status = 'DANGER'
+                }
+                if (item.scan_time == null) {
+                    item.scan_time = 0
                 }
                 this.setState({
                     item_capture: item,
@@ -69,7 +73,7 @@ class CaptureDetailPage extends Component {
                     <div class="Item Last col">
                         <div class="row file-basic-info">
                             <div class="Item col">
-                                <div class="ItemTitle">{item_capture.file_size}</div>
+                                <div class="ItemTitle">{bytesToSize(item_capture.file_size)}</div>
                                 <div class="ItemNote">{translate['Size']}</div>
                             </div>
                             <div class="Item Last col">
@@ -81,8 +85,7 @@ class CaptureDetailPage extends Component {
                 </div>
 
                 <div class="row">
-                    <div class="col basic-properties">
-                        <div class="cardo">
+                        <div class="cardo basic-properties">
                             <div class="cardo-header">
                                 <h3 id="title">Basic properties</h3>
                             </div>
@@ -127,10 +130,10 @@ class CaptureDetailPage extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                </div>
 
-                    <div class="Last col scan-details">
-                        <div class="cardo">
+                <div class="row">
+                        <div class="cardo scan-details">
                             <div class="cardo-header">
                                 <h3 id="title">Details</h3>
                             </div>
@@ -151,18 +154,23 @@ class CaptureDetailPage extends Component {
                                     <div class="rows">
                                         <a class="label">{translate['Scan time']}</a>
                                         <div class="value"> 
-                                            <span>{item_capture.scan_time}</span>
+                                            <span>{item_capture.scan_time}s</span>
                                         </div> 
                                     </div>
+                                    { (item_capture.status !== 'OK') ? (
                                     <div class="rows">
                                         <a class="label">{translate['Detected by']}</a>
                                         <div class="value"> 
                                             <span>{item_capture.detected_by}</span>
                                         </div> 
                                     </div>
+                                    ) : '' }
+                                    <div class="clearfix"></div>
+                                </div>
 
-                                    <hr/>
+                                <hr/>
 
+                                <div class="property-list">
                                     <div class="rows">
                                         <a class="label">{translate['Source IP']}</a>
                                         <div class="value"> 
@@ -178,7 +186,6 @@ class CaptureDetailPage extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
 

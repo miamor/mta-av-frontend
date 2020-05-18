@@ -8,4 +8,31 @@
     margin: 40px 0 10px;
   }
 
+  .rows {
+    clear: both;
+
+    .label{
+      display: block;
+      float: left;
+      width:25%
+    }
+    .value{
+      display: block;
+      float: left;
+      width:75%
+    }
+  }
+
+  .row {
+    .cardo, .cardo-content, .cardo-content > *, .rows{
+      display: block;
+      position: relative;
+      width:100%
+    }
+  }
+  
+  hr{
+    clear: both;
+    margin:20px 10px;
+  }
 }

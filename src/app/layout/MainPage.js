@@ -21,7 +21,7 @@ class MainPage extends Component{
                     <Route exact path='/a/user' component={UserPage} />
 
                     <Route exact path='/a/capture' component={CapturePage} />
-                    <Route exact path="/a/capture/:hash" component={CaptureDetailPage} />
+                    <Route exact path="/a/capture/:capture_id" component={CaptureDetailPage} />
 
                     <Redirect to='/a/dashboard'/>
                 </Switch>

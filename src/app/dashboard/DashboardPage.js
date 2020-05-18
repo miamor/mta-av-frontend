@@ -39,9 +39,6 @@ class DashboardPage extends Component{
                     </Dropdown>
                 </div>
                 <div className='Main'>
-                    <div className='Item row'>
-                        <div className='ItemTitle'>DDI Dash</div>
-                    </div>
                     <div className='row'>
                         <div className='Item cardo col'>
                             <div className='cardo-header'>
@@ -49,79 +46,18 @@ class DashboardPage extends Component{
                             </div>
                             <div className='ItemCount'>510,263</div>
                         </div>
-                        <div className='Item Last col'>
-                            <div className='ItemTitle'>DNS Attack Event</div>
-                            <div className='ItemCount'>37,276</div>
+                        <div className='Item cardo Last col'>
+                            <div className='cardo-header'>
+                                <h3>{translate['IPs containing malicious files detected']}</h3>
+                            </div>
+                            <div className='ItemCount'>510,263</div>
                         </div>
                     </div>
                     
-                    <div className='row'>
-                        <div className='Item col'>
-                            <div className='ItemTitle'>DNS Firewall Attack Categories</div>
-                            <ResponsiveContainer height={300} width={300}>
-                                <PieChart>
-                                    <Pie data={pie1} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
-                                        {
-                                            pie1.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={color_list[index]}/>
-                                            ))
-                                        }
-                                    </Pie>
-                                    <Tooltip/>
-                                </PieChart>
-                            </ResponsiveContainer>
+                    <div className='Item cardos row'>
+                        <div className='cardos-header ItemTitle'>
+                            <h3>{translate['Traffic sent']}</h3>
                         </div>
-                        <div className='Item col'>
-                            <div className='ItemTitle'>DNS Firewall Threat Levels</div>
-                            <ResponsiveContainer height={300} width={300}>
-                                <PieChart>
-                                    <Pie data={pie2} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
-                                        {
-                                            pie2.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={color_list[index]}/>
-                                            ))
-                                        }
-                                    </Pie>
-                                    <Tooltip/>
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>
-                        <div className='Item col'>
-                            <div className='ItemTitle'>Top DNS Clients</div>
-                            <ResponsiveContainer height={300} width={300}>
-                                <PieChart>
-                                    <Pie data={pie3} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
-                                        {
-                                            pie3.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={color_list[index]}/>
-                                            ))
-                                        }
-                                    </Pie>
-                                    <Tooltip/>
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>
-                        <div className='Item Last col'>
-                            <div className='ItemTitle'>Top DNS Domains</div>
-                            <ResponsiveContainer height={300} width={300}>
-                                <PieChart>
-                                    <Pie data={pie4} isAnimationActive={true} cx={'50%'} cy={'50%'} outerRadius={80} label>
-                                        {
-                                            pie4.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={color_list[index]}/>
-                                            ))
-                                        }
-                                    </Pie>
-                                    <Tooltip/>
-                                </PieChart>
-                            </ResponsiveContainer>
-                        </div>                        
-                    </div>
-                    <div className='Item row'>
-                        <div className='ItemTitle'>DNS Firewall</div>
-                    </div>
-                    <div className='Item row'>
-                        <div className='ItemTitle'>DNS Attack Trend</div>
                         <ResponsiveContainer height={300}>
                             <AreaChart width={600} height={400} data={area}>
                                 <XAxis dataKey="name"/>
@@ -132,15 +68,18 @@ class DashboardPage extends Component{
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
+
                     <div className='row'>
-                        <div className='Item col'>
-                            <div className='ItemTitle'>Top RPZ L2 Domains</div>
+                        <div className='Item cardos col'>
+                            <div className='cardos-header ItemTitle'>
+                                <h3>IP sent most traffic</h3>
+                            </div>
                             <Table striped>
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Domain</th>
-                                        <th>Total Hits</th>
+                                        <th>IP</th>
+                                        <th>Total traffic</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,14 +95,16 @@ class DashboardPage extends Component{
                                 </tbody>
                             </Table>
                         </div>
-                        <div className='Item col Last'>
-                            <div className='ItemTitle'>DNS Firewall Top Clients</div>
+                        <div className='Item cardos col Last'>
+                            <div className='cardos-header ItemTitle'>
+                                <h3>{translate['IP detected most malwares']}</h3>
+                            </div>
                             <Table striped>
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Client ID</th>
-                                        <th>Total Client Hits</th>
+                                        <th>IP</th>
+                                        <th>Total malwares detected</th>
                                     </tr>
                                 </thead>
                                 <tbody>
