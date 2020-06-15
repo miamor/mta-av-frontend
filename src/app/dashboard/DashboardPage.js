@@ -1,30 +1,52 @@
-import React, {Component} from 'react'
-import {Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Table} from 'reactstrap'
-import {PieChart, Pie, Tooltip, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis} from 'recharts'
+import React, { Component } from 'react'
+import { Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Table } from 'reactstrap'
+import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis } from 'recharts'
 
-import {pie1, pie2, pie3, pie4, area, table_client, table_domain} from './assets/sample'
+import { pie1, pie2, pie3, pie4, area, table_client, table_domain } from './assets/sample'
 import { translate } from '../../services/translate'
+import { getStatTotal } from '../../services/apis/StatAPI'
 const color_list = ['#0C090A', '#25383C', '#463E3F', '#151B54', '#357EC7', '#254117', '#347235', '#CD7F32', '#827839', '#6F4E37', '#9F000F', '#7E354D', '#583759', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
 
-class DashboardPage extends Component{
+class DashboardPage extends Component {
 
     state = {
-        isOpen: false
+        isOpen: false,
+        statData: {},
+        isLoading: false,
     }
 
-    _toggle = () => {   
-        this.setState(({isOpen}) => ({
+    _toggle = () => {
+        this.setState(({ isOpen }) => ({
             isOpen: !isOpen
         }))
     }
 
-    render(){
+    componentDidMount() {
+        this.setState({ isLoading: true });
 
-        const {isOpen} = this.state
+        let stat_data = getStatTotal()
+        stat_data.then(data => {
+            console.log(data)
+            this.setState({
+                statData: data,
+                isLoading: false
+            })
+        })
+    }
 
-        return(
+    render() {
+
+        const { isOpen, statData, isLoading } = this.state
+
+        console.log(statData['top_ip_mal'])
+
+        if (isLoading || statData['top_ip_mal'] == undefined || statData['top_ip_send'] == undefined) {
+            return <div className='DashboardPage'>Loading ...</div>
+        }
+
+        return (
             <div className='DashboardPage'>
-                <div className='MenuPeriod'>
+                {/* <div className='MenuPeriod'>
                     <div>Period</div>
                     <Dropdown isOpen={isOpen} toggle={this._toggle}>
                         <DropdownToggle caret>
@@ -37,32 +59,32 @@ class DashboardPage extends Component{
                             <DropdownItem>Last 120 days</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                </div>
+                </div> */}
                 <div className='Main'>
                     <div className='row'>
                         <div className='Item cardo col'>
                             <div className='cardo-header'>
                                 <h3>{translate['Malicious files detected']}</h3>
                             </div>
-                            <div className='ItemCount'>510,263</div>
+                            <div className='ItemCount'>{statData['malwares_num']}</div>
                         </div>
                         <div className='Item cardo Last col'>
                             <div className='cardo-header'>
                                 <h3>{translate['IPs containing malicious files detected']}</h3>
                             </div>
-                            <div className='ItemCount'>510,263</div>
+                            <div className='ItemCount'>{statData['ip_malwares_num']}</div>
                         </div>
                     </div>
-                    
+
                     <div className='Item cardos row'>
                         <div className='cardos-header ItemTitle'>
                             <h3>{translate['Traffic sent']}</h3>
                         </div>
                         <ResponsiveContainer height={300}>
                             <AreaChart width={600} height={400} data={area}>
-                                <XAxis dataKey="name"/>
-                                <YAxis/>
-                                <Tooltip/>
+                                <XAxis dataKey="name" />
+                                <YAxis />
+                                <Tooltip />
                                 <Area type='monotone' dataKey='CRITICAL' stackId="1" stroke='#8884d8' fill='#8884d8' />
                                 <Area type='monotone' dataKey='INFORMATIONAL' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
                             </AreaChart>
@@ -79,16 +101,16 @@ class DashboardPage extends Component{
                                     <tr>
                                         <th>#</th>
                                         <th>IP</th>
-                                        <th>Total traffic</th>
+                                        <th>Total traffic (bytes)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        table_domain.map((item, index) => (
+                                        statData['top_ip_send'].map((item, index) => (
                                             <tr key={`domain-${index}`}>
-                                                <th scope='row'>{index+1}</th>
-                                                <td>{item.domain}</td>
-                                                <td>{item.value}</td>
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.ip}</td>
+                                                <td>{item.total}</td>
                                             </tr>
                                         ))
                                     }
@@ -109,11 +131,11 @@ class DashboardPage extends Component{
                                 </thead>
                                 <tbody>
                                     {
-                                        table_client.map((item, index) => (
+                                        statData['top_ip_mal'].map((item, index) => (
                                             <tr key={`domain-${index}`}>
-                                                <th scope='row'>{index+1}</th>
-                                                <td>{item.client}</td>
-                                                <td>{item.value}</td>
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.ip}</td>
+                                                <td>{item.total}</td>
                                             </tr>
                                         ))
                                     }

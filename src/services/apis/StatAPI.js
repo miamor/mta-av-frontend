@@ -2,9 +2,9 @@ import createAPIServices from '../helpers/createAPIServices'
 
 const api = createAPIServices()
 
-export const statTotal = () => {
+export const getStatTotal = () => {
     return api.makeAuthRequest({
-        url: `/api/v1/stat`,
+        url: `/api/v1/capture/stat`,
         method: 'GET'
     })
 }
