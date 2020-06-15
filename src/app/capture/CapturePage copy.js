@@ -17,6 +17,22 @@ class CapturePage extends Component{
     componentDidMount() {
         this.setState({ isLoading: true });
      
+        /*fetch('http://192.168.126.26:5002/api/v1/capture')
+        .then(response => response.json())
+        .then(data => {
+            data.map((item, index) => {
+                if (item.detected_by == '' || item.detected_by == null) {
+                    item.status = 'OK'
+                } else {
+                    item.status = 'DANGER'
+                }
+            })
+            this.setState({
+                list_capture: data, 
+                isLoading: false 
+            })
+        });*/
+        
         let captureList = getListCapture()
         captureList.then(data => {
             data.map((item, index) => {
@@ -39,10 +55,8 @@ class CapturePage extends Component{
         if (status === 'DANGER') return 'red'
     }
 
-    _handleSelect = (capture_id) => {
-        // this.setState({selected: index})
-        // return <Redirect to='/a/capture/{capture_id}' />
-        this.props.history.push(`/a/capture/${capture_id}`)
+    _handleSelect = (index) => {
+        this.setState({selected: index})
     }
 
     render() {
@@ -67,35 +81,30 @@ class CapturePage extends Component{
                     <Table striped>
                         <thead>
                             <tr>
-                                <th>{translate['Source IP']}</th>
-                                <th>{translate['Destination IP']}</th>
-                                <th>{translate['Protocol']}</th>
+                                <th width='3%'>#</th>
                                 <th width='25%'>{translate['File name']}</th>
                                 <th width='25%'>Hash</th>
                                 <th width='8%'>{translate['Size']}</th>
                                 <th width='8%'>{translate['Status']}</th>
+                                <th>{translate['Source IP']}</th>
+                                <th>{translate['Destination IP']}</th>
                             </tr>
                         </thead>
                         <tbody>
                         {
                             list_capture.map((item, index) => (
-                                <tr key={`domain-${index}`} onClick={() => this._handleSelect(item.capture_id)} style={{cursor: 'pointer'}}>
-                                    {/* <td class='stt' scope='row'>{index+1}</td> */}
-                                    <td>{item.source_ip}</td>
-                                    <td>{item.destination_ip}</td>
-                                    <td>{item.protocol}</td>
+                                <tr key={`domain-${index}`} onClick={() => this._handleSelect(index)} style={{cursor: 'pointer'}}>
+                                    <td class='stt' scope='row'>{index+1}</td>
                                     <td class='file_name'>
                                         <a href={`/a/capture/${ item.capture_id }`}>
                                             {item.file_name}
-                                        </a>
+                                        </a> 
                                     </td>
-                                    <td>
-                                        <a href={`/a/history/search/${ item.hash }`}>
-                                            {item.hash}
-                                        </a>
-                                    </td>
+                                    <td>{item.hash}</td>
                                     <td>{bytesToSize(item.file_size)}</td>
                                     <th style={{color:this._getColor(item.status)}}>{item.status}</th>
+                                    <td>{item.source_ip}</td>
+                                    <td>{item.destination_ip}</td>
                                 </tr>
                             ))
                         }

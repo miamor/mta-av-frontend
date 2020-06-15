@@ -59,7 +59,7 @@ const _makeAuthRequest = createRequest => async (args) => {
 }
 
 export default (options = {}) => {
-    const baseUrlValidated = options.baseUrl || 'http://159.65.13.232:5002'
+    const baseUrlValidated = options.baseUrl || 'http://192.168.126.26:5002'
     const instance = Axios.create({
         baseURL: baseUrlValidated,
         //timeout: 30000,

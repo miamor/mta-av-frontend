@@ -1,6 +1,7 @@
 export const translate = {
     'Dashboard': 'Trang chủ',
     'Scan History': 'Lịch sử quét',
+    'Live Capture': 'Live capture',
     'Scan': 'Quét file',
     'Users': 'Người dùng',
     'About Us': 'Về chúng tôi',
@@ -40,5 +41,6 @@ export const translate = {
     'Detected by': 'Phát hiện bởi',
     'Scan time': 'Thời gian quét',
     'Source IP': 'Từ máy',
-    'Destination IP': 'Đến máy'
+    'Destination IP': 'Đến máy',
+    'Protocol': 'Giao thức'
 }

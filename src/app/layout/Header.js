@@ -1,17 +1,24 @@
 import React, {Component} from 'react'
 import {Input} from 'reactstrap'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Link} from 'react-router-dom'
 import {getUserData} from '../../services/AuthServices'
 
 import {logoutUser} from '../../services/AuthServices'
 import getHistory from '../../services/helpers/getHistory'
 import { translate } from '../../services/translate'
+import HistoryPage from '../history/HistoryPage'
 
 class Header extends Component{
 
     _handleLogout = () => {
         logoutUser()
         getHistory().push('/login')
+    }
+
+    reloadHistory = () => {
+        // let list = HistoryPage.getList()
+        // this.props.history.push(`/a/history/search/${hash}`)
+        // HistoryPage.getList()
     }
 
     render(){
@@ -26,6 +33,12 @@ class Header extends Component{
                         </div>
                     </NavLink>
                     <NavLink to='/a/capture'>
+                        <div className='Item'>
+                            <i className="fas fa-home"></i>
+                            {translate['Live Capture']}
+                        </div>
+                    </NavLink>
+                    <NavLink as={Link} to='/a/history'>
                         <div className='Item'>
                             <i className="fas fa-home"></i>
                             {translate['Scan History']}

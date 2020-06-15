@@ -3,10 +3,16 @@
 @import "./dashboard/_index.scss";
 @import "./scan/_index.scss";
 @import "./capture/_index.scss";
+@import "./history/_index.scss";
 @import "./login/_index.scss";
 @import "./user/_index.scss";
 @import "./settings/_index.scss";
 @import "font-awesome.scss";
+
+.link{
+  color: #007bff;
+  cursor: pointer;
+}
 
 /* alert */
 .alert .close,

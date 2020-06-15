@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { translate } from '../../services/translate'
-import {bytesToSize} from '../../services/bytesToSize'
+import { bytesToSize } from '../../services/bytesToSize'
+import { getCapture } from '../../services/apis/CaptureAPI'
 
 class CaptureDetailPage extends Component {
 
@@ -17,23 +18,22 @@ class CaptureDetailPage extends Component {
 
         // hash = match.params.hash
 
-        fetch('http://192.168.126.26:5002/api/v1/capture/' + match.params.capture_id)
-            .then(response => response.json())
-            .then(item => {
-                console.log(item)
-                if (item.detected_by == '' || item.detected_by == null) {
-                    item.status = 'OK'
-                } else {
-                    item.status = 'DANGER'
-                }
-                if (item.scan_time == null) {
-                    item.scan_time = 0
-                }
-                this.setState({
-                    item_capture: item,
-                    isLoading: false
-                })
-            });
+        let captureItem = getCapture(match.params.capture_id)
+        captureItem.then(item => {
+            console.log(item)
+            if (item.detected_by == '' || item.detected_by == null) {
+                item.status = 'OK'
+            } else {
+                item.status = 'DANGER'
+            }
+            if (item.scan_time == null) {
+                item.scan_time = 0
+            }
+            this.setState({
+                item_capture: item,
+                isLoading: false
+            })
+        });
     }
 
     _getColor = (status) => {
@@ -85,112 +85,112 @@ class CaptureDetailPage extends Component {
                 </div>
 
                 <div class="row">
-                        <div class="cardo basic-properties">
-                            <div class="cardo-header">
-                                <h3 id="title">Basic properties</h3>
-                            </div>
-                            <div class="cardo-content properties">
-                                <div class="property-list">
-                                    <div class="rows">
-                                        <a class="label">{translate['File type']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.file_type}</span>
-                                        </div> 
+                    <div class="cardo basic-properties">
+                        <div class="cardo-header">
+                            <h3 id="title">Basic properties</h3>
+                        </div>
+                        <div class="cardo-content properties">
+                            <div class="property-list">
+                                <div class="rows">
+                                    <a class="label">{translate['File type']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.file_type}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">MD5</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.md5}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">MD5</a>
+                                    <div class="value">
+                                        <span>{item_capture.md5}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">SHA-1</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.sha1}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">SHA-1</a>
+                                    <div class="value">
+                                        <span>{item_capture.sha1}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">SHA-256</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.sha256}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">SHA-256</a>
+                                    <div class="value">
+                                        <span>{item_capture.sha256}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">SHA-512</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.sha512}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">SHA-512</a>
+                                    <div class="value">
+                                        <span>{item_capture.sha512}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">ssdeep</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.ssdeep}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">ssdeep</a>
+                                    <div class="value">
+                                        <span>{item_capture.ssdeep}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
 
                 <div class="row">
-                        <div class="cardo scan-details">
-                            <div class="cardo-header">
-                                <h3 id="title">Details</h3>
-                            </div>
-                            <div class="cardo-content properties">
-                                <div class="property-list">
-                                    <div class="rows">
-                                        <a class="label">{translate['File name']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.file_name}</span>
-                                        </div> 
+                    <div class="cardo scan-details">
+                        <div class="cardo-header">
+                            <h3 id="title">Details</h3>
+                        </div>
+                        <div class="cardo-content properties">
+                            <div class="property-list">
+                                <div class="rows">
+                                    <a class="label">{translate['File name']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.file_name}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">{translate['File path']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.file_path}</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">{translate['File path']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.file_path}</span>
                                     </div>
-                                    <div class="rows">
-                                        <a class="label">{translate['Scan time']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.scan_time}s</span>
-                                        </div> 
+                                </div>
+                                <div class="rows">
+                                    <a class="label">{translate['Scan time']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.scan_time}s</span>
                                     </div>
-                                    { (item_capture.status !== 'OK') ? (
+                                </div>
+                                {(item_capture.status !== 'OK') ? (
                                     <div class="rows">
                                         <a class="label">{translate['Detected by']}</a>
-                                        <div class="value"> 
+                                        <div class="value">
                                             <span>{item_capture.detected_by}</span>
-                                        </div> 
+                                        </div>
                                     </div>
-                                    ) : '' }
-                                    <div class="clearfix"></div>
+                                ) : ''}
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <hr />
+
+                            <div class="property-list">
+                                <div class="rows">
+                                    <a class="label">{translate['Source IP']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.source_ip}</span>
+                                    </div>
                                 </div>
-
-                                <hr/>
-
-                                <div class="property-list">
-                                    <div class="rows">
-                                        <a class="label">{translate['Source IP']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.source_ip}</span>
-                                        </div> 
-                                    </div>
-                                    <div class="rows">
-                                        <a class="label">{translate['Destination IP']}</a>
-                                        <div class="value"> 
-                                            <span>{item_capture.destination_ip}</span>
-                                        </div> 
+                                <div class="rows">
+                                    <a class="label">{translate['Destination IP']}</a>
+                                    <div class="value">
+                                        <span>{item_capture.destination_ip}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
 
-                        )
-                    }
-                }
-                
+        )
+    }
+}
+
 export default CaptureDetailPage
