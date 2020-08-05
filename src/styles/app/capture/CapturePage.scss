@@ -21,7 +21,6 @@
         td.stt{
             width:20px!important
         }
-
         thead{
             font-weight:600;
             // font-size:1.1rem
@@ -33,8 +32,10 @@
     //     width: 100%;
     // }
 
-    .file_name{
-        max-width: 40%;
+    .file_name, .file_hash{
+        position: relative;
+        display: block;
+        max-width: 96%;
         overflow: hidden;
         text-overflow: ellipsis;
     }

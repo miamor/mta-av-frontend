@@ -1,5 +1,4 @@
 .DashboardPage {
-  max-width: calc(100vw - 320px);
   height: 100%;
 
   .MenuPeriod {
@@ -7,31 +6,66 @@
 
   .Main {
     margin-top: 20px;
-    font-size: 15px;
+    // font-size: 15px;
+
+    .card{
+      .card-header{
+        h2, h3{
+          font-size:1.1rem;line-height:1.3rem;margin:0;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+          display:block; width:100%;
+        }
+      }
+    }
+
+    .stat-num{
+      h3{
+        font-size: 1rem;
+        line-height:1.3rem;
+        margin:0 0 0 78px;
+        width:200px;
+        padding:12px 0 0;
+      }
+      .Item.col:not(.Last):after{
+        content: '';
+        position: absolute;
+        height:40%;
+        width:1px;
+        background:#d9d9cc;
+        right:0;top:30%;
+      }
+      .ItemCount {
+        font-size: 2.8rem;
+        font-weight:700;
+        // line-height:1.8rem;
+        height:100%;
+        float:left;
+        margin-right:5px;
+        text-align: right;
+        width: 70px;
+        .small{
+          // float: right;
+          margin-left:4px;
+          color:#888;
+          font-size:.8rem;
+          display:none
+        }
+      }
+      .ItemIcon{
+        position: relative;
+        float: left;
+        font-size:4rem;
+        margin:-5px 12px 0 0;
+        display: none
+      }
+    }
 
     .Last {
       margin-right: 0px !important;
     }
 
     .row {
-      margin-right: 0 !important;
-    }
-
-    .Item {
-      padding: 10px;
-      margin-bottom: 5px;
-      background-color: white;
-      //width: 100%;
-      margin-right: 5px;
-      font-weight: bold;
-
-      .ItemTitle {
-      }
-
-      .ItemCount {
-        font-size: 50px;
-        text-align: center;
-      }
+      margin: 20px 0 20px!important
     }
 
     .cardos-header h3 {

@@ -99,11 +99,12 @@ class HistoryPage extends Component {
                                 <thead>
                                     <tr>
                                         <th width='3%'>#</th>
-                                        <th width='35%'>{translate['File name']}</th>
+                                        <th width='25%'>{translate['File name']}</th>
                                         <th width='30%'>Hash</th>
                                         <th width='8%'>{translate['Size']}</th>
                                         <th width='8%'>{translate['Status']}</th>
-                                        <th>{translate['Source IP']}</th>
+                                        <th width='10%'>{translate['Source IP']}</th>
+                                        <th width='15%'>{translate['Time received']}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,8 +119,9 @@ class HistoryPage extends Component {
                                                     {item.hash}
                                                 </td>
                                                 <td>{bytesToSize(item.file_size)}</td>
-                                                <th style={{ color: this._getColor(item.status) }}>{item.status}</th>
+                                                <td class='center' style={{ color: this._getColor(item.status) }}>{item.status}</td>
                                                 <td>{item.source_ip}</td>
+                                                <td>{item.date_received} {item.time_received}</td>
                                             </tr>
                                         ))
                                     }

@@ -67,11 +67,12 @@ class CapturePage extends Component{
                     <Table striped>
                         <thead>
                             <tr>
-                                <th>{translate['Source IP']}</th>
-                                <th>{translate['Destination IP']}</th>
-                                <th>{translate['Protocol']}</th>
-                                <th width='25%'>{translate['File name']}</th>
-                                <th width='25%'>Hash</th>
+                                <th width='10%'>{translate['Source IP']}</th>
+                                <th width='10%'>{translate['Destination IP']}</th>
+                                <th width='8%'>{translate['Protocol']}</th>
+                                <th width='15%'>{translate['Time received']}</th>
+                                <th width='15%'>{translate['File name']}</th>
+                                <th width='20%'>Hash</th>
                                 <th width='8%'>{translate['Size']}</th>
                                 <th width='8%'>{translate['Status']}</th>
                             </tr>
@@ -84,18 +85,19 @@ class CapturePage extends Component{
                                     <td>{item.source_ip}</td>
                                     <td>{item.destination_ip}</td>
                                     <td>{item.protocol}</td>
-                                    <td class='file_name'>
-                                        <a href={`/a/capture/${ item.capture_id }`}>
+                                    <td class='center'>{item.date_received} {item.time_received}</td>
+                                    <td>
+                                        <a class='file_name' href={`/a/capture/${ item.capture_id }`}>
                                             {item.file_name}
                                         </a>
                                     </td>
                                     <td>
-                                        <a href={`/a/history/search/${ item.hash }`}>
+                                        <a class='file_hash' href={`/a/history/search/${ item.hash }`}>
                                             {item.hash}
                                         </a>
                                     </td>
                                     <td>{bytesToSize(item.file_size)}</td>
-                                    <th style={{color:this._getColor(item.status)}}>{item.status}</th>
+                                    <th class='center' style={{color:this._getColor(item.status)}}>{item.status}</th>
                                 </tr>
                             ))
                         }
