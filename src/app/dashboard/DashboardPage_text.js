@@ -169,7 +169,7 @@ class DashboardPage extends Component {
 
                     <div className='Item card row'>
                         <div className='card-header ItemTitle'>
-                            <h3>{translate['Traffic sent']}</h3>
+                            <h3>{translate['Files captured']}</h3>
                         </div>
                         <Chart options={this.state.charts['top_ip_mal'].options} series={this.state.charts['top_ip_mal'].series} type="bar" height="250" />
 

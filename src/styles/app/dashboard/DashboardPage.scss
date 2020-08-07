@@ -20,9 +20,9 @@
 
     .stat-num{
       h3{
-        font-size: 1rem;
+        font-size: 1.1rem;
         line-height:1.3rem;
-        margin:0 0 0 78px;
+        margin:0 0 0 110px;
         width:200px;
         padding:12px 0 0;
       }
@@ -40,9 +40,10 @@
         // line-height:1.8rem;
         height:100%;
         float:left;
-        margin-right:5px;
+        margin-left:20px;
+        margin-right:20px;
         text-align: right;
-        width: 70px;
+        max-width: 150px;
         .small{
           // float: right;
           margin-left:4px;

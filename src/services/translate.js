@@ -17,6 +17,7 @@ export const translate = {
     'Total requests detected': 'Total requests detected',
 
     'Traffic sent': 'Lượng traffic',
+    'Files captured': 'Files bắt được',
     'Total traffic sent': 'Lượng traffic',
     'IP sent most traffic': 'Top các IP gửi nhiều traffic',
 
