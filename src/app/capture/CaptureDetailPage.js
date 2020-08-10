@@ -77,7 +77,7 @@ class CaptureDetailPage extends Component {
                                 <div class="ItemNote">{translate['Size']}</div>
                             </div>
                             <div class="Item Last col">
-                                <div class="ItemTitle">{item_capture.time_received}</div>
+                                <div class="ItemTitle">{item_capture.date_received} {item_capture.time_received}</div>
                                 <div class="ItemNote">{translate['Time received']}</div>
                             </div>
                         </div>

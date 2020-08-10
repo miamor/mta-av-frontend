@@ -17,9 +17,7 @@ class DashboardPage extends Component {
         isOpen: false,
         statData: {},
         isLoading: false,
-
-        charts: {},
-
+        charts: {}
     }
 
     _toggle = () => {
@@ -33,17 +31,13 @@ class DashboardPage extends Component {
 
         let stat_data = getStatTotal()
 
-        // let chartsData = this.state.charts
-        // chartsData['top_ip_rev_mal'] = chartsData['top_ip_mal']
-        // chartsData['top_ip_send'] = chartsData['top_ip_mal']
-
         stat_data.then(data => {
             console.log(data)
 
             this.setState({
                 statData: data,
                 isLoading: false,
-                charts: data['charts']
+                charts: data['charts'],
             })
         })
     }
@@ -60,10 +54,8 @@ class DashboardPage extends Component {
 
         const { isOpen, statData, isLoading, charts } = this.state
 
-        // console.log(statData['top_ip_mal'])
-        // console.log(charts)
+        console.log(statData, )
 
-        // if (isLoading || statData['top_ip_mal'] == undefined || statData['top_ip_send'] == undefined) {
         if (isLoading || this.isEmpty(charts)) {
             return <div className='DashboardPage'>Loading ...</div>
         }
@@ -112,27 +104,67 @@ class DashboardPage extends Component {
                         <div className='card-header ItemTitle'>
                             <h3>{translate['Files captured']}</h3>
                         </div>
-
                         <Chart options={this.state.charts['stat_by_date'].options} series={this.state.charts['stat_by_date'].series} type="line" height="250" />
                     </div>
 
                     <div className='row'>
                         <div class='col'>
-                            <div className='Item card'>
-                                <div className='card-header ItemTitle'>
-                                    <h3>{translate['IP sent most traffic']}</h3>
-                                </div>
-                                <Chart options={this.state.charts['top_ip_send'].options} series={this.state.charts['top_ip_send'].series} type="bar" height="250" />
+                        <div className='Item card'>
+                            <div className='card-header ItemTitle'>
+                                <h3>{translate['IP sent most traffic']}</h3>
                             </div>
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>IP</th>
+                                        <th>{translate['Total traffic sent']} (bytes)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        charts['top_ip_send'].map((item, index) => (
+                                            <tr key={`domain-${index}`}>
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.ip}</td>
+                                                <td>{item.total}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
                         </div>
 
                         <div class='col Last'>
-                            <div className='Item card'>
-                                <div className='card-header ItemTitle'>
-                                    <h3>{translate['IP detected most malwares']} (send out)</h3>
-                                </div>
-                                <Chart options={this.state.charts['top_ip_mal'].options} series={this.state.charts['top_ip_mal'].series} type="bar" height="250" />
+                        <div className='Item card'>
+                            <div className='card-header ItemTitle'>
+                                <h3>{translate['IP detected most malwares']} (send out)</h3>
                             </div>
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>IP</th>
+                                        <th>{translate['Total malwares detected']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        charts['top_ip_mal'].map((item, index) => (
+                                            (item.total > 0) ? 
+                                            (
+                                            <tr key={`domain-${index}`}>
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.ip}</td>
+                                                <td>{item.total}</td>
+                                            </tr>
+                                            ) : ''
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
                         </div>
                     </div>
 
@@ -140,35 +172,54 @@ class DashboardPage extends Component {
 
                     <div className='row'>
                         <div class='col'>
-                            <div className='Item card'>
-                                <div className='card-header ItemTitle'>
-                                    <h3>{translate['Top IP attacked with malware']} (receive)</h3>
-                                </div>
-                                <Chart options={this.state.charts['top_ip_rev_mal'].options} series={this.state.charts['top_ip_rev_mal'].series} type="bar" height="250" />
+                        <div className='Item card'>
+                            <div className='card-header ItemTitle'>
+                                <h3>{translate['Top IP attacked with malware']} (receive)</h3>
                             </div>
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>IP</th>
+                                        <th>{translate['Total malwares detected']} (bytes)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        charts['top_ip_rev_mal'].map((item, index) => (
+                                            <tr key={`domain-${index}`}>
+                                                <th scope='row'>{index + 1}</th>
+                                                <td>{item.ip}</td>
+                                                <td>{item.total}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
                         </div>
 
                         <div class='col Last'>
-                            <div className='Item card'>
-                                <div className='card-header ItemTitle'>
-                                    <h3>{translate['Top malicious URLs detected']}</h3>
-                                </div>
-                                <Table striped>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>URL</th>
-                                            <th>{translate['Total requests detected']}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </Table>
+                        <div className='Item card'>
+                            <div className='card-header ItemTitle'>
+                                <h3>{translate['Top malicious URLs detected']}</h3>
                             </div>
+                            <Table striped>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>URL</th>
+                                        <th>{translate['Total requests detected']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </Table>
+                        </div>
                         </div>
                     </div>
 
-
+                    
 
                 </div>
             </div>
