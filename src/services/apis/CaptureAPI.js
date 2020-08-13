@@ -10,9 +10,9 @@ export const postCapture = (data) => {
     })
 }
 
-export const getListCapture = () => {
+export const getListCapture = (mode) => {
     return api.makeAuthRequest({
-        url: '/api/v1/capture',
+        url: '/api/v1/capture/list?mode='+mode,
         method: 'GET'
     })
 }

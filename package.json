@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apexcharts": "^3.19.3",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/styles": "^4.10.0",
+    "apexcharts": "^3.20.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "getmac": "^5.2.0",
     "macaddress": "^0.4.4",
+    "material-ui": "^1.0.0-beta.47",
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -21,7 +24,7 @@
     "recharts": "^1.7.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

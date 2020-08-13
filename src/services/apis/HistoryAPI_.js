@@ -17,24 +17,24 @@ export const getListHistory = () => {
     })
 }
 
-export const updateHistory = (data, history_id) => {
+export const updateHistory = (data, hash) => {
     return api.makeAuthRequest({
-        url: `/api/v1/history/${history_id}`,
+        url: `/api/v1/history/${hash}`,
         method: 'PUT',
         data
     })
 }
 
-export const deleteHistory = (history_id) => {
+export const deleteHistory = (hash) => {
     return api.makeAuthRequest({
-        url: `/api/v1/history/${history_id}`,
+        url: `/api/v1/history/${hash}`,
         method: 'DELETE'
     })
 }
 
-export const getHistory = (history_id) => {
+export const getHistory = (hash) => {
     return api.makeAuthRequest({
-        url: `/api/v1/history/${history_id}`,
+        url: `/api/v1/history/${hash}`,
         method: 'GET'
     })
 }

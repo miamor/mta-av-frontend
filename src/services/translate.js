@@ -17,9 +17,11 @@ export const translate = {
     'Total requests detected': 'Total requests detected',
 
     'Traffic sent': 'Lượng traffic',
-    'Files captured': 'Files bắt được',
+    'Files captured': 'Tổng số files bắt được trên đường truyền',
+    'Connections to malicious URLs': 'Lượt kết nối đến URL độc hại',
     'Total traffic sent': 'Lượng traffic',
     'IP sent most traffic': 'Top các IP gửi nhiều traffic',
+    'Most attacked protocols': 'Protocols bị tấn công nhiều nhất',
 
     'IP detected most malwares': 'Top các IP bị phát hiện chứa nhiều mã độc',
     'Total malwares detected': 'Total malwares detected',

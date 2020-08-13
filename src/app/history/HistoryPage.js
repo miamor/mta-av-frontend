@@ -98,7 +98,7 @@ class HistoryPage extends Component {
                             <Table striped>
                                 <thead>
                                     <tr>
-                                        <th width='3%'>#</th>
+                                        <th width='4%'>#</th>
                                         <th width='25%'>{translate['File name']}</th>
                                         <th width='30%'>Hash</th>
                                         <th width='8%'>{translate['Size']}</th>

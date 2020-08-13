@@ -14,10 +14,3 @@ export const getListHistory = (hash) => {
         method: 'GET'
     })
 }
-
-export const getHistory = (history_id) => {
-    return api.makeAuthRequest({
-        url: `/api/v1/capture/${history_id}`,
-        method: 'GET'
-    })
-}

@@ -17,7 +17,11 @@ class CapturePage extends Component{
     componentDidMount() {
         this.setState({ isLoading: true });
      
-        let captureList = getListCapture()
+        let captureList = getListCapture(0)
+        this.postProcess(captureList)
+    }
+
+    postProcess = (captureList) => {
         captureList.then(data => {
             data.map((item, index) => {
                 if (item.detected_by == '' || item.detected_by == null) {
@@ -45,6 +49,11 @@ class CapturePage extends Component{
         this.props.history.push(`/a/capture/${capture_id}`)
     }
 
+    show = (mode) => {
+        let captureList = getListCapture(mode)
+        this.postProcess(captureList)
+    }
+
     render() {
 
         const { selected, list_capture, isLoading } = this.state
@@ -63,10 +72,14 @@ class CapturePage extends Component{
             <div className='CapturePage'>
                 <h1 className='PageTitle'>{translate['Scan History']}</h1>
 
+                <button id='show_all' onclick={this.show(0)}>Show all</button>
+                <button id='show_mal' onclick={this.show(1)}>Malwares only</button>
+
                 <div className='Table'>
                     <Table striped>
                         <thead>
                             <tr>
+                                <th width='4%'>#</th>
                                 <th width='10%'>{translate['Source IP']}</th>
                                 <th width='10%'>{translate['Destination IP']}</th>
                                 <th width='8%'>{translate['Protocol']}</th>
@@ -81,7 +94,7 @@ class CapturePage extends Component{
                         {
                             list_capture.map((item, index) => (
                                 <tr key={`domain-${index}`} onClick={() => this._handleSelect(item.capture_id)} style={{cursor: 'pointer'}}>
-                                    {/* <td class='stt' scope='row'>{index+1}</td> */}
+                                    <td class='stt' scope='row'>{index+1}</td>
                                     <td>{item.source_ip}</td>
                                     <td>{item.destination_ip}</td>
                                     <td>{item.protocol}</td>
@@ -97,7 +110,7 @@ class CapturePage extends Component{
                                         </a>
                                     </td>
                                     <td>{bytesToSize(item.file_size)}</td>
-                                    <th class='center' style={{color:this._getColor(item.status)}}>{item.status}</th>
+                                    <td class='center' style={{color:this._getColor(item.status)}}>{item.status}</td>
                                 </tr>
                             ))
                         }
