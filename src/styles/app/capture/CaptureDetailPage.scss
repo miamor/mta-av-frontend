@@ -10,6 +10,7 @@
 
   .rows {
     clear: both;
+    margin-top:4px;
 
     .label {
       display: block;
@@ -74,12 +75,27 @@
     h5{
       font-size: 0.9rem;
       font-weight:600;
-      margin: 0.9rem 0 0.2rem
+      // margin: 0.9rem 0 0.2rem
+      margin: 0 0 0.2rem;
+      line-height:1.9
     }
     .values{
       padding-left: 20px;
       margin-left:10px;
       border-left: 3px solid #f4f4f6
+    }
+
+    .behavior-network{
+      >.rows{
+        margin-bottom:10px;
+
+        >.value>div:last-child{
+          margin-bottom:10px;
+          hr{
+            display:none
+          }
+        }
+      }
     }
 
   }
@@ -91,6 +107,20 @@
 
   .one-process:last-child > hr, .modules-list > div:last-child hr{
     display: none;
+  }
+
+  .modules-list.hidden > div, .modules-list:not(.hidden) > span, .value:not(.less) .strings-more{
+    display: none;
+  }
+  .modules-list.hidden > span, .less .strings-more{
+    // font-size:1.2rem;
+    color:#aaa;
+    cursor: pointer;
+  }
+  .less .strings-content{
+    max-height: 200px;
+    position: relative;
+    overflow: hidden;
   }
 
 }

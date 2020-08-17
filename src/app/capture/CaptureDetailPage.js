@@ -100,6 +100,7 @@ class CaptureDetailPage extends Component {
         list_capture: [],
         isLoading: true,
     }
+    showProcModules = {}
 
     componentDidMount() {
 
@@ -126,8 +127,13 @@ class CaptureDetailPage extends Component {
 
             // behavior report
             getBehaviorReport(item.report_id).then(data => {
+                data.behavior.processes.map((i, key) => {
+                    this.showProcModules[key] = 0
+                })
                 this.setState({
                     behavior: data,
+                    showProcModules: this.showProcModules,
+                    showStrings: 0
                 })
             })
 
@@ -148,14 +154,29 @@ class CaptureDetailPage extends Component {
         });
     }
 
+    toggle = (type, key, state) => {
+        let { showProcModules, showStrings } = this.state
+        console.log('~~~toggle', type, key, showProcModules, 'showStrings', showStrings, 'state', state)
+        if (type == 'processes') {
+            showProcModules[key] = state
+        } else if (type == 'strings') {
+            showStrings = state
+        }
+        this.setState({
+            showProcModules: showProcModules,
+            showStrings: showStrings,
+        })
+    }
+
     SimpleTabs = () => {
         const [value, setValue] = React.useState(0);
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-        const { item_capture, list_capture, behavior, isLoading } = this.state
+        const { item_capture, list_capture, behavior, isLoading, showProcModules, showStrings } = this.state
         console.log('list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior)
+
 
         if (isLoading) {
             return <p>Loading ...</p>
@@ -184,36 +205,42 @@ class CaptureDetailPage extends Component {
                                     <div class="value">
                                         <span>{item_capture.file_type}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="rows">
                                     <a class="label">MD5</a>
                                     <div class="value">
                                         <span>{item_capture.md5}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="rows">
                                     <a class="label">SHA-1</a>
                                     <div class="value">
                                         <span>{item_capture.sha1}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="rows">
                                     <a class="label">SHA-256</a>
                                     <div class="value">
                                         <span>{item_capture.sha256}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="rows">
                                     <a class="label">SHA-512</a>
                                     <div class="value">
                                         <span>{item_capture.sha512}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                                 <div class="rows">
                                     <a class="label">ssdeep</a>
                                     <div class="value">
                                         <span>{item_capture.ssdeep}</span>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
                         </div>
@@ -299,8 +326,9 @@ class CaptureDetailPage extends Component {
                                                 <div class="rows">
                                                     <a class="label">{translate['Submitted from']}</a>
                                                     <div class="value">
-                                                        <span>{item.source_ip}</span>
+                                                        <a href={`/a/capture/${item.capture_id}`}>{item.source_ip}</a>
                                                     </div>
+                                                    <div class="clearfix"></div>
                                                 </div>
                                             ) : (
                                                     <div class="rows">
@@ -308,6 +336,7 @@ class CaptureDetailPage extends Component {
                                                         <div class="value">
                                                             <a href={`/a/capture/${item.capture_id}`}>{item.capture_id}</a> (from {item.source_ip} to {item.destination_ip})
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                 )
                                         }
@@ -316,12 +345,14 @@ class CaptureDetailPage extends Component {
                                             <div class="value">
                                                 <span>{item.file_name}</span>
                                             </div>
+                                            <div class="clearfix"></div>
                                         </div>
                                         {/* <div class="rows">
                                             <a class="label">{translate['File path']}</a>
                                             <div class="value">
                                                 <span>{item.file_path}</span>
                                             </div>
+                                            <div class="clearfix"></div>
                                         </div> */}
                                         <div class="rows">
                                             <a class="label">{translate['Scan time']}</a>
@@ -335,6 +366,7 @@ class CaptureDetailPage extends Component {
                                                 <div class="value">
                                                     <span>{item.detected_by}</span>
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                         ) : ''}
                                         <div class="clearfix"></div>
@@ -365,24 +397,29 @@ class CaptureDetailPage extends Component {
                                                         <div class="value">
                                                             <div>{behavior.behavior.processes[key].command_line}</div>
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                     <div class="rows">
                                                         <a class="label">Process path</a>
                                                         <div class="value">
                                                             <div>{behavior.behavior.processes[key].process_path}</div>
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                     <div class="rows">
                                                         <a class="label">TID</a>
                                                         <div class="value">
                                                             <div>{behavior.behavior.processes[key].tid}</div>
                                                         </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="rows" onClick={() => this.toggle('modules_list_'+key)}>
+                                                    <div class="rows" onClick={() => this.toggle('processes', key, !showProcModules[key])}>
                                                         <a class="label">
                                                             Modules <span class="badge badge-info">{behavior.behavior.processes[key]['modules'].length}</span>
                                                         </a>
-                                                        <div class="value modules-list" id={`modules_list_`+key}>
+                                                        <div class={`value modules-list` + (showProcModules[key] == 0 ? ' hidden' : '')} id={`modules_list_` + key}>
+                                                            <span class="modules-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+
                                                             {behavior.behavior.processes[key].modules.map((j, k) => (
                                                                 <div>
                                                                     <div class="rows">
@@ -416,7 +453,7 @@ class CaptureDetailPage extends Component {
                                                         </div>
                                                         <div class="clearfix"></div>
                                                     </div>
-                                                    <hr/>
+                                                    <hr />
                                                 </div>
                                             ))}
                                         </div>
@@ -435,16 +472,17 @@ class CaptureDetailPage extends Component {
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="rows">
-                                                <h5>Domains <span class="badge badge-info">{behavior.network.domains.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">Domains <span class="badge badge-info">{behavior.network.domains.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.domains.map((i, key) => (
                                                         <div><span class="text-primary">{behavior.network.domains[key].domain}</span> {behavior.network.domains[key].ip}</div>
                                                     ))}
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="rows">
-                                                <h5>DNS <span class="badge badge-info">{behavior.network.dns.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">DNS <span class="badge badge-info">{behavior.network.dns.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.dns.map((i, key) => (
                                                         <div>
                                                             <div class="rows">
@@ -462,42 +500,46 @@ class CaptureDetailPage extends Component {
                                                                 </div>
                                                                 <div class="clearfix"></div>
                                                             </div>
-                                                            <hr/>
+                                                            <hr />
                                                         </div>
                                                     ))}
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="rows">
-                                                <h5>http_ex <span class="badge badge-info">{behavior.network.http_ex.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">http_ex <span class="badge badge-info">{behavior.network.http_ex.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.http_ex.map((i, key) => (
                                                         <div><span class="text-success">[{behavior.network.http_ex[key].status}]</span> {behavior.network.http_ex[key].src} ({behavior.network.http_ex[key].sha1})</div>
                                                     ))}
                                                 </div>
                                             </div>
                                             <div class="rows">
-                                                <h5>http <span class="badge badge-info">{behavior.network.http.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">http <span class="badge badge-info">{behavior.network.http.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.http.map((i, key) => (
                                                         <div><span class="text-primary">[{behavior.network.http[key].method}]</span> (:{behavior.network.http[key].port}) {behavior.network.http[key].data}</div>
                                                     ))}
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="rows">
-                                                <h5>tcp <span class="badge badge-info">{behavior.network.tcp.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">tcp <span class="badge badge-info">{behavior.network.tcp.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.tcp.map((i, key) => (
                                                         <div><span class="text-primary">{behavior.network.tcp[key].src}:{behavior.network.tcp[key].sport}</span> --> <span class="text-primary">{behavior.network.tcp[key].dst}:{behavior.network.tcp[key].dport}</span> (OFFSET <span class="text-primary">{behavior.network.tcp[key].offset}</span> TIME <span class="text-primary">{behavior.network.tcp[key].time}</span>)</div>
                                                     ))}
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                             <div class="rows">
-                                                <h5>udp <span class="badge badge-info">{behavior.network.udp.length}</span></h5>
-                                                <div class="values">
+                                                <h5 class="label">udp <span class="badge badge-info">{behavior.network.udp.length}</span></h5>
+                                                <div class="valuess value">
                                                     {behavior.network.udp.map((i, key) => (
                                                         <div><span class="text-primary">{behavior.network.udp[key].src}:{behavior.network.udp[key].sport}</span> --> <span class="text-primary">{behavior.network.udp[key].dst}:{behavior.network.udp[key].dport}</span> (OFFSET <span class="text-primary">{behavior.network.udp[key].offset}</span> TIME <span class="text-primary">{behavior.network.udp[key].time}</span>)</div>
                                                     ))}
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -509,11 +551,14 @@ class CaptureDetailPage extends Component {
                                         <div class="cardo-content properties">
                                             <div class="rows">
                                                 <a class="label">Strings</a>
-                                                <div class="value">
-                                                    {behavior.strings.map((i, key) => (
-                                                        <div>{behavior.strings[key]}</div>
-                                                    ))}
+                                                <div class={`value` + (showStrings == 0 ? ' less' : '')} onClick={() => this.toggle('strings', 0, !showStrings)}>
+                                                    <div class="strings-content">
+                                                        {behavior.strings.map((i, key) => (
+                                                            <div>{behavior.strings[key]}</div>
+                                                        ))}</div>
+                                                    <span class="strings-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
                                                 </div>
+                                                <div class="clearfix"></div>
                                             </div>
                                         </div>
                                     </div>
