@@ -53,5 +53,17 @@ export const translate = {
     'Scan time': 'Thời gian quét',
     'Source IP': 'Từ máy',
     'Destination IP': 'Đến máy',
-    'Protocol': 'Giao thức'
+    'Protocol': 'Giao thức',
+
+    'Submission time': 'Thời gian submit',
+    'Capture ID': 'Capture ID',
+    'Submitted from': 'Gửi từ máy',
+    'Details': 'Chi tiết',
+    'History': 'Lịch sử',
+    'Behavior': 'Hành vi',
+    'Behavior report': 'Behavior report',
+    'Processes': 'Processes',
+    'Networks': 'Networks',
+    'Others': 'Others',
+    'Strings': 'Strings',
 }

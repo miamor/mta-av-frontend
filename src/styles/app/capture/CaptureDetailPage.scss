@@ -4,35 +4,93 @@
     color: #9b9b9b;
   }
 
-  >.row {
+  .overview {
     margin: 40px 0 10px;
   }
 
   .rows {
     clear: both;
 
-    .label{
+    .label {
       display: block;
       float: left;
-      width:25%
+      width: 20%
     }
-    .value{
+
+    .value {
       display: block;
       float: left;
-      width:75%
+      width: 80%;
+      word-break: break-all;
+      line-height: 1.4rem
     }
   }
 
   .row {
-    .cardo, .cardo-content, .cardo-content > *, .rows{
+
+    .cardo,
+    .cardo-content,
+    .cardo-content>*,
+    .rows {
       display: block;
       position: relative;
-      width:100%
+      width: 100%
     }
   }
-  
-  hr{
-    clear: both;
-    margin:20px 10px;
+  .scan-details{margin-top:60px}
+
+  .row.hist-tabs {
+    margin-top: 40px;
+
+    >div {
+      position: relative;
+      width: 100%;
+    }
+
+    .scan-history.cardo-header {
+      margin-bottom: 20px
+    }
+
+    .MuiBox-root {
+      padding-top: 10px
+    }
+
+    .MuiTabs-flexContainer {
+      border-bottom: 1px solid #f3f1f1
+    }
   }
+
+  .scan-behavior{
+    margin-bottom: 20px;
+
+    .rows{
+      clear: both
+    }
+
+    hr{
+      margin: 8px 10px
+    }
+
+    h5{
+      font-size: 0.9rem;
+      font-weight:600;
+      margin: 0.9rem 0 0.2rem
+    }
+    .values{
+      padding-left: 20px;
+      margin-left:10px;
+      border-left: 3px solid #f4f4f6
+    }
+
+  }
+
+  hr {
+    clear: both;
+    margin: 20px 10px;
+  }
+
+  .one-process:last-child > hr, .modules-list > div:last-child hr{
+    display: none;
+  }
+
 }

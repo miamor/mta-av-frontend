@@ -14,26 +14,46 @@
     .label{
       display: block;
       float: left;
-      width:25%
+      width:20%
     }
     .value{
       display: block;
       float: left;
-      width:75%
+      width:80%;
+      word-break: break-all;
+      line-height:1.4rem
     }
   }
 
   .row {
-    .cardo, .cardo-content, .cardo-content > *, .rows{
+
+    .cardo,
+    .cardo-content,
+    .cardo-content>*,
+    .rows {
       display: block;
       position: relative;
-      width:100%
+      width: 100%
     }
   }
-  
-  hr{
+
+  .row.hist-tabs {
+    margin-top:40px;
+    >div {
+      position: relative;
+      width: 100%;
+    }
+
+    .cardo-header{
+      margin-bottom:20px
+    }
+
+    .MuiBox-root{padding-top:10px}
+  }
+
+  hr {
     clear: both;
-    margin:20px 10px;
+    margin: 20px 10px;
   }
 
 }

@@ -48,7 +48,7 @@ class HistoryPage extends Component {
         let captureList = getListHistory(hash)
         captureList.then(data => {
             data.map((item, index) => {
-                if (item.detected_by == '' || item.detected_by == null) {
+                if (item.detected_by === '' || item.detected_by == null) {
                     item.status = 'OK'
                 } else {
                     item.status = 'DANGER'
@@ -99,6 +99,7 @@ class HistoryPage extends Component {
                                 <thead>
                                     <tr>
                                         <th width='4%'>#</th>
+                                        <th width='4%'></th>
                                         <th width='25%'>{translate['File name']}</th>
                                         <th width='30%'>Hash</th>
                                         <th width='8%'>{translate['Size']}</th>
@@ -112,6 +113,9 @@ class HistoryPage extends Component {
                                         list_capture.map((item, index) => (
                                             <tr key={`domain-${index}`}>
                                                 <td class='stt' scope='row' onClick={() => this._handleSelect(item.capture_id)}>{index + 1}</td>
+                                                <td class='link' scope='row' onClick={() => this._handleSelect(item.capture_id)}>
+                                                    {item.capture_id}
+                                                </td>
                                                 <td class='file_name link' onClick={() => this._handleSelect(item.capture_id)}>
                                                     {item.file_name}
                                                 </td>

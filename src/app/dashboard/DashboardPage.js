@@ -35,7 +35,7 @@ class DashboardPage extends Component {
             console.log(data)
 
             this.setState({
-                statData: data,
+                // statData: data,
                 isLoading: false,
                 charts: data['charts'],
                 chartsFilesnum: {
@@ -77,8 +77,81 @@ class DashboardPage extends Component {
                             enabled: false
                         }
                     },
-                }
+                },
+                stat_by_date: {
+                    'series': data['charts']['stat_by_date']['series'],
+                    // Options for line + column
+                    // 'options': {
+                    //     'chart': {
+                    //         'height': 350,
+                    //         'type': 'line',
+                    //     },
+                    //     'stroke': {
+                    //         'width': [0, 4]
+                    //     },
+                    //     'dataLabels': {
+                    //         'enabled': true,
+                    //         'enabledOnSeries': [1]
+                    //     },
+                    //     'labels': stat_by_date_cat,
+                    //     'xaxis': {
+                    //         'type': 'datetime'
+                    //     },
+                    //     'yaxis': [{
+                    //         'title': {
+                    //             'text': 'Total files captured',
+                    //         },
 
+                    //     }, {
+                    //         'opposite': true,
+                    //         'title': {
+                    //             'text': 'Malwares captured'
+                    //         }
+                    //     }]
+                    // },
+
+                    // Options for stacked bar
+                    'options': {
+                        'colors': ['#05924c', '#da1c1c'],
+                        'chart': {
+                            'type': 'bar',
+                            'height': 350,
+                            'stacked': true,
+                            'toolbar': {
+                                'show': true
+                            },
+                            'zoom': {
+                                'enabled': true
+                            }
+                        },
+                        'responsive': [{
+                            'breakpoint': 480,
+                            'options': {
+                                'legend': {
+                                    'position': 'bottom',
+                                    'offsetX': -10,
+                                    'offsetY': 0
+                                }
+                            }
+                        }],
+                        'plotOptions': {
+                            'bar': {
+                                'horizontal': false,
+                            },
+                        },
+                        'xaxis': {
+                            // 'type': 'datetime',
+                            'categories': data['charts']['stat_by_date']['cat']
+                        },
+                        'legend': {
+                            'position': 'bottom',
+                            'offsetY': 0
+                        },
+                        'fill': {
+                            'opacity': 1
+                        }
+                    },
+                }
             })
         })
     }
@@ -93,9 +166,9 @@ class DashboardPage extends Component {
 
     render() {
 
-        const { isOpen, statData, isLoading, charts, chartsFilesnum } = this.state
+        const { isOpen, isLoading, charts, chartsFilesnum } = this.state
 
-        console.log(statData, chartsFilesnum)
+        console.log(chartsFilesnum)
 
         if (isLoading || this.isEmpty(charts)) {
             return <div className='DashboardPage'>Loading ...</div>
@@ -200,7 +273,7 @@ class DashboardPage extends Component {
                                 <div className='card-header ItemTitle'>
                                     <h3>{translate['Files captured']}</h3>
                                 </div>
-                                <Chart options={charts['stat_by_date'].options} series={charts['stat_by_date'].series} type="line" height="250" />
+                                <Chart options={this.state.stat_by_date.options} series={this.state.stat_by_date.series} type="bar" height="400" />
                             </div>
                         </div>
                     </div>

@@ -10,9 +10,16 @@ export const postCapture = (data) => {
     })
 }
 
+export const getBehaviorReport = (report_id) => {
+    return api.makeAuthRequest({
+        url: '/api/v1/capture/report/'+report_id,
+        method: 'GET'
+    })
+}
+
 export const getListCapture = (mode) => {
     return api.makeAuthRequest({
-        url: '/api/v1/capture/list?mode='+mode,
+        url: '/api/v1/capture?mode='+mode,
         method: 'GET'
     })
 }

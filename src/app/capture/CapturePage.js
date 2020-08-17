@@ -24,7 +24,7 @@ class CapturePage extends Component{
     postProcess = (captureList) => {
         captureList.then(data => {
             data.map((item, index) => {
-                if (item.detected_by == '' || item.detected_by == null) {
+                if (item.detected_by === '' || item.detected_by == null) {
                     item.status = 'OK'
                 } else {
                     item.status = 'DANGER'
@@ -72,8 +72,8 @@ class CapturePage extends Component{
             <div className='CapturePage'>
                 <h1 className='PageTitle'>{translate['Scan History']}</h1>
 
-                <button id='show_all' onclick={this.show(0)}>Show all</button>
-                <button id='show_mal' onclick={this.show(1)}>Malwares only</button>
+                <button id='show_all' onClick={() => this.show(0)}>Show all</button>
+                <button id='show_mal' onClick={() => this.show(1)}>Malwares only</button>
 
                 <div className='Table'>
                     <Table striped>
@@ -94,7 +94,9 @@ class CapturePage extends Component{
                         {
                             list_capture.map((item, index) => (
                                 <tr key={`domain-${index}`} onClick={() => this._handleSelect(item.capture_id)} style={{cursor: 'pointer'}}>
-                                    <td class='stt' scope='row'>{index+1}</td>
+                                    <td class='stt' scope='row'>
+                                        <a href={`/a/capture/${ item.capture_id }`}>{item.capture_id}</a>
+                                    </td>
                                     <td>{item.source_ip}</td>
                                     <td>{item.destination_ip}</td>
                                     <td>{item.protocol}</td>
