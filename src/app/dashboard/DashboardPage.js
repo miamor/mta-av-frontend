@@ -39,7 +39,7 @@ class DashboardPage extends Component {
                 isLoading: false,
                 charts: data['charts'],
                 chartsFilesnum: {
-                    series: [data['malwares_num'], data['malwares_num']],
+                    series: [data['malwares_num'], data['benigns_num']],
                     options: {
                         labels: ['clean', 'malicious'],
                         colors: ['#05924c', '#da1c1c'],
