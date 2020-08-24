@@ -10,7 +10,7 @@
 
   .rows {
     clear: both;
-    margin-top:4px;
+    // margin-top: 4px;
 
     .label {
       display: block;
@@ -23,7 +23,7 @@
       float: left;
       width: 80%;
       word-break: break-all;
-      line-height: 1.4rem
+      // line-height: 1.4rem
     }
   }
 
@@ -38,7 +38,10 @@
       width: 100%
     }
   }
-  .scan-details{margin-top:60px}
+
+  .scan-details {
+    margin-top: 60px
+  }
 
   .row.hist-tabs {
     margin-top: 40px;
@@ -61,38 +64,32 @@
     }
   }
 
-  .scan-behavior{
+  .scan-behavior {
     margin-bottom: 20px;
 
-    .rows{
+    .rows {
       clear: both
     }
 
-    hr{
+    hr {
       margin: 8px 10px
     }
 
-    h5{
-      font-size: 0.9rem;
-      font-weight:600;
-      // margin: 0.9rem 0 0.2rem
-      margin: 0 0 0.2rem;
-      line-height:1.9
-    }
-    .values{
+    .values {
       padding-left: 20px;
-      margin-left:10px;
+      margin-left: 10px;
       border-left: 3px solid #f4f4f6
     }
 
-    .behavior-network{
-      >.rows{
-        margin-bottom:10px;
+    .behavior-network {
+      >.rows {
+        margin-bottom: 10px;
 
-        >.value>div:last-child{
-          margin-bottom:10px;
-          hr{
-            display:none
+        >.value>div:last-child {
+          margin-bottom: 10px;
+
+          hr {
+            display: none
           }
         }
       }
@@ -100,27 +97,84 @@
 
   }
 
+  h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    // margin: 0.9rem 0 0.2rem
+    margin: 0 0 0.2rem;
+    line-height: 1.9
+  }
+
   hr {
     clear: both;
     margin: 20px 10px;
   }
 
-  .one-process:last-child > hr, .modules-list > div:last-child hr{
+  .one-process:last-child>hr,
+  .modules-list>div:last-child hr {
     display: none;
   }
 
-  .modules-list.hidden > div, .modules-list:not(.hidden) > span, .value:not(.less) .strings-more{
+  .modules-list.hidden>div,
+  .modules-list:not(.hidden)>span,
+  .value:not(.less) .strings-more {
     display: none;
   }
-  .modules-list.hidden > span, .less .strings-more{
+
+  .modules-list.hidden>span,
+  .less .strings-more {
     // font-size:1.2rem;
-    color:#aaa;
+    color: #aaa;
     cursor: pointer;
   }
-  .less .strings-content{
+
+  .less .strings-content {
     max-height: 200px;
     position: relative;
     overflow: hidden;
   }
 
+
+  .detect-div {
+    padding: 10px 20px 0 20px;
+    margin: 0;
+
+    hr {
+      margin: 20px 0 0
+    }
+  }
+
+  .detect-1 {
+    background: #fcf5f5;
+  }
+
+
+  .detect-div::before {
+    font-family: "FontAwesome";
+    content: "";
+    position: absolute;
+    font-size: 2.5rem;
+    top: calc(50% - 45px);
+    right: 30px;
+    border: 0;
+    padding: 0;
+    width: 56px;
+    height: 56px;
+  }
+
+  .detect-1:before,
+  .detect-DANGER:before {
+    content: '\f06a';
+    color: #a94442;
+  }
+
+  .detect-1>hr {
+    border-color: #f7dede;
+  }
+
+  // .detect-0:before,
+  // .detect-OK:before {
+  //   content: '\f00c';
+  //   color: #3c763d;
+  // }
 }

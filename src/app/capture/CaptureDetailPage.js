@@ -112,38 +112,59 @@ class CaptureDetailPage extends Component {
 
         getCapture(match.params.capture_id).then(item => {
             console.log(item)
-            if (item.detected_by == '' || item.detected_by == null) {
+            if (item.detected_by === '' || item.detected_by == null) {
                 item.status = 'OK'
             } else {
-                item.status = 'DANGER'
+                item.detected_by_arr = item.detected_by.split(',')
+                item.num_detected_by = item.detected_by_arr.length
+                if (item.detected_by.includes('virustotal') || item.detected_by.includes('HAN_sec') || item.detected_by.includes('static')) {
+                    item.status = 'DANGER'
+                } else if (item.num_detected_by > 1) {
+                    item.status = 'CRITICAL'
+                } else {
+                    // item.tatus = 'OK'
+                    item.status = 'CRITICAL'
+                }
             }
             if (item.scan_time == null) {
                 item.scan_time = 0
             }
+            item.detector_output = JSON.parse(item.detector_output)
             this.setState({
                 item_capture: item,
                 // isLoading: false
             })
 
             // behavior report
-            getBehaviorReport(item.report_id).then(data => {
-                data.behavior.processes.map((i, key) => {
-                    this.showProcModules[key] = 0
+            if (item.report_id) {
+                getBehaviorReport(item.report_id).then(data => {
+                    data.behavior.processes.map((i, key) => {
+                        this.showProcModules[key] = 0
+                    })
+                    this.setState({
+                        behavior: data,
+                        showProcModules: this.showProcModules,
+                        showStrings: 0
+                    })
                 })
-                this.setState({
-                    behavior: data,
-                    showProcModules: this.showProcModules,
-                    showStrings: 0
-                })
-            })
+            }
 
             // all submissions of this hash
             getListHistory(item.hash).then(data => {
                 data.map((item_o, index) => {
-                    if (item_o.detected_by == '' || item_o.detected_by == null) {
+                    if (item_o.detected_by === '' || item_o.detected_by == null) {
                         item_o.status = 'OK'
                     } else {
-                        item_o.status = 'DANGER'
+                        item_o.detected_by_arr = item_o.detected_by.split(',')
+                        item_o.num_detected_by = item_o.detected_by_arr.length
+                        if (item_o.detected_by.includes('virustotal') || item_o.detected_by.includes('HAN_sec') || item_o.detected_by.includes('static')) {
+                            item_o.status = 'DANGER'
+                        } else if (item_o.num_detected_by > 1) {
+                            item_o.status = 'CRITICAL'
+                        } else {
+                            // item_o.tatus = 'OK'
+                            item_o.status = 'CRITICAL'
+                        }
                     }
                 })
                 this.setState({
@@ -156,7 +177,7 @@ class CaptureDetailPage extends Component {
 
     toggle = (type, key, state) => {
         let { showProcModules, showStrings } = this.state
-        console.log('~~~toggle', type, key, showProcModules, 'showStrings', showStrings, 'state', state)
+        // console.log('~~~toggle', type, key, showProcModules, 'showStrings', showStrings, 'state', state)
         if (type == 'processes') {
             showProcModules[key] = state
         } else if (type == 'strings') {
@@ -175,12 +196,12 @@ class CaptureDetailPage extends Component {
             setValue(newValue);
         };
         const { item_capture, list_capture, behavior, isLoading, showProcModules, showStrings } = this.state
-        console.log('list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior)
-
 
         if (isLoading) {
             return <p>Loading ...</p>
         }
+
+        console.log('item_capture', item_capture, 'list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior, 'detector_output', item_capture.detector_output)
 
         return (
             <ThemeProvider theme={theme}>
@@ -189,8 +210,9 @@ class CaptureDetailPage extends Component {
                         textColor="primary" variant="fullWidth"
                         value={value} onChange={handleChange} aria-label="simple tabs example">
                         <Tab disableRipple label={translate['Details']} {...a11yProps(0)} />
-                        <Tab label={translate['History']} {...a11yProps(1)} />
-                        <Tab label={translate['Behavior']} {...a11yProps(2)} />
+                        <Tab label={translate['Engines']} {...a11yProps(1)} />
+                        <Tab label={translate['History']} {...a11yProps(2)} />
+                        <Tab label={translate['Behavior']} {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 <TabPanel style={{ width: '100%' }} value={value} index={0}>
@@ -258,18 +280,12 @@ class CaptureDetailPage extends Component {
                                         <span>{item_capture.file_name}</span>
                                     </div>
                                 </div>
-                                <div class="rows">
-                                    <a class="label">{translate['File path']}</a>
-                                    <div class="value">
-                                        <span>{item_capture.file_path}</span>
-                                    </div>
-                                </div>
-                                <div class="rows">
+                                {/* <div class="rows">
                                     <a class="label">{translate['Scan time']}</a>
                                     <div class="value">
                                         <span>{item_capture.scan_time}s</span>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div class="rows">
                                     <a class="label">{translate['Behavior report']}</a>
                                     <div class="value">
@@ -306,7 +322,45 @@ class CaptureDetailPage extends Component {
                         </div>
                     </div>
                 </TabPanel>
+
                 <TabPanel value={value} index={1}>
+                    <div class="cardo basic-properties">
+                        <div class="cardo-header">
+                            <h3 id="title">Detector Engines</h3>
+                        </div>
+                        <div class="cardo-content properties">
+                            <div class="property-list">
+                                {(item_capture.detector_output == null) ? (
+                                    <div class="rows">No output details</div>
+                                ) : (
+                                        <div>
+                                            {Object.keys(item_capture.detector_output).map((engine, index) => (
+                                                <div class={`rows detect-div detect-`+item_capture.detector_output[engine]['is_malware']}>
+                                                    <h5 class="label">{engine}</h5>
+                                                    <div class="valuess value">
+                                                        {Object.keys(item_capture.detector_output[engine]).map((key, i) => (
+                                                            <div class="rows">
+                                                                <a class="label">{key}</a>
+                                                                <div class="value">
+                                                                    {item_capture.detector_output[engine][key]}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <hr />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </TabPanel>
+
+                <TabPanel value={value} index={2}>
                     <div class="cardo scan-history">
                         <div class="cardo-header">
                             <h3 id="title">Submissions</h3>
@@ -314,7 +368,7 @@ class CaptureDetailPage extends Component {
                         <div class="cardo-content properties">
                             {
                                 list_capture.map((item, index) => (
-                                    <div class="property-list" key={`domain-${index}`}>
+                                    <div class={`property-list detect-div detect-`+item.status} key={`domain-${index}`}>
                                         <div class="rows">
                                             <a class="label">{translate['Submission time']}</a>
                                             <div class="value">
@@ -354,12 +408,12 @@ class CaptureDetailPage extends Component {
                                             </div>
                                             <div class="clearfix"></div>
                                         </div> */}
-                                        <div class="rows">
+                                        {/* <div class="rows">
                                             <a class="label">{translate['Scan time']}</a>
                                             <div class="value">
                                                 <span>{(item.scan_time ? item.scan_time : 0)}s</span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         {(item.status !== 'OK') ? (
                                             <div class="rows">
                                                 <a class="label">{translate['Detected by']}</a>
@@ -377,7 +431,8 @@ class CaptureDetailPage extends Component {
                         </div>
                     </div>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
+
+                <TabPanel value={value} index={3}>
                     {
                         (behavior == null) ? (
                             <div class="rows">
@@ -571,12 +626,6 @@ class CaptureDetailPage extends Component {
     }
 
     _getColor = (status) => {
-        if (status === 'OK') return 'green'
-        if (status === 'CRITICAL') return 'orange'
-        if (status === 'DANGER') return 'red'
-    }
-
-    lowercase = (status) => {
         if (status === 'OK') return 'success'
         if (status === 'CRITICAL') return 'warning'
         if (status === 'DANGER') return 'danger'
@@ -595,8 +644,9 @@ class CaptureDetailPage extends Component {
             <div class="CaptureDetailPage">
                 <h1 className='PageTitle'>{item_capture.hash}</h1>
 
-                <div class={`status alerts alert-${this.lowercase(item_capture.status)}`}>
-                    {item_capture.status}
+                <div class={`status alerts alert-${this._getColor(item_capture.status)}`}>
+                    {/* {item_capture.status} */}
+                    <span class={(item_capture.detected_by && item_capture.detected_by.includes('HAN_sec') && !item_capture.detected_by.includes('virustotal')) ? 'bold underline' : (item_capture.detected_by && item_capture.detected_by.includes('static')) ? 'italic' : ''}>{item_capture.status}</span>
                 </div>
 
                 <div class="row overview">

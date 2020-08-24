@@ -24,6 +24,8 @@ class MainPage extends Component{
 
                     <Route exact path='/a/capture' component={CapturePage} />
                     <Route exact path="/a/capture/:capture_id" component={CaptureDetailPage} />
+                    <Route exact path='/a/capture/search/:hash' component={CapturePage} />
+                    <Route exact path='/a/capture/search' component={CapturePage} />
 
                     <Route exact path='/a/history' component={HistoryPage} />
                     <Route exact path="/a/history/:hash" component={HistoryDetailPage} />

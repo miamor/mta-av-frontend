@@ -7,6 +7,7 @@ export const translate = {
     'About Us': 'Về chúng tôi',
     'Settings': 'Cài đặt',
     // '': '',
+    'Filter': 'Lọc kết quả',
 
     'Drag & drop some files here, or click to select files': 'Kéo thả để upload hoặc click để chọn file',
     'Checking': 'Đang quét',
@@ -24,8 +25,8 @@ export const translate = {
     'Most attacked protocols': 'Protocols bị tấn công nhiều nhất',
 
     'IP detected most malwares': 'Top các IP bị phát hiện chứa nhiều mã độc',
-    'Total malwares detected': 'Total malwares detected',
-    'Top IP attacked with malware': 'Top IP attacked with malware',
+    'Total malwares detected': 'Tổng số mã độc phát hiện được',
+    'Top IP attacked with malware': 'Top các IP bị tấn công bằng mã độc',
 
     'Basic settings': 'Cấu hình',
     'Sandbox': 'Sandbox',
