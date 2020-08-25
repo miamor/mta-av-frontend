@@ -39,7 +39,7 @@ class DashboardPage extends Component {
                 isLoading: false,
                 charts: data['charts'],
                 chartsFilesnum: {
-                    series: [data['malwares_num'], data['benigns_num']],
+                    series: [data['benigns_num'], data['malwares_num']],
                     options: {
                         labels: ['clean', 'malicious'],
                         colors: ['#05924c', '#da1c1c'],
@@ -112,7 +112,7 @@ class DashboardPage extends Component {
 
                     // Options for stacked bar
                     'options': {
-                        'colors': ['#05924c', '#da1c1c'],
+                        'colors': ['#05924c', '#da1c1c', '#feb21b'],
                         'chart': {
                             'type': 'bar',
                             'height': 350,
@@ -289,8 +289,8 @@ class DashboardPage extends Component {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>IP</th>
-                                                <th>{translate['Total traffic sent']} (bytes)</th>
+                                                <th width='40%'>IP</th>
+                                                <th class='center'>{translate['Total traffic sent']} (bytes)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -299,7 +299,7 @@ class DashboardPage extends Component {
                                                     <tr key={`domain-${index}`}>
                                                         <td scope='row'>{index + 1}</td>
                                                         <td>{item.ip}</td>
-                                                        <td>{item.total}</td>
+                                                        <td class='center'>{item.total}</td>
                                                     </tr>
                                                 ))
                                             }
@@ -319,8 +319,8 @@ class DashboardPage extends Component {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>IP</th>
-                                                <th>{translate['Total malwares detected']}</th>
+                                                <th width='40%'>IP</th>
+                                                <th class='center'>{translate['Total malwares detected']}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -331,7 +331,7 @@ class DashboardPage extends Component {
                                                             <tr key={`domain-${index}`}>
                                                                 <td scope='row'>{index + 1}</td>
                                                                 <td>{item.ip}</td>
-                                                                <td>{item.total}</td>
+                                                                <td class='center'>{item.total}</td>
                                                             </tr>
                                                         ) : ''
                                                 ))
@@ -356,8 +356,8 @@ class DashboardPage extends Component {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>IP</th>
-                                                <th>{translate['Total malwares detected']} (bytes)</th>
+                                                <th width='40%'>IP</th>
+                                                <th class='center'>{translate['Total malwares detected']}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -366,7 +366,7 @@ class DashboardPage extends Component {
                                                     <tr key={`domain-${index}`}>
                                                         <td scope='row'>{index + 1}</td>
                                                         <td>{item.ip}</td>
-                                                        <td>{item.total}</td>
+                                                        <td class='center'>{item.total}</td>
                                                     </tr>
                                                 ))
                                             }
@@ -386,8 +386,8 @@ class DashboardPage extends Component {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>URL</th>
-                                                <th>{translate['Total requests detected']}</th>
+                                                <th width='40%'>URL</th>
+                                                <th class='center'>{translate['Total requests detected']}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
