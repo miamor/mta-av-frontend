@@ -201,7 +201,7 @@ class CaptureDetailPage extends Component {
             return <p>Loading ...</p>
         }
 
-        console.log('item_capture', item_capture, 'list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior, 'detector_output', item_capture.detector_output)
+        console.log('~~~ item_capture', item_capture, 'list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior, 'detector_output', item_capture.detector_output)
 
         return (
             <ThemeProvider theme={theme}>
@@ -335,7 +335,7 @@ class CaptureDetailPage extends Component {
                                 ) : (
                                         <div>
                                             {Object.keys(item_capture.detector_output).map((engine, index) => (
-                                                <div class={`rows detect-div detect-`+item_capture.detector_output[engine]['is_malware']}>
+                                                <div class={`rows detect-div detect-` + item_capture.detector_output[engine]['is_malware']}>
                                                     <h5 class="label">{engine}</h5>
                                                     <div class="valuess value">
                                                         {Object.keys(item_capture.detector_output[engine]).map((key, i) => (
@@ -368,7 +368,7 @@ class CaptureDetailPage extends Component {
                         <div class="cardo-content properties">
                             {
                                 list_capture.map((item, index) => (
-                                    <div class={`property-list detect-div detect-`+item.status} key={`domain-${index}`}>
+                                    <div class={`property-list detect-div detect-` + item.status} key={`domain-${index}`}>
                                         <div class="rows">
                                             <a class="label">{translate['Submission time']}</a>
                                             <div class="value">
@@ -608,9 +608,19 @@ class CaptureDetailPage extends Component {
                                                 <a class="label">Strings</a>
                                                 <div class={`value` + (showStrings == 0 ? ' less' : '')} onClick={() => this.toggle('strings', 0, !showStrings)}>
                                                     <div class="strings-content">
-                                                        {behavior.strings.map((i, key) => (
-                                                            <div>{behavior.strings[key]}</div>
-                                                        ))}</div>
+                                                        {
+                                                            (!('strings' in behavior)) ?
+                                                                (
+                                                                    <div class="empty">No strings</div>
+                                                                ) :
+                                                                (
+                                                                    <div>
+                                                                        {behavior.strings.map((i, key) => (
+                                                                            <div>{behavior.strings[key]}</div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                    </div>
                                                     <span class="strings-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
                                                 </div>
                                                 <div class="clearfix"></div>
