@@ -117,18 +117,18 @@
 
   .modules-list.hidden>div,
   .modules-list:not(.hidden)>span,
-  .value:not(.less) .strings-more {
+  .value:not(.less) .content-more {
     display: none;
   }
 
   .modules-list.hidden>span,
-  .less .strings-more {
+  .less .content-more {
     // font-size:1.2rem;
     color: #aaa;
     cursor: pointer;
   }
 
-  .less .strings-content {
+  .less .display-content {
     max-height: 200px;
     position: relative;
     overflow: hidden;

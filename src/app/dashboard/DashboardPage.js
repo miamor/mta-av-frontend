@@ -39,10 +39,10 @@ class DashboardPage extends Component {
                 isLoading: false,
                 charts: data['charts'],
                 chartsFilesnum: {
-                    series: [data['benigns_num'], data['malwares_num']],
+                    series: [data['benigns_num'], data['malwares_num'], data['warnings_num']],
                     options: {
-                        labels: ['clean', 'malicious'],
-                        colors: ['#05924c', '#da1c1c'],
+                        labels: ['clean', 'malicious', 'critical'],
+                        colors: ['#05924c', '#da1c1c', '#feb21b'],
                         legend: {
                             position: 'right'
                         },
