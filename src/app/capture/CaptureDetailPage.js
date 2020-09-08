@@ -144,7 +144,8 @@ class CaptureDetailPage extends Component {
                     this.setState({
                         behavior: data,
                         showProcModules: this.showProcModules,
-                        showStrings: 0
+                        showStrings: 0,
+                        showHosts: 0
                     })
                 })
             }
@@ -176,16 +177,19 @@ class CaptureDetailPage extends Component {
     }
 
     toggle = (type, key, state) => {
-        let { showProcModules, showStrings } = this.state
+        let { showProcModules, showStrings, showHosts } = this.state
         // console.log('~~~toggle', type, key, showProcModules, 'showStrings', showStrings, 'state', state)
         if (type == 'processes') {
             showProcModules[key] = state
         } else if (type == 'strings') {
             showStrings = state
+        } else if (type == 'hosts') {
+            showHosts = state
         }
         this.setState({
             showProcModules: showProcModules,
             showStrings: showStrings,
+            showHosts: showHosts
         })
     }
 
@@ -195,7 +199,7 @@ class CaptureDetailPage extends Component {
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-        const { item_capture, list_capture, behavior, isLoading, showProcModules, showStrings } = this.state
+        const { item_capture, list_capture, behavior, isLoading, showProcModules, showStrings, showHosts } = this.state
 
         if (isLoading) {
             return <p>Loading ...</p>
@@ -521,8 +525,11 @@ class CaptureDetailPage extends Component {
                                         <div class="cardo-content behavior-network">
                                             <div class="rows">
                                                 <a class="label">Hosts</a>
-                                                <div class="value">
-                                                    {behavior.network.hosts.join(', ')}
+                                                <div class={`value` + (showHosts == 0 ? ' less' : '')} onClick={() => this.toggle('hosts', 0, !showHosts)}>
+                                                    <div class="display-content">
+                                                        {behavior.network.hosts.join(', ')}
+                                                    </div>
+                                                    <span class="content-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
                                                 </div>
                                                 <div class="clearfix"></div>
                                             </div>
@@ -606,23 +613,23 @@ class CaptureDetailPage extends Component {
                                         <div class="cardo-content properties">
                                             <div class="rows">
                                                 <a class="label">Strings</a>
-                                                <div class={`value` + (showStrings == 0 ? ' less' : '')} onClick={() => this.toggle('strings', 0, !showStrings)}>
-                                                    <div class="strings-content">
-                                                        {
-                                                            (!('strings' in behavior)) ?
-                                                                (
-                                                                    <div class="empty">No strings</div>
-                                                                ) :
-                                                                (
+                                                {
+                                                    (!('strings' in behavior)) ?
+                                                        (
+                                                            <div class="value empty">No strings</div>
+                                                        ) :
+                                                        (
+                                                            <div class={`value` + (showStrings == 0 ? ' less' : '')} onClick={() => this.toggle('strings', 0, !showStrings)}>
+                                                                <div class="display-content">
                                                                     <div>
                                                                         {behavior.strings.map((i, key) => (
                                                                             <div>{behavior.strings[key]}</div>
                                                                         ))}
                                                                     </div>
-                                                                )}
-                                                    </div>
-                                                    <span class="strings-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
-                                                </div>
+                                                                </div>
+                                                                <span class="content-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+                                                            </div>
+                                                        )}
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
