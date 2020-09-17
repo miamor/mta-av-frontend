@@ -35,6 +35,13 @@ export const translate = {
     'Engines': 'Engines',
     'HAN': 'HAN',
     'VirusTotal': 'VirusTotal',
+    'Cuckoo': 'Cuckoo',
+    'asm_cnn': 'asm_cnn',
+    'asm_lstm': 'asm_lstm',
+    'bytes_cnn': 'bytes_cnn',
+    'bytes_lstm': 'bytes_lstm',
+    'img': 'img',
+    'ngram': 'ngram',
 
     'Search file name or hash code': 'Tìm theo tên file hoặc mã hash',
 

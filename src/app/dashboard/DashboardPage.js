@@ -17,7 +17,7 @@ class DashboardPage extends Component {
         isOpen: false,
         statData: {},
         isLoading: false,
-        charts: {}
+        stat_data: {}
     }
 
     _toggle = () => {
@@ -33,13 +33,14 @@ class DashboardPage extends Component {
 
         stat_data.then(data => {
             console.log(data)
+            let stat_data = data['stat_data']
 
             this.setState({
                 // statData: data,
                 isLoading: false,
-                charts: data['charts'],
+                stat_data: stat_data,
                 chartsFilesnum: {
-                    series: [data['benigns_num'], data['malwares_num'], data['warnings_num']],
+                    series: [stat_data['num']['benigns_num'], stat_data['num']['malwares_num'], stat_data['num']['warnings_num']],
                     options: {
                         labels: ['clean', 'malicious', 'critical'],
                         colors: ['#05924c', '#da1c1c', '#feb21b'],
@@ -66,7 +67,7 @@ class DashboardPage extends Component {
                     },
                 },
                 chartsProtocol: {
-                    series: [10, 20, 30],
+                    series: [stat_data['captured_protocol']['http'], stat_data['captured_protocol']['ftp'], stat_data['captured_protocol']['smb']],
                     options: {
                         labels: ['HTTP', 'FTP', 'SMB'],
                         // colors: [],
@@ -79,7 +80,7 @@ class DashboardPage extends Component {
                     },
                 },
                 stat_by_date: {
-                    'series': data['charts']['stat_by_date']['series'],
+                    'series': stat_data['stat_by_date']['series'],
                     // Options for line + column
                     // 'options': {
                     //     'chart': {
@@ -141,7 +142,7 @@ class DashboardPage extends Component {
                         },
                         'xaxis': {
                             // 'type': 'datetime',
-                            'categories': data['charts']['stat_by_date']['cat']
+                            'categories': stat_data['stat_by_date']['cat']
                         },
                         'legend': {
                             'position': 'bottom',
@@ -166,11 +167,11 @@ class DashboardPage extends Component {
 
     render() {
 
-        const { isOpen, isLoading, charts, chartsFilesnum } = this.state
+        const { isOpen, isLoading, stat_data, chartsFilesnum } = this.state
 
         console.log(chartsFilesnum)
 
-        if (isLoading || this.isEmpty(charts)) {
+        if (isLoading || this.isEmpty(stat_data)) {
             return <div className='DashboardPage'>Loading ...</div>
         }
 
@@ -295,7 +296,7 @@ class DashboardPage extends Component {
                                         </thead>
                                         <tbody>
                                             {
-                                                charts['top_ip_send'].map((item, index) => (
+                                                stat_data['top_ip_send'].map((item, index) => (
                                                     <tr key={`domain-${index}`}>
                                                         <td scope='row'>{index + 1}</td>
                                                         <td>{item.ip}</td>
@@ -325,7 +326,7 @@ class DashboardPage extends Component {
                                         </thead>
                                         <tbody>
                                             {
-                                                charts['top_ip_mal'].map((item, index) => (
+                                                stat_data['top_ip_mal'].map((item, index) => (
                                                     (item.total > 0) ?
                                                         (
                                                             <tr key={`domain-${index}`}>
@@ -362,7 +363,7 @@ class DashboardPage extends Component {
                                         </thead>
                                         <tbody>
                                             {
-                                                charts['top_ip_rev_mal'].map((item, index) => (
+                                                stat_data['top_ip_rev_mal'].map((item, index) => (
                                                     <tr key={`domain-${index}`}>
                                                         <td scope='row'>{index + 1}</td>
                                                         <td>{item.ip}</td>

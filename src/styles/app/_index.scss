@@ -9,6 +9,26 @@
 @import "./settings/_index.scss";
 @import "font-awesome.scss";
 
+
+.rows {
+  clear: both;
+  // margin-top: 4px;
+
+  .label {
+    display: block;
+    float: left;
+    width: 20%
+  }
+
+  .value {
+    display: block;
+    float: left;
+    width: 80%;
+    word-break: break-all;
+    // line-height: 1.4rem
+  }
+}
+
 .link {
   color: #007bff;
   cursor: pointer;
@@ -32,7 +52,7 @@
 
 input.form-control,
 select.form-control,
-input:not([type="submit"]):not([type="reset"]),
+// input:not([type="submit"]):not([type="reset"]),
 select,
 .form-input {
   // background:transparent;
