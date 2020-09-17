@@ -43,146 +43,159 @@ class Header extends Component {
     closeMenu(event) {
 
         // if (!this.dropdownMenu.contains(event.target)) {
-            this.setState({ showMenu: false }, () => {
-                document.removeEventListener('click', this.closeMenu);
-            });
+        this.setState({ showMenu: false }, () => {
+            document.removeEventListener('click', this.closeMenu);
+        });
         // }
     }
 
     render() {
         return (
             <div className='Header'>
-                <div className='LeftHeader'>
-                    <div class='logo'></div>
-                    <div class="wide-screen-menu">
-                        <NavLink to='/a/dashboard'>
-                            <div className='Item'>
-                                <i className="fas fa-chart-bar"></i>
-                                {translate['Dashboard']}
-                            </div>
-                        </NavLink>
-                        <NavLink to='/a/capture'>
-                            <div className='Item'>
-                                <i className="fas fa-home"></i>
-                                {translate['Live Capture']}
-                            </div>
-                        </NavLink>
-                        {/* <NavLink as={Link} to='/a/history'>
-                            <div className='Item'>
-                                <i className="fas fa-home"></i>
-                                {translate['Scan History']}
-                            </div>
-                        </NavLink> */}
-                        <NavLink to='/a/scan'>
-                            <div className='Item'>
-                                <i className="fab fa-stumbleupon-circle"></i>
-                                {translate['Scan']}
-                            </div>
-                        </NavLink>
-                        <NavLink to='/a/settings'>
-                            <div className='Item'>
-                                <i className="fas fa-gear"></i>
-                                {translate['Settings']}
-                            </div>
-                        </NavLink>
-                        <NavLink to='/a/about'>
-                            <div className='Item'>
-                                <i className="fas fa-user-friends"></i>
-                                {translate['About Us']}
-                            </div>
-                        </NavLink>
-                        {
-                            getUserData().isAdmin &&
-                            <NavLink to='/a/user'>
+
+                <div className='Header-Logo'>
+                    <div className='LeftHeader'>
+                        <div className='logo'></div>
+                    </div>
+                    <div className='RightHeader'>
+                        <i className="fas fa-globe"></i>
+                        <i className="fas fa-bell"></i>
+                        <i className="fas fa-sign-out-alt" onClick={this._handleLogout}></i>
+                    </div>
+                    <div className='clearfix'></div>
+                </div>
+
+                <div className='Header-Navbar'>
+                    <div className='LeftHeader'>
+                        <div class='logo'></div>
+                        <div class="wide-screen-menu">
+                            <NavLink to='/a/dashboard'>
                                 <div className='Item'>
-                                    <i className="fas fa-users"></i>
-                                    {translate['Users']}
+                                    <i className="fas fa-chart-bar"></i>
+                                    {translate['Dashboard']}
                                 </div>
                             </NavLink>
-                        }
-                    </div>
-                    <div class="sm-screen-menu">
-                        <div className="menu-wrapper">
-                            <a class={this.state.showMenu ? 'active' : ''} onClick={this.showMenu}>
-                                <div className='Item item-menu'>
-                                    <i className="fas fa-bars"></i> Menu
+                            <NavLink to='/a/capture'>
+                                <div className='Item'>
+                                    <i className="fas fa-home"></i>
+                                    {translate['Live Capture']}
                                 </div>
-                            </a>
-
+                            </NavLink>
+                            {/* <NavLink as={Link} to='/a/history'>
+                                <div className='Item'>
+                                    <i className="fas fa-home"></i>
+                                    {translate['Scan History']}
+                                </div>
+                            </NavLink> */}
+                            <NavLink to='/a/scan'>
+                                <div className='Item'>
+                                    <i className="fab fa-stumbleupon-circle"></i>
+                                    {translate['Scan']}
+                                </div>
+                            </NavLink>
+                            <NavLink to='/a/settings'>
+                                <div className='Item'>
+                                    <i className="fas fa-gear"></i>
+                                    {translate['Settings']}
+                                </div>
+                            </NavLink>
+                            <NavLink to='/a/about'>
+                                <div className='Item'>
+                                    <i className="fas fa-user-friends"></i>
+                                    {translate['About Us']}
+                                </div>
+                            </NavLink>
                             {
-                                this.state.showMenu
-                                    ? (
-                                        <div
-                                            className="menu-dd"
-                                            ref={(element) => {
-                                                this.dropdownMenu = element;
-                                            }}
-                                        >
-                                            <NavLink to='/a/dashboard'>
-                                                <div className='Item'>
-                                                    <i className="fas fa-chart-bar"></i>
-                                                    {translate['Dashboard']}
-                                                </div>
-                                            </NavLink>
-                                            <NavLink to='/a/capture'>
-                                                <div className='Item'>
-                                                    <i className="fas fa-home"></i>
-                                                    {translate['Live Capture']}
-                                                </div>
-                                            </NavLink>
-                                            <NavLink as={Link} to='/a/history'>
-                                                <div className='Item'>
-                                                    <i className="fas fa-home"></i>
-                                                    {translate['Scan History']}
-                                                </div>
-                                            </NavLink>
-                                            <NavLink to='/a/scan'>
-                                                <div className='Item'>
-                                                    <i className="fab fa-stumbleupon-circle"></i>
-                                                    {translate['Scan']}
-                                                </div>
-                                            </NavLink>
-                                            <NavLink to='/a/settings'>
-                                                <div className='Item'>
-                                                    <i className="fas fa-gear"></i>
-                                                    {translate['Settings']}
-                                                </div>
-                                            </NavLink>
-                                            <NavLink to='/a/about'>
-                                                <div className='Item'>
-                                                    <i className="fas fa-user-friends"></i>
-                                                    {translate['About Us']}
-                                                </div>
-                                            </NavLink>
-                                            {
-                                                getUserData().isAdmin &&
-                                                <NavLink to='/a/user'>
-                                                    <div className='Item'>
-                                                        <i className="fas fa-users"></i>
-                                                        {translate['Users']}
-                                                    </div>
-                                                </NavLink>
-                                            }
-                                        </div>
-                                    )
-                                    : (
-                                        null
-                                    )
+                                getUserData().isAdmin &&
+                                <NavLink to='/a/user'>
+                                    <div className='Item'>
+                                        <i className="fas fa-users"></i>
+                                        {translate['Users']}
+                                    </div>
+                                </NavLink>
                             }
                         </div>
+                        <div class="sm-screen-menu">
+                            <div className="menu-wrapper">
+                                <a class={this.state.showMenu ? 'active' : ''} onClick={this.showMenu}>
+                                    <div className='Item item-menu'>
+                                        <i className="fas fa-bars"></i> Menu
+                                    </div>
+                                </a>
+
+                                {
+                                    this.state.showMenu
+                                        ? (
+                                            <div
+                                                className="menu-dd"
+                                                ref={(element) => {
+                                                    this.dropdownMenu = element;
+                                                }}
+                                            >
+                                                <NavLink to='/a/dashboard'>
+                                                    <div className='Item'>
+                                                        <i className="fas fa-chart-bar"></i>
+                                                        {translate['Dashboard']}
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink to='/a/capture'>
+                                                    <div className='Item'>
+                                                        <i className="fas fa-home"></i>
+                                                        {translate['Live Capture']}
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink as={Link} to='/a/history'>
+                                                    <div className='Item'>
+                                                        <i className="fas fa-home"></i>
+                                                        {translate['Scan History']}
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink to='/a/scan'>
+                                                    <div className='Item'>
+                                                        <i className="fab fa-stumbleupon-circle"></i>
+                                                        {translate['Scan']}
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink to='/a/settings'>
+                                                    <div className='Item'>
+                                                        <i className="fas fa-gear"></i>
+                                                        {translate['Settings']}
+                                                    </div>
+                                                </NavLink>
+                                                <NavLink to='/a/about'>
+                                                    <div className='Item'>
+                                                        <i className="fas fa-user-friends"></i>
+                                                        {translate['About Us']}
+                                                    </div>
+                                                </NavLink>
+                                                {
+                                                    getUserData().isAdmin &&
+                                                    <NavLink to='/a/user'>
+                                                        <div className='Item'>
+                                                            <i className="fas fa-users"></i>
+                                                            {translate['Users']}
+                                                        </div>
+                                                    </NavLink>
+                                                }
+                                            </div>
+                                        )
+                                        : (
+                                            null
+                                        )
+                                }
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className='RightHeader'>
-                    <div class="search-form">
-                        <Input placeholder={translate['Search file name or hash code']} />
+                    <div className='RightHeader'>
+                        <div class="search-form">
+                            <Input placeholder={translate['Search file name or hash code']} />
+                        </div>
                     </div>
 
-                    <i className="fas fa-globe"></i>
-                    <i className="fas fa-bell"></i>
-                    <i className="fas fa-sign-out-alt" onClick={this._handleLogout}></i>
                 </div>
 
             </div>
+
         )
     }
 }
