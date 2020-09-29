@@ -19,26 +19,20 @@ export const getBehaviorReport = (report_id) => {
 
 export const getListCapture = (mode, filter) => {
     // console.log('*** filter', filter)
+    let filter_str = ''
     if (filter != undefined && filter != null && Object.keys(filter).length !== 0) {
-        let filter_str = ''
         Object.keys(filter).map((key, index) => {
             if (filter[key] != null && filter[key] !== '') {
                 // console.log('***~ key', key, filter[key])
                 filter_str += key+'='+filter[key]+'&'
             }
         })
-        console.log('*** filter_str', filter_str)
-        return api.makeAuthRequest({
-            url: '/api/v1/capture/search?mode='+mode+'&'+filter_str,
-            method: 'GET'
-        })
-    } else {
-        console.log('*** filter_str none')
-        return api.makeAuthRequest({
-            url: '/api/v1/capture?mode='+mode,
-            method: 'GET'
-        })
     }
+    console.log('*** filter_str', filter_str)
+    return api.makeAuthRequest({
+        url: '/api/v1/capture?mode='+mode+'&'+filter_str,
+        method: 'GET'
+    })
 }
 
 export const updateCapture = (data, capture_id) => {

@@ -95,7 +95,7 @@ class Header extends Component {
                             </NavLink>
                             <NavLink to='/a/settings'>
                                 <div className='Item'>
-                                    <i className="fas fa-gear"></i>
+                                    <i className="fas fa-cog"></i>
                                     {translate['Settings']}
                                 </div>
                             </NavLink>
@@ -144,12 +144,12 @@ class Header extends Component {
                                                         {translate['Live Capture']}
                                                     </div>
                                                 </NavLink>
-                                                <NavLink as={Link} to='/a/history'>
+                                                {/* <NavLink as={Link} to='/a/history'>
                                                     <div className='Item'>
                                                         <i className="fas fa-home"></i>
                                                         {translate['Scan History']}
                                                     </div>
-                                                </NavLink>
+                                                </NavLink> */}
                                                 <NavLink to='/a/scan'>
                                                     <div className='Item'>
                                                         <i className="fab fa-stumbleupon-circle"></i>
@@ -158,7 +158,7 @@ class Header extends Component {
                                                 </NavLink>
                                                 <NavLink to='/a/settings'>
                                                     <div className='Item'>
-                                                        <i className="fas fa-gear"></i>
+                                                        <i className="fas fa-cog"></i>
                                                         {translate['Settings']}
                                                     </div>
                                                 </NavLink>

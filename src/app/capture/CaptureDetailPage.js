@@ -101,6 +101,7 @@ class CaptureDetailPage extends Component {
         isLoading: true,
     }
     showProcModules = {}
+    showSignatureMarks = {}
 
     componentDidMount() {
 
@@ -111,7 +112,7 @@ class CaptureDetailPage extends Component {
         // hash = match.params.hash
 
         getCapture(match.params.capture_id).then(item => {
-            console.log(item)
+            console.log('~~ item', item)
             if (item.detected_by === '' || item.detected_by == null) {
                 item.status = 'OK'
             } else {
@@ -136,14 +137,31 @@ class CaptureDetailPage extends Component {
             })
 
             // behavior report
-            if (item.report_id) {
-                getBehaviorReport(item.report_id).then(data => {
-                    data.behavior.processes.map((i, key) => {
-                        this.showProcModules[key] = 0
-                    })
+            const { item_capture } = this.state
+            console.log('~~item_capture.report_id', item_capture.report_id)
+            if (item_capture.report_id != null) {
+                getBehaviorReport(item_capture.report_id).then(data => {
+                    console.log('~~data', data)
+                    if ('behavior' in data) {
+                        data.behavior.processes.map((i, key) => {
+                            this.showProcModules[key] = 0
+                        })
+                    }
+                    if ('signatures' in data) {
+                        data.signatures.map((i, key) => {
+                            this.showSignatureMarks[key] = 0
+                            // console.log('~~data.signatures', key, data.signatures[key], data.signatures[key]['marks'])
+                            // data.signatures[key]['marks'].map((j, k) => {
+                            //     for (let m in j) {
+                            //         console.log('~~ j[m]', m, j[m])
+                            //     }
+                            // })
+                        })
+                    }
                     this.setState({
-                        behavior: data,
+                        behaviorConst: data,
                         showProcModules: this.showProcModules,
+                        showSignatureMarks: this.showSignatureMarks,
                         showStrings: 0,
                         showHosts: 0
                     })
@@ -177,10 +195,12 @@ class CaptureDetailPage extends Component {
     }
 
     toggle = (type, key, state) => {
-        let { showProcModules, showStrings, showHosts } = this.state
+        let { showProcModules, showSignatureMarks, showStrings, showHosts } = this.state
         // console.log('~~~toggle', type, key, showProcModules, 'showStrings', showStrings, 'state', state)
         if (type == 'processes') {
             showProcModules[key] = state
+        } else if (type == 'signatures') {
+            showSignatureMarks[key] = state
         } else if (type == 'strings') {
             showStrings = state
         } else if (type == 'hosts') {
@@ -188,6 +208,7 @@ class CaptureDetailPage extends Component {
         }
         this.setState({
             showProcModules: showProcModules,
+            showSignatureMarks: showSignatureMarks,
             showStrings: showStrings,
             showHosts: showHosts
         })
@@ -199,13 +220,18 @@ class CaptureDetailPage extends Component {
         const handleChange = (event, newValue) => {
             setValue(newValue);
         };
-        const { item_capture, list_capture, behavior, isLoading, showProcModules, showStrings, showHosts } = this.state
+        const { item_capture, list_capture, behaviorConst, isLoading, showProcModules, showSignatureMarks, showStrings, showHosts } = this.state
 
         if (isLoading) {
             return <p>Loading ...</p>
         }
 
-        console.log('~~~ item_capture', item_capture, 'list_capture', list_capture, 'isLoading', isLoading, 'behavior', behavior, 'detector_output', item_capture.detector_output)
+        let behavior = behaviorConst
+        if (behaviorConst == null) {
+            behavior = {}
+        }
+
+        console.log('~~~ item_capture', item_capture, 'list_capture', list_capture, 'isLoading', isLoading, 'behaviorConst', behaviorConst, 'behavior', behavior, 'detector_output', item_capture.detector_output, " ~~ 'behavior' in behavior", 'behavior' in behavior)
 
         return (
             <ThemeProvider theme={theme}>
@@ -438,7 +464,7 @@ class CaptureDetailPage extends Component {
 
                 <TabPanel value={value} index={3}>
                     {
-                        (behavior == null) ? (
+                        (!('behavior' in behavior)) ? (
                             <div class="rows">
                                 No behavior report found
                             </div>
@@ -517,6 +543,68 @@ class CaptureDetailPage extends Component {
                                             ))}
                                         </div>
                                     </div>
+
+                                    <div class="cardo scan-behavior">
+                                        <div class="cardo-header">
+                                            <h3 id="title">{translate['Signatures']}</h3>
+                                        </div>
+                                        {
+                                            (!('signatures' in behavior)) ?
+                                                (
+                                                    <div class="cardo-content behavior-signatures">
+                                                        <div class="value empty">No signatures</div>
+                                                    </div>
+                                                ) :
+                                                (
+                                                    <div class="cardo-content behavior-signatures">
+                                                        {behavior.signatures.map((i, key) => (
+                                                            <div class="one-signature">
+                                                                <div class="rows">
+                                                                    <a class="label">Severity</a>
+                                                                    <div class="value">
+                                                                        {(behavior.signatures[key]['severity'] > 3) ? (<span class="badge badge-danger">{behavior.signatures[key]['severity']}</span>) : (<span class="badge badge-warning">{behavior.signatures[key]['severity']}</span>)}
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                                <div class="rows">
+                                                                    <a class="label">Description</a>
+                                                                    <div class="value">
+                                                                        {behavior.signatures[key]['description']}
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                                <div class="rows">
+                                                                    <a class="label">Markcount</a>
+                                                                    <div class="value">
+                                                                        <span class="badge badge-info">{behavior.signatures[key]['markcount']}</span>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                                {/*<div class="rows" onClick={() => this.toggle('signatures', key, !showSignatureMarks[key])}>
+                                                                    <a class="label">
+                                                                        Marks <span class="badge badge-info">{behavior.signatures[key]['markcount']}</span>
+                                                                    </a>
+                                                                    <div class={`value modules-list` + (showSignatureMarks[key] == 0 ? ' hidden' : '')} id={`sig_marks_list_` + key}>
+                                                                        <span class="signatures-more">Expand... <i class="fa fa-chevron-circle-down" aria-hidden="true"></i></span>
+                                                                        {behavior.signatures[key].marks.map((j, k) => (
+                                                                            <div>{Object.entries(j).map((m, v) => (
+                                                                                <div>{v}</div>
+                                                                            ))
+                                                                            }</div>
+                                                                        )
+                                                                        )}
+
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>*/}
+                                                                <hr />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )
+                                        }
+                                    </div>
+
 
                                     <div class="cardo scan-behavior">
                                         <div class="cardo-header">

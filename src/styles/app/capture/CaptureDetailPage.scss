@@ -93,7 +93,8 @@
   }
 
   .one-process:last-child>hr,
-  .modules-list>div:last-child hr {
+  .modules-list>div:last-child hr,
+  .one-signature:last-child>hr {
     display: none;
   }
 
@@ -127,7 +128,7 @@
   }
 
   .detect-1 {
-    background: #fcf5f5;
+    background: #faf3f3;
   }
 
 

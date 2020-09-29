@@ -4,7 +4,26 @@ import { translate } from '../../services/translate'
 import { bytesToSize } from '../../services/bytesToSize'
 import { getListCapture } from '../../services/apis/CaptureAPI'
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 // import {table_event} from './sample'
+
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#004F00',
+            contrastText: '#fff',
+        },
+
+    },
+    status: {
+        danger: 'orange',
+    },
+});
+
 
 class CapturePage extends Component {
 
@@ -12,8 +31,12 @@ class CapturePage extends Component {
         selected: 0,
         list_capture: [],
         isLoading: false,
-        mode: 0,
-        filter: {}
+        filter: {},
+        types: {
+            malware: true,
+            critical: true,
+            benign: true
+        }
     }
 
     componentDidMount() {
@@ -22,6 +45,10 @@ class CapturePage extends Component {
         })
 
         this.getList()
+        setInterval(() => {
+            console.log('~~ F5')
+            this.getList()
+        }, 20000)
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,9 +63,43 @@ class CapturePage extends Component {
         this.unlisten()
     }
 
+    handleChange_types = (event) => {
+        // setState({ ...state, [event.target.name]: event.target.checked });
+        let key = event.target.name.split('__')
+        let val_0 = this.state[key[0]]
+        let k = key[0]
+
+        if (typeof val_0[key[1]] !== 'object') {
+            val_0 = this.update(val_0, key[1])
+        } else {
+            // for (let i = 1; i < key.length - 1; i++) {
+            //     val_0 = this.update(val_0[key[i]], key[i + 1], event.target.checked)
+            // }
+        }
+
+        this.setState({ k: val_0 })
+    }
+
+    update = (obj, key, val) => {
+        console.log('~~ update called', 'obj', obj, 'key', key, 'typeof obj[key]', typeof obj[key], '!obj[key]', !obj[key], 'val', val)
+
+        if (typeof obj[key] !== 'object') {
+            obj[key] = !obj[key]
+        } else {
+            console.log('~~ is obj')
+        }
+        return obj;
+    }
+
     getList = () => {
-        console.log('*** mode', this.state.mode, 'filter', this.state.filter)
-        let captureList = getListCapture(this.state.mode, this.state.filter)
+        let modes = []
+        for (let k in this.state.types) {
+            if (this.state.types[k] === true) {
+                modes.push(k)
+            }
+        }
+        console.log('~~ *** modes', modes, 'filter', this.state.filter)
+        let captureList = getListCapture(modes, this.state.filter)
         this.postProcess(captureList)
     }
 
@@ -52,11 +113,10 @@ class CapturePage extends Component {
                     item.num_detected_by = item.detected_by_arr.length
                     if (item.detected_by.includes('virustotal') || item.detected_by.includes('HAN_sec') || item.detected_by.includes('static')) {
                         item.status = 'DANGER'
-                    } else if (item.num_detected_by > 1) {
+                    } else if (item.detected_by.includes('cuckoo')) {
                         item.status = 'CRITICAL'
                     } else {
-                        // item.tatus = 'OK'
-                        item.status = 'CRITICAL'
+                        item.status = 'OK'
                     }
                 }
                 // if (item.detected_by !== null && (item.detected_by.includes('HAN_sec') || item.detected_by.includes('virustotal'))) {
@@ -82,12 +142,8 @@ class CapturePage extends Component {
         this.props.history.push(`/a/capture/${capture_id}`)
     }
 
-    show = (mode) => {
-        this.setState({ mode: mode })
-        this.getList()
-    }
 
-
+    
     handleChange = (event) => {
         let filter = this.state.filter
         // console.log('***', 'event.target.name', event.target.name, filter)
@@ -123,14 +179,11 @@ class CapturePage extends Component {
         }
 
         console.log('list_capture', list_capture)
+        let total_capture_this_page = list_capture.length
 
         return (
             <div className='CapturePage'>
                 <h1 className='PageTitle'>{translate['Scan History']}</h1>
-
-                <button id='show_all' onClick={() => this.show(0)}>Show all</button>
-                <button id='show_mal' onClick={() => this.show(1)}>Malwares only</button>
-
 
                 <div class="callout callout-info">
                     <div class="close" onClick={() => this.resetFilter()}>
@@ -167,6 +220,21 @@ class CapturePage extends Component {
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
+
+                            <div class="row">
+                                <a class="label col-3">{translate['Show']}</a>
+                                <div class="value col-9">
+                                    <MuiThemeProvider theme={theme}>
+                                        <FormControlLabel control={<Checkbox checked={this.state.types['malware']} onChange={this.handleChange_types} disabled={false} name="types__malware" color="primary" />} label="Malware" />
+
+                                        <FormControlLabel control={<Checkbox checked={this.state.types['critical']} onChange={this.handleChange_types} disabled={false} name="types__critical" color="primary" />} label="Critical" />
+
+                                        <FormControlLabel control={<Checkbox checked={this.state.types['benign']} onChange={this.handleChange_types} disabled={false} name="types__benign" color="primary" />} label="Benign" />
+                                    </MuiThemeProvider>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
                             <div class="form-submit-btns center">
                                 {/* <input type="submit" value="Submit" /> */}
                                 <button onClick={this.handleSubmit} class="btn btn-default">{translate['Filter']}</button>
@@ -181,9 +249,9 @@ class CapturePage extends Component {
                             <thead>
                                 <tr>
                                     <th width='4%'>#</th>
-                                    <th width='10%'>{translate['Source IP']}</th>
-                                    <th width='10%'>{translate['Destination IP']}</th>
-                                    <th width='5%' class='center'>{translate['Protocol']}</th>
+                                    <th width='14%'>{translate['Source IP']}</th>
+                                    <th width='14%'>{translate['Destination IP']}</th>
+                                    <th width='4%' class='center'>{translate['Protocol']}</th>
                                     <th width='15%' class='center'>{translate['Time received']}</th>
                                     <th width='15%'>{translate['File name']}</th>
                                     <th width='20%' class='center'>Hash</th>
@@ -196,7 +264,10 @@ class CapturePage extends Component {
                                     list_capture.map((item, index) => (
                                         <tr key={`domain-${index}`}>
                                             <td class='stt' scope='row'>
-                                                <a href={`/a/capture/${item.capture_id}`}>{item.capture_id}</a>
+                                                <a href={`/a/capture/${item.capture_id}`}>
+                                                    {item.capture_id}
+                                                    {/* {total_capture_this_page-index} */}
+                                                </a>
                                             </td>
                                             <td>
                                                 <span class='filtering source_ip' onClick={() => this.updateFilter('source_ip', item.source_ip)}>
@@ -226,11 +297,19 @@ class CapturePage extends Component {
                                             </td>
                                             <td>{bytesToSize(item.file_size)}</td>
                                             {/* <td class='center' style={{color:this._getColor(item.status)}}> */}
-                                            <td class={`item-stt center text-` + this._getColor(item.status)}>
-                                                <span class={(item.detected_by && item.detected_by.includes('HAN_sec') && !item.detected_by.includes('virustotal')) ? 'bold underline' : (item.detected_by && item.detected_by.includes('static')) ? 'italic' : ''}>{item.status}</span>
-                                                { (item.detected_by && item.detected_by.includes('static')) ? (<span class={`badge badge-` + this._getColor(item.status)}>S</span>) : (<span class={`badge badge-` + this._getColor(item.status)}>{item.num_detected_by}</span>
-                                                ) }
-                                            </td>
+                                            { (item.status != 'OK') ?
+                                                (
+                                                    <td class={`item-stt center text-` + this._getColor(item.status)}>
+                                                        <span class={(item.detected_by && item.detected_by.includes('HAN_sec') && !item.detected_by.includes('virustotal')) ? 'bold underline' : (item.detected_by && item.detected_by.includes('static')) ? 'italic' : ''}>{item.status}</span>
+                                                        { (item.detected_by && item.detected_by.includes('static')) ? (<span class={`badge badge-` + this._getColor(item.status)}>S</span>) : (<span class={`badge badge-` + this._getColor(item.status)}>{item.num_detected_by}</span>
+                                                        )}
+                                                    </td>
+                                                ) : (
+                                                    <td class={`item-stt center text-` + this._getColor(item.status)}>
+                                                        <span>{item.status}</span>
+                                                    </td>
+                                                )
+                                            }
                                         </tr>
                                     ))
                                 }

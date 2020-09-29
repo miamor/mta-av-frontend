@@ -31,6 +31,8 @@ export const translate = {
     'Basic settings': 'Cấu hình',
     'Sandbox': 'Sandbox',
 
+    'Show': 'Show',
+
     'Model': 'Mô hình',
     'Engines': 'Engines',
     'HAN': 'HAN',
@@ -71,6 +73,7 @@ export const translate = {
     'Behavior': 'Hành vi',
     'Behavior report': 'Behavior report',
     'Processes': 'Processes',
+    'Signatures': 'Signatures',
     'Networks': 'Networks',
     'Others': 'Others',
     'Strings': 'Strings',

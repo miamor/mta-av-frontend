@@ -17,7 +17,7 @@ class CapturePage extends Component{
     componentDidMount() {
         this.setState({ isLoading: true });
      
-        /*fetch('http://192.168.126.26:5002/api/v1/capture')
+        /*fetch('http://10.10.10.19:5002/api/v1/capture')
         .then(response => response.json())
         .then(data => {
             data.map((item, index) => {
@@ -39,7 +39,15 @@ class CapturePage extends Component{
                 if (item.detected_by == '' || item.detected_by == null) {
                     item.status = 'OK'
                 } else {
-                    item.status = 'DANGER'
+                    item.detected_by_arr = item.detected_by.split(',')
+                    item.num_detected_by = item.detected_by_arr.length
+                    if (item.detected_by.includes('virustotal') || item.detected_by.includes('HAN_sec') || item.detected_by.includes('static')) {
+                        item.status = 'DANGER'
+                    } else if (item.detected_by.includes('cuckoo')) {
+                        item.status = 'CRITICAL'
+                    } else {
+                        item.status = 'OK'
+                    }
                 }
             })
             this.setState({
