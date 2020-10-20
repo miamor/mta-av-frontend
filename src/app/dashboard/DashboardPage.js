@@ -392,6 +392,41 @@ class DashboardPage extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            
+                                                <tr key={`domain-${1}`}>
+                                                    <td scope='row'>{1}</td>
+                                                    <td>{'papgpdfa.co.uk'}</td>
+                                                    <td class='center'>{'40'}</td>
+                                                </tr>
+                                                <tr key={`domain-${2}`}>
+                                                    <td scope='row'>{2}</td>
+                                                    <td>{'sewtsfrt.co.uk'}</td>
+                                                    <td class='center'>{'39'}</td>
+                                                </tr>
+                                                <tr key={`domain-${3}`}>
+                                                    <td scope='row'>{3}</td>
+                                                    <td>{'imboajaksftmyk.com'}</td>
+                                                    <td class='center'>{'37'}</td>
+                                                </tr>
+                                                <tr key={`domain-${4}`}>
+                                                    <td scope='row'>{4}</td>
+                                                    <td>{'ycafyovxdnlsa.com'}</td>
+                                                    <td class='center'>{'30'}</td>
+                                                </tr>
+                                                <tr key={`domain-${5}`}>
+                                                    <td scope='row'>{5}</td>
+                                                    <td>{'wvmbirct.gaz.us'}</td>
+                                                    <td class='center'>{'10'}</td>
+                                                </tr>
+                                                {/*stat_data['top_ip_rev_mal'].map((item, index) => (
+                                                    <tr key={`domain-${index}`}>
+                                                        <td scope='row'>{index + 1}</td>
+                                                        <td>{item.ip}</td>
+                                                        <td class='center'>{item.total}</td>
+                                                    </tr>
+                                                ))
+                                                */}
+                                            
                                         </tbody>
                                     </Table>
                                 </div>

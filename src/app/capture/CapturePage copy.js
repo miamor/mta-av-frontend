@@ -17,7 +17,7 @@ class CapturePage extends Component{
     componentDidMount() {
         this.setState({ isLoading: true });
      
-        /*fetch('http://10.10.10.19:5002/api/v1/capture')
+        /*fetch('http://192.168.126.25:5002/api/v1/capture')
         .then(response => response.json())
         .then(data => {
             data.map((item, index) => {

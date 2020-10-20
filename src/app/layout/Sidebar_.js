@@ -23,18 +23,22 @@ class Sidebar extends Component{
                             {translate['Scan History']}
                         </div>
                     </NavLink>
+                                         
                     <NavLink to='/a/scan'>
                         <div className='Item'>
                             <i className="fab fa-stumbleupon-circle"></i>
                             {translate['Scan']}
                         </div>
                     </NavLink>
-                    <NavLink to='/a/settings'>
-                        <div className='Item'>
-                            <i className="fas fa-gear"></i>
-                            {translate['Settings']}
-                        </div>
-                    </NavLink>
+                    {
+                        getUserData().isAdmin &&
+                        <NavLink to='/a/settings'>
+                            <div className='Item'>
+                                <i className="fas fa-gear"></i>
+                                {translate['Settings']}
+                            </div>
+                        </NavLink>
+                    }
                     <NavLink to='/a/about'>
                         <div className='Item'>
                             <i className="fas fa-user-friends"></i>

@@ -45,10 +45,10 @@ class CapturePage extends Component {
         })
 
         this.getList()
-        setInterval(() => {
-            console.log('~~ F5')
-            this.getList()
-        }, 20000)
+        // setInterval(() => {
+        //     console.log('~~ F5')
+        //     this.getList()
+        // }, 20000)
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);

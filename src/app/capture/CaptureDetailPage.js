@@ -308,6 +308,9 @@ class CaptureDetailPage extends Component {
                                     <a class="label">{translate['File name']}</a>
                                     <div class="value">
                                         <span>{item_capture.file_name}</span>
+                                        { (!('target' in behavior)) ? '' : (
+						<a class="italic" href={behavior.target.file.path}>{translate['Download file']} {behavior.target.file.path}</a>
+					)}
                                     </div>
                                 </div>
                                 {/* <div class="rows">
@@ -316,6 +319,12 @@ class CaptureDetailPage extends Component {
                                         <span>{item_capture.scan_time}s</span>
                                     </div>
                                 </div> */}
+                                {/*<div class="rows">
+                                    <a class="label">{translate['Download file']}</a>
+                                    <div class="value">
+                                        <span>{behavior.target.file.path}</span>
+                                    </div>
+                                </div>*/}
                                 <div class="rows">
                                     <a class="label">{translate['Behavior report']}</a>
                                     <div class="value">
@@ -544,18 +553,20 @@ class CaptureDetailPage extends Component {
                                         </div>
                                     </div>
 
-                                    <div class="cardo scan-behavior">
-                                        <div class="cardo-header">
-                                            <h3 id="title">{translate['Signatures']}</h3>
-                                        </div>
-                                        {
-                                            (!('signatures' in behavior)) ?
-                                                (
-                                                    <div class="cardo-content behavior-signatures">
-                                                        <div class="value empty">No signatures</div>
+                                    {
+                                        (!('signatures' in behavior)) ?
+                                            (
+                                                <div class="empty">
+                                                    {/* <div class="value empty">No signatures</div> */}
+                                                </div>
+                                            ) :
+                                            (
+                                                <div class="cardo scan-behavior">
+                                                    <div class="cardo-header">
+                                                        <h3 id="title">
+                                                            {translate['Signatures']} <span class="badge badge-info">{behavior.signatures.length}</span>
+                                                        </h3>
                                                     </div>
-                                                ) :
-                                                (
                                                     <div class="cardo-content behavior-signatures">
                                                         {behavior.signatures.map((i, key) => (
                                                             <div class="one-signature">
@@ -601,9 +612,9 @@ class CaptureDetailPage extends Component {
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )
-                                        }
-                                    </div>
+                                                </div>
+                                            )
+                                    }
 
 
                                     <div class="cardo scan-behavior">

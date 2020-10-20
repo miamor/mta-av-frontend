@@ -36,7 +36,7 @@ class LoginPage extends Component{
         }
         else{
             this.setState({
-                error: 'Wrong username or password'
+                error: 'Tên tài khoản hoặc mật khẩu không đúng. Vui lòng thử lại!'
             }, () => setTimeout(() => this.setState({error: ''}), 2000))
         }
     }
@@ -50,18 +50,18 @@ class LoginPage extends Component{
             <div className='LoginPage'>
                 <div className='HeaderLogin'>MTA Deep Inspector</div>
                 <FormGroup>
-                    <Label>Email</Label>
+                    <Label>Tài Khoản</Label>
                     <Input type='email' placeholder='Email' value={email} onChange={this._handleChangeEmail}/>
                 </FormGroup>
                 <FormGroup>
-                    <Label>Password</Label>
+                    <Label>Mật Khẩu</Label>
                     <Input type='password' placeholder='Password' value={password} onChange={this._handleChangePassword}/>
                 </FormGroup>
                 <div className='Message'>
                     {error}
                 </div>
                 <Button className='ButtonLogin' onClick={this._handleClickLogin}>
-                    Login
+                    Đăng nhập
                 </Button>
             </div>
         )

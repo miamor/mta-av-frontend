@@ -72,6 +72,7 @@ export const translate = {
     'History': 'Lịch sử',
     'Behavior': 'Hành vi',
     'Behavior report': 'Behavior report',
+    'Download file': 'Download file',
     'Processes': 'Processes',
     'Signatures': 'Signatures',
     'Networks': 'Networks',

@@ -63,7 +63,7 @@ function StyleDropzone(props) {
                 console.log("Mac address for this host: %s", mac); 
             });
 
-            fetch('http://10.10.10.19:5002/api/v1/capture/check', {
+            fetch('http://192.168.126.25:5002/api/v1/capture/check', {
                 // content-type header should not be specified!
                 method: 'POST',
                 body: data,
