@@ -12,7 +12,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-
+import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -335,6 +335,15 @@ class SettingsPage extends Component {
                         </div>
                     </div>
 
+                </div>
+
+                <div class="buttons-submit">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">
+                    <Button variant="contained" color="primary">
+                        Save
+                    </Button>
+                </div>
                 </div>
             </MuiThemeProvider>
         )
