@@ -8,6 +8,7 @@
     "@material-ui/styles": "^4.10.0",
     "apexcharts": "^3.20.0",
     "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.3.1",
     "getmac": "^5.2.0",
     "macaddress": "^0.4.4",

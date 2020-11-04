@@ -113,9 +113,10 @@ class CapturePage extends Component {
 
         countCapture(modes, this.state.filter).then(totalCapture => {
             let page_size = 30
-            console.log('~~~ totalCapture', totalCapture)
+            let num_pages = Math.ceil(totalCapture/30)
+            console.log('~~~ totalCapture', totalCapture, 'num_pages', num_pages)
             this.setState({
-                num_pages: Math.ceil(totalCapture/30),
+                num_pages: num_pages,
             })
         })
     }
@@ -165,7 +166,7 @@ class CapturePage extends Component {
     
     handleChange = (event) => {
         let filter = this.state.filter
-        // console.log('***', 'event.target.name', event.target.name, filter)
+        console.log('~~ ***', 'event.target.name', event.target.name, filter)
         filter[event.target.name] = event.target.value
         this.setState({ filter: filter })
     }

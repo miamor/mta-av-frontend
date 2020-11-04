@@ -10,6 +10,8 @@ import CaptureDetailPage from '../capture/CaptureDetailPage'
 import UserPage from '../user/UserPage'
 import HistoryPage from '../history/HistoryPage'
 import HistoryDetailPage from '../history/HistoryDetailPage'
+import UrlPage from '../url/UrlPage'
+import UrlDetailPage from '../url/UrlDetailPage'
 
 class MainPage extends Component{
     render(){
@@ -24,12 +26,14 @@ class MainPage extends Component{
 
                     <Route exact path='/a/capture' component={CapturePage} />
                     <Route exact path="/a/capture/:capture_id" component={CaptureDetailPage} />
-                    <Route exact path='/a/capture/search/:hash' component={CapturePage} />
-                    <Route exact path='/a/capture/search' component={CapturePage} />
+                    // <Route exact path='/a/capture/search/:hash' component={CapturePage} />
+                    // <Route exact path='/a/capture/search' component={CapturePage} />
 
                     <Route exact path='/a/history' component={HistoryPage} />
-                    <Route exact path="/a/history/:hash" component={HistoryDetailPage} />
-                    <Route exact path='/a/history/search/:hash' component={HistoryPage} />
+                    <Route exact path="/a/history/:capture_id" component={HistoryDetailPage} />
+                    // <Route exact path='/a/history/search/:hash' component={HistoryPage} />
+                    <Route exact path='/a/url' component={UrlPage} />
+                    <Route exact path="/a/url/:url_capture_id" component={UrlDetailPage} />
 
                     <Redirect to='/a/dashboard'/>
                 </Switch>

@@ -81,12 +81,18 @@ class Header extends Component {
                                     {translate['Live Capture']}
                                 </div>
                             </NavLink>
-                            {/* <NavLink as={Link} to='/a/history'>
+                            <NavLink as={Link} to='/a/history'>
                                 <div className='Item'>
                                     <i className="fas fa-home"></i>
                                     {translate['Scan History']}
                                 </div>
-                            </NavLink> */}
+                            </NavLink>
+                            <NavLink to='/a/url'>
+                                <div className='Item'>
+                                    <i className="fas fa-home"></i>
+                                    {translate['Malicious URLs']}
+                                </div>
+                            </NavLink>
                             <NavLink to='/a/scan'>
                                 <div className='Item'>
                                     <i className="fab fa-stumbleupon-circle"></i>

@@ -1,5 +1,18 @@
 import {getLocalData, setLocalData} from "./StorageServices"
 
+import createAPIServices from './helpers/createAPIServices'
+const api = createAPIServices()
+
+export const tryLogin = (data) => {
+    return api.makeAuthRequest({
+        url: '/api/v1/auth/login',
+        method: 'POST',
+        data: data
+    })
+}
+
+
+
 const _store = {
     state: {
         accessToken: getLocalData('accessToken', ''),

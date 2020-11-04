@@ -41,7 +41,7 @@ export const getQuery = (mode, filter) => {
 export const getListCapture = (mode, filter, page) => {
     // console.log('*** filter', filter)
     let filter_str = getQuery(mode, filter)
-    console.log('*** filter_str', filter_str)
+    console.log('~~ *** filter_str', filter_str, '/api/v1/capture?mode='+mode+'&'+filter_str+'&p='+page)
     return api.makeAuthRequest({
         url: '/api/v1/capture?mode='+mode+'&'+filter_str+'&p='+page,
         method: 'GET'
