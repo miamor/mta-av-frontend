@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Table } from 'reactstrap'
 import { translate } from '../../services/translate'
 import { bytesToSize } from '../../services/bytesToSize'
-import { getListCapture } from '../../services/apis/CaptureAPI'
+import { getListCapture, countCapture } from '../../services/apis/CaptureAPI'
+import Pagination from '@material-ui/lab/Pagination';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -30,20 +31,18 @@ class CapturePage extends Component {
     state = {
         selected: 0,
         list_capture: [],
-        isLoading: false,
+        isLoading: true,
+        isLoadingTbl: true,
         filter: {},
         types: {
             malware: true,
             critical: true,
             benign: true
-        }
+        },
+        current_page: 1
     }
 
     componentDidMount() {
-        this.setState({
-            isLoading: true
-        })
-
         this.getList()
         // setInterval(() => {
         //     console.log('~~ F5')
@@ -62,6 +61,16 @@ class CapturePage extends Component {
     componentWillUnmount() {
         this.unlisten()
     }
+
+    handleChange_pagination = (event, value) => {
+        console.log('~~[handleChange_pagination]', value)
+        this.getList(value-1)
+        this.setState({
+            isLoadingTbl: true,
+            current_page: value
+        })
+    };
+
 
     handleChange_types = (event) => {
         // setState({ ...state, [event.target.name]: event.target.checked });
@@ -91,7 +100,7 @@ class CapturePage extends Component {
         return obj;
     }
 
-    getList = () => {
+    getList = (page=0) => {
         let modes = []
         for (let k in this.state.types) {
             if (this.state.types[k] === true) {
@@ -99,8 +108,16 @@ class CapturePage extends Component {
             }
         }
         console.log('~~ *** modes', modes, 'filter', this.state.filter)
-        let captureList = getListCapture(modes, this.state.filter)
+        let captureList = getListCapture(modes, this.state.filter, page)
         this.postProcess(captureList)
+
+        countCapture(modes, this.state.filter).then(totalCapture => {
+            let page_size = 30
+            console.log('~~~ totalCapture', totalCapture)
+            this.setState({
+                num_pages: Math.ceil(totalCapture/30),
+            })
+        })
     }
 
     postProcess = (captureList) => {
@@ -123,9 +140,11 @@ class CapturePage extends Component {
                 //     item.status = 'DANGER'
                 // }
             })
+            console.log('~~ [postProcess] change list_capture', data)
             this.setState({
                 list_capture: data,
-                isLoading: false
+                isLoading: false,
+                isLoadingTbl: false
             })
         })
     }
@@ -172,11 +191,11 @@ class CapturePage extends Component {
 
     render() {
 
-        const { selected, list_capture, isLoading } = this.state
+        const { selected, list_capture, isLoading, num_pages, current_page, isLoadingTbl } = this.state
 
-        if (isLoading) {
-            return <p>Loading ...</p>
-        }
+        // if (isLoading) {
+        //     return <p>Loading ...</p>
+        // }
 
         console.log('list_capture', list_capture)
         let total_capture_this_page = list_capture.length
@@ -243,8 +262,14 @@ class CapturePage extends Component {
                     </div>
                 </div>
 
-                {(list_capture.length === 0) ? 'Empty' : (
-                    <div className='Table'>
+            { (isLoading) ? 'Loading ...' : (
+                <div className='Table'>
+                    <MuiThemeProvider theme={theme}>
+                        <Pagination count={num_pages} page={current_page} onChange={this.handleChange_pagination} color="primary" />
+                    </MuiThemeProvider>
+
+                    {(isLoadingTbl) ? 'Loading ...' : 
+                    (list_capture.length === 0) ? 'Empty' : (
                         <Table striped>
                             <thead>
                                 <tr>
@@ -315,8 +340,9 @@ class CapturePage extends Component {
                                 }
                             </tbody>
                         </Table>
-                    </div>
-                )}
+                    )}
+                </div>
+            )}
             </div>
         )
     }

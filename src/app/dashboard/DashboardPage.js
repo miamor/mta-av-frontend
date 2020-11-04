@@ -4,12 +4,9 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, AreaChart, Area, XAx
 
 import { pie1, pie2, pie3, pie4, area, table_client, table_domain } from './assets/sample'
 import { translate } from '../../services/translate'
-import { getStatTotal } from '../../services/apis/StatAPI'
-
+import { getStatTotal, getStatUrl } from '../../services/apis/StatAPI'
 
 import Chart from "react-apexcharts";
-
-const color_list = ['#0C090A', '#25383C', '#463E3F', '#151B54', '#357EC7', '#254117', '#347235', '#CD7F32', '#827839', '#6F4E37', '#9F000F', '#7E354D', '#583759', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
 
 class DashboardPage extends Component {
 
@@ -17,7 +14,9 @@ class DashboardPage extends Component {
         isOpen: false,
         statData: {},
         isLoading: false,
-        stat_data: {}
+        stat_data: {},
+        stat_by_date_url: {},
+        // top_url: {}
     }
 
     _toggle = () => {
@@ -30,6 +29,85 @@ class DashboardPage extends Component {
         this.setState({ isLoading: true });
 
         let stat_data = getStatTotal()
+        let stat_data_url = getStatUrl()
+
+
+        stat_data_url.then(data => {
+            this.setState({
+                top_url: data['top_url'],
+
+                stat_by_date_url: {
+                    'series': data['stat_by_date']['series'],
+                    // Options for line + column
+                    'options': {
+                      colors: ['#feb21b', '#da1c1c'],
+                      // chart: {
+                      //   height: 350,
+                      //   type: 'line',
+                      //   dropShadow: {
+                      //     enabled: true,
+                      //     color: '#000',
+                      //     top: 18,
+                      //     left: 7,
+                      //     blur: 10,
+                      //     opacity: 0.2
+                      //   },
+                      //   toolbar: {
+                      //     show: false
+                      //   }
+                      // },
+                      // dataLabels: {
+                      //   enabled: true,
+                      // },
+                      // stroke: {
+                      //   curve: 'smooth'
+                      // },
+                      // grid: {
+                      //   borderColor: '#e7e7e7',
+                      //   row: {
+                      //     colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                      //     opacity: 0.5
+                      //   },
+                      // },
+                      // markers: {
+                      //   size: 1
+                      // },
+                      // xaxis: {
+                      //   categories: data['stat_by_date']['cat'],
+                      // },
+
+                      chart: {
+                        height: 350,
+                        type: 'line',
+                      },
+                      stroke: {
+                        width: [0, 4]
+                      },
+                      dataLabels: {
+                        enabled: true,
+                        enabledOnSeries: [1]
+                      },
+                      labels: data['stat_by_date']['cat'],
+                      xaxis: {
+                        // type: 'datetime'
+                      },
+                      yaxis: [{
+                        title: {
+                          text: 'Total URLs',
+                        },
+                      
+                      }, {
+                        opposite: true,
+                        title: {
+                          text: 'Total requests'
+                        }
+                      }]
+                    },
+                }
+
+            })
+        })
+
 
         stat_data.then(data => {
             console.log(data)
@@ -37,7 +115,6 @@ class DashboardPage extends Component {
 
             this.setState({
                 // statData: data,
-                isLoading: false,
                 stat_data: stat_data,
                 chartsFilesnum: {
                     series: [stat_data['num']['benigns_num'], stat_data['num']['malwares_num'], stat_data['num']['warnings_num']],
@@ -81,36 +158,6 @@ class DashboardPage extends Component {
                 },
                 stat_by_date: {
                     'series': stat_data['stat_by_date']['series'],
-                    // Options for line + column
-                    // 'options': {
-                    //     'chart': {
-                    //         'height': 350,
-                    //         'type': 'line',
-                    //     },
-                    //     'stroke': {
-                    //         'width': [0, 4]
-                    //     },
-                    //     'dataLabels': {
-                    //         'enabled': true,
-                    //         'enabledOnSeries': [1]
-                    //     },
-                    //     'labels': stat_by_date_cat,
-                    //     'xaxis': {
-                    //         'type': 'datetime'
-                    //     },
-                    //     'yaxis': [{
-                    //         'title': {
-                    //             'text': 'Total files captured',
-                    //         },
-
-                    //     }, {
-                    //         'opposite': true,
-                    //         'title': {
-                    //             'text': 'Malwares captured'
-                    //         }
-                    //     }]
-                    // },
-
                     // Options for stacked bar
                     'options': {
                         'colors': ['#05924c', '#da1c1c', '#feb21b'],
@@ -152,9 +199,12 @@ class DashboardPage extends Component {
                             'opacity': 1
                         }
                     },
-                }
+                },
+
+                isLoading: false,
             })
         })
+
     }
 
     isEmpty = (obj) => {
@@ -167,9 +217,9 @@ class DashboardPage extends Component {
 
     render() {
 
-        const { isOpen, isLoading, stat_data, chartsFilesnum } = this.state
+        const { isOpen, isLoading, stat_data, chartsFilesnum, stat_by_date_url, top_url } = this.state
 
-        console.log(chartsFilesnum)
+        console.log(chartsFilesnum, '~~ top_url', top_url)
 
         if (isLoading || this.isEmpty(stat_data)) {
             return <div className='DashboardPage'>Loading ...</div>
@@ -280,6 +330,18 @@ class DashboardPage extends Component {
                     </div>
 
                     <div className='row'>
+                        <div className='col'>
+                            <div className='Item card'>
+                                <div className='card-header ItemTitle'>
+                                    <h3>{translate['Total malicious URLs requested']}</h3>
+                                </div>
+                                <Chart options={this.state.stat_by_date_url.options} series={this.state.stat_by_date_url.series} type="line" height="400" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div className='row'>
                         <div class='col'>
                             <div className='Item card'>
                                 <div className='card-header ItemTitle'>
@@ -383,7 +445,7 @@ class DashboardPage extends Component {
                                     <h3>{translate['Top malicious URLs detected']}</h3>
                                 </div>
                                 <div className='card-body'>
-                                    <Table>
+                                    <Table class='stat-url'>
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -391,43 +453,28 @@ class DashboardPage extends Component {
                                                 <th class='center'>{translate['Total requests detected']}</th>
                                             </tr>
                                         </thead>
+                                        { top_url != undefined ? (
                                         <tbody>
-                                            
-                                                <tr key={`domain-${1}`}>
-                                                    <td scope='row'>{1}</td>
-                                                    <td>{'papgpdfa.co.uk'}</td>
-                                                    <td class='center'>{'40'}</td>
-                                                </tr>
-                                                <tr key={`domain-${2}`}>
-                                                    <td scope='row'>{2}</td>
-                                                    <td>{'sewtsfrt.co.uk'}</td>
-                                                    <td class='center'>{'39'}</td>
-                                                </tr>
-                                                <tr key={`domain-${3}`}>
-                                                    <td scope='row'>{3}</td>
-                                                    <td>{'imboajaksftmyk.com'}</td>
-                                                    <td class='center'>{'37'}</td>
-                                                </tr>
-                                                <tr key={`domain-${4}`}>
-                                                    <td scope='row'>{4}</td>
-                                                    <td>{'ycafyovxdnlsa.com'}</td>
-                                                    <td class='center'>{'30'}</td>
-                                                </tr>
-                                                <tr key={`domain-${5}`}>
-                                                    <td scope='row'>{5}</td>
-                                                    <td>{'wvmbirct.gaz.us'}</td>
-                                                    <td class='center'>{'10'}</td>
-                                                </tr>
-                                                {/*stat_data['top_ip_rev_mal'].map((item, index) => (
+                                            {
+                                                top_url.map((item, index) => (
                                                     <tr key={`domain-${index}`}>
                                                         <td scope='row'>{index + 1}</td>
-                                                        <td>{item.ip}</td>
+                                                        <td class='td-url'>{item.url}</td>
                                                         <td class='center'>{item.total}</td>
                                                     </tr>
                                                 ))
-                                                */}
-                                            
+                                            }
                                         </tbody>
+                                        ) : (
+                                            <tbody>
+                                                <tr>
+                                                        <td scope='row'></td>
+                                                        <td class='td-url'></td>
+                                                        <td class='center'></td>
+                                                </tr>
+                                            </tbody>
+                                        )}
+                                            
                                     </Table>
                                 </div>
                             </div>

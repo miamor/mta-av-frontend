@@ -16,6 +16,8 @@ export const translate = {
     'IPs containing malicious files detected': 'Số IP phát hiện có chứa mã độc',
     'Top malicious URLs detected': 'Top malicious URLs detected',
     'Total requests detected': 'Total requests detected',
+    'Total malicious URLs requested': 'Tổng số lượt request đến URL độc hại',
+    'Total requests to malicious URLs': 'Tổng số lượt URL độc hại được truy vấn',
 
     'Traffic sent': 'Lượng traffic',
     'Files captured': 'Tổng số files bắt được trên đường truyền',

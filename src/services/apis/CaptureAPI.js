@@ -6,7 +6,7 @@ export const postCapture = (data) => {
     return api.makeRequest({
         url: '/api/v1/capture',
         method: 'POST',
-        data
+        // data
     })
 }
 
@@ -17,8 +17,15 @@ export const getBehaviorReport = (report_id) => {
     })
 }
 
-export const getListCapture = (mode, filter) => {
-    // console.log('*** filter', filter)
+export const countCapture = (mode, filter) => {
+    let filter_str = getQuery(mode, filter)
+    return api.makeAuthRequest({
+        url: '/api/v1/capture/count?mode='+mode+'&'+filter_str,
+        method: 'GET'
+    })
+}
+
+export const getQuery = (mode, filter) => {
     let filter_str = ''
     if (filter != undefined && filter != null && Object.keys(filter).length !== 0) {
         Object.keys(filter).map((key, index) => {
@@ -28,9 +35,15 @@ export const getListCapture = (mode, filter) => {
             }
         })
     }
+    return filter_str
+}
+
+export const getListCapture = (mode, filter, page) => {
+    // console.log('*** filter', filter)
+    let filter_str = getQuery(mode, filter)
     console.log('*** filter_str', filter_str)
     return api.makeAuthRequest({
-        url: '/api/v1/capture?mode='+mode+'&'+filter_str,
+        url: '/api/v1/capture?mode='+mode+'&'+filter_str+'&p='+page,
         method: 'GET'
     })
 }

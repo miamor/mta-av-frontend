@@ -1,7 +1,7 @@
 import React, {useMemo, useCallback, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
-import getMAC, { isMAC } from 'getmac'
-import { networkInterfaces } from 'os';
+// import getMAC, { isMAC } from 'getmac'
+// import { networkInterfaces } from 'os';
 import { translate } from '../../services/translate';
 
 const baseStyle = {
@@ -40,7 +40,7 @@ function StyleDropzone(props) {
     // 0: none | 1: progressing | 2: success | -1: error
     const [respCont, setResp] = useState(1);
 
-    var macaddress = require('macaddress');
+    // var macaddress = require('macaddress');
     const os = require('os');
     const onDrop = useCallback((acceptedFiles) => {
         setResp('Uploading...')
@@ -58,12 +58,12 @@ function StyleDropzone(props) {
 
             console.log('arch', os)
 
-            macaddress.one(function (err, mac) {
-                console.log('err', err)
-                console.log("Mac address for this host: %s", mac); 
-            });
+            // macaddress.one(function (err, mac) {
+            //     console.log('err', err)
+            //     console.log("Mac address for this host: %s", mac); 
+            // });
 
-            fetch('http://192.168.126.25:5002/api/v1/capture/check', {
+            fetch('http://192.168.126.25:5002/api/v1/capture/check_upload', {
                 // content-type header should not be specified!
                 method: 'POST',
                 body: data,
@@ -119,8 +119,8 @@ function StyleDropzone(props) {
     ))
     
     
-    const interfaces = networkInterfaces()
-    console.log('interfaces', interfaces)
+    // const interfaces = networkInterfaces()
+    // console.log('interfaces', interfaces)
 
     console.log('uploadStt', uploadStt)
     console.log('respCont', respCont)
