@@ -39,7 +39,11 @@ class CapturePage extends Component {
             critical: true,
             benign: true
         },
-        current_page: 1
+        totalCapture: 0,
+        num_pages: 0,
+        current_page: 1,
+        start_num: 0,
+        end_num: 0
     }
 
     componentDidMount() {
@@ -113,10 +117,16 @@ class CapturePage extends Component {
 
         countCapture(modes, this.state.filter).then(totalCapture => {
             let page_size = 30
-            let num_pages = Math.ceil(totalCapture/30)
-            console.log('~~~ totalCapture', totalCapture, 'num_pages', num_pages)
+            console.log('~~~ totalCapture', totalCapture)
+            let end_num_ = (page+1)*page_size+1
+            if (end_num_ > totalCapture) {
+                end_num_ = totalCapture
+            }
             this.setState({
-                num_pages: num_pages,
+                totalCapture: totalCapture,
+                num_pages: Math.ceil(totalCapture/30),
+                start_num: page * page_size+1,
+                end_num: end_num_
             })
         })
     }
@@ -192,7 +202,7 @@ class CapturePage extends Component {
 
     render() {
 
-        const { selected, list_capture, isLoading, num_pages, current_page, isLoadingTbl } = this.state
+        const { selected, list_capture, isLoading, num_pages, current_page, isLoadingTbl, totalCapture, start_num, end_num } = this.state
 
         // if (isLoading) {
         //     return <p>Loading ...</p>
@@ -203,7 +213,7 @@ class CapturePage extends Component {
 
         return (
             <div className='CapturePage'>
-                <h1 className='PageTitle'>{translate['Scan History']}</h1>
+                <h1 className='PageTitle'>{translate['Captured Files']}</h1>
 
                 <div class="callout callout-info">
                     <div class="close" onClick={() => this.resetFilter()}>
@@ -265,9 +275,18 @@ class CapturePage extends Component {
 
             { (isLoading) ? 'Loading ...' : (
                 <div className='Table'>
+                    {(num_pages <= 0) ? '' : (
+                    <div class="row">
+                    <div class="col-5 pag_txt">
+                        {translate['Show results']} {translate['from']} {start_num} {translate['to']} {end_num} {translate['of']} {totalCapture}
+                    </div>
+                    <div class="col-7">
                     <MuiThemeProvider theme={theme}>
                         <Pagination count={num_pages} page={current_page} onChange={this.handleChange_pagination} color="primary" />
                     </MuiThemeProvider>
+                    </div>
+                    </div>
+                    )}
 
                     {(isLoadingTbl) ? 'Loading ...' : 
                     (list_capture.length === 0) ? 'Empty' : (

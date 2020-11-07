@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
-import {Table,} from 'reactstrap'
-import {Redirect} from 'react-router-dom'
-
-// import {list_user} from './asset'
-import {getListUser, countUser} from '../../services/apis/UserAPI'
-import {getUserData} from '../../services/AuthServices'
+import React, { Component } from 'react'
+import { Table } from 'reactstrap'
 import { translate } from '../../services/translate'
-
+import { bytesToSize } from '../../services/bytesToSize'
+import { getListNoti, countNoti } from '../../services/apis/NotiAPI'
 import Pagination from '@material-ui/lab/Pagination';
+
+// import {table_event} from './sample'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
@@ -25,15 +23,15 @@ const theme = createMuiTheme({
 });
 
 
-class UserPage extends Component{
+class NotiPage extends Component {
 
     state = {
         selected: 0,
-        list_user: [],
+        list_noti: [],
         isLoading: true,
         isLoadingTbl: true,
         filter: {},
-        totalUser: 0,
+        totalNoti: 0,
         num_pages: 0,
         current_page: 1,
         start_num: 0,
@@ -72,40 +70,40 @@ class UserPage extends Component{
 
     getList = (page=0) => {
         console.log('~~ *** filter', this.state.filter)
-        let userList = getListUser(this.state.filter, page)
-        this.postProcess(userList)
+        let notiList = getListNoti(this.state.filter, page)
+        this.postProcess(notiList)
 
-        countUser(this.state.filter).then(totalUser => {
+        countNoti(this.state.filter).then(totalNoti => {
             let page_size = 30
-            console.log('~~~ totalUser', totalUser)
+            console.log('~~~ totalNoti', totalNoti)
             let end_num_ = (page+1)*page_size+1
-            if (end_num_ > totalUser) {
-                end_num_ = totalUser
+            if (end_num_ > totalNoti) {
+                end_num_ = totalNoti
             }
             this.setState({
-                totalUser: totalUser,
-                num_pages: Math.ceil(totalUser/30),
+                totalNoti: totalNoti,
+                num_pages: Math.ceil(totalNoti/30),
                 start_num: page * page_size+1,
                 end_num: end_num_
             })
         })
     }
 
-    postProcess = (userList) => {
-        userList.then(data => {
-            console.log('~~ [postProcess] change list_user', data)
+    postProcess = (notiList) => {
+        notiList.then(data => {
+            console.log('~~ [postProcess] change list_noti', data)
             this.setState({
-                list_user: data,
+                list_noti: data,
                 isLoading: false,
                 isLoadingTbl: false
             })
         })
     }
 
-    _handleSelect = (user_id) => {
+    _handleSelect = (noti_id) => {
         // this.setState({selected: index})
-        // return <Redirect to='/a/user/{user_id}' />
-        this.props.history.push(`/a/user/${user_id}`)
+        // return <Redirect to='/a/noti/{noti_id}' />
+        this.props.history.push(`/a/noti/${noti_id}`)
     }
 
 
@@ -136,34 +134,27 @@ class UserPage extends Component{
         })
     }
 
-    _getColor = (role) => {
-        if (role === 'Admin') return 'red'
-        if (role === 'User') return 'green'
-    }
-
     render() {
 
-        // if (!getUserData().isAdmin) return <Redirect to='/a'/>
-
-        const { selected, list_user, isLoading, num_pages, current_page, isLoadingTbl, totalUser, start_num, end_num } = this.state
+        const { selected, list_noti, isLoading, num_pages, current_page, isLoadingTbl, totalNoti, start_num, end_num } = this.state
 
         // if (isLoading) {
         //     return <p>Loading ...</p>
         // }
 
-        console.log('~~ list_user', list_user)
-        let total_user_this_page = list_user.length
+        console.log('list_noti', list_noti)
+        let total_noti_this_page = list_noti.length
 
         return (
             <div className='NotiPage'>
-                <h1 className='PageTitle'>{translate['Users']}</h1>
+                <h1 className='PageTitle'>{translate['Notifications']}</h1>
 
             { (isLoading) ? 'Loading ...' : (
                 <div className='Table'>
                     {(num_pages <= 0) ? '' : (
                     <div class="row">
                     <div class="col-5 pag_txt">
-                        {translate['Show results']} {translate['from']} {start_num} {translate['to']} {end_num} {translate['of']} {totalUser}
+                        {translate['Show results']} {translate['from']} {start_num} {translate['to']} {end_num} {translate['of']} {totalNoti}
                     </div>
                     <div class="col-7">
                     <MuiThemeProvider theme={theme}>
@@ -174,36 +165,33 @@ class UserPage extends Component{
                     )}
 
                     {(isLoadingTbl) ? 'Loading ...' : 
-                    (list_user.length === 0) ? 'Empty' : (
-                    <Table striped>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Role</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            list_user.map((item, index) => (
-                                <tr key={`domain-${index}`}>
-                                    <th scope='row'>{index+1}</th>
-                                    <td>{item.name}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.phone}</td>
-                                    <th style={{color: this._getColor(item.role)}}>{item.role}</th>
-                                    <th>
-                                        <i className="fas fa-user-edit" title='Edit User'></i>
-                                        <i className="fas fa-user-slash" title='Remove User'></i>
-                                    </th>
+                    (list_noti.length === 0) ? 'Empty' : (
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th width='4%'>#</th>
+                                    <th>{translate['Message']}</th>
+                                    <th width='15%' class='center'>{translate['Date created']}</th>
                                 </tr>
-                            ))
-                        }
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody>
+                                {
+                                    list_noti.map((item, index) => (
+                                        <tr key={`domain-${index}`}>
+                                            <td class='stt' scope='row'>
+                                                <a href={`/a/noti/${item.noti_id}`}>
+                                                    {item.noti_id}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {item.message}
+                                            </td>
+                                            <td class='center'>{item.date_created}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
                     )}
                 </div>
             )}
@@ -212,4 +200,4 @@ class UserPage extends Component{
     }
 }
 
-export default UserPage
+export default NotiPage

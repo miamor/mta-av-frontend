@@ -2,11 +2,10 @@ import createAPIServices from '../helpers/createAPIServices'
 
 const api = createAPIServices()
 
-export const countUrl = (filter) => {
+export const countNoti = (filter) => {
     let filter_str = getQuery(filter)
-    console.log('~~ *** filter_str', filter_str, '/api/v1/url/count?'+filter_str)
     return api.makeAuthRequest({
-        url: '/api/v1/url/count?'+filter_str,
+        url: '/api/v1/noti/count?'+filter_str,
         method: 'GET'
     })
 }
@@ -24,19 +23,19 @@ export const getQuery = (filter) => {
     return filter_str
 }
 
-export const getListUrl = (filter, page) => {
+export const getListNoti = (filter, page) => {
     // console.log('*** filter', filter)
     let filter_str = getQuery(filter)
-    console.log('~~ *** filter_str', filter_str, '/api/v1/url?'+filter_str+'&p='+page)
+    console.log('~~ *** filter_str', filter_str, '/api/v1/noti?'+filter_str+'&p='+page)
     return api.makeAuthRequest({
-        url: '/api/v1/url?'+filter_str+'&p='+page,
+        url: '/api/v1/noti?'+filter_str+'&p='+page,
         method: 'GET'
     })
 }
 
-export const getUrl = (url_id) => {
+export const getNoti = (noti_id) => {
     return api.makeAuthRequest({
-        url: `/api/v1/url/${url_id}`,
+        url: `/api/v1/noti/${noti_id}`,
         method: 'GET'
     })
 }

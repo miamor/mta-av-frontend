@@ -47,27 +47,27 @@ class SettingsPage extends Component {
                 as: 'danger',
             },
             asm_cnn: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             },
             asm_lstm: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             },
             bytes_cnn: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             },
             bytes_lstm: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             },
             img: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             },
             ngram: {
-                activate: true,
+                activate: false,
                 as: 'critical',
             }
         },
@@ -115,7 +115,7 @@ class SettingsPage extends Component {
                 <div className='SettingsPage'>
                     <h1 className='PageTitle'>{translate['Settings']}</h1>
 
-                    <div class="cardo">
+                    {/*<div class="cardo">
                         <div class="cardo-header">
                             <h3 id="title">{translate['Basic settings']}</h3>
                         </div>
@@ -130,7 +130,7 @@ class SettingsPage extends Component {
                                 <div class="clearfix"></div>
                             </div>
                         </div>
-                    </div>
+                    </div>*/}
 
 
                     <div class="cardo">

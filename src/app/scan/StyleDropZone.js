@@ -3,6 +3,7 @@ import {useDropzone} from 'react-dropzone';
 // import getMAC, { isMAC } from 'getmac'
 // import { networkInterfaces } from 'os';
 import { translate } from '../../services/translate';
+import getHistory from '../../services/helpers/getHistory'
 
 const baseStyle = {
     flex: 1,
@@ -41,7 +42,7 @@ function StyleDropzone(props) {
     const [respCont, setResp] = useState(1);
 
     // var macaddress = require('macaddress');
-    const os = require('os');
+    // const os = require('os');
     const onDrop = useCallback((acceptedFiles) => {
         setResp('Uploading...')
         // uploadStt = 1
@@ -56,7 +57,7 @@ function StyleDropzone(props) {
             // var addr = getMAC()
             // console.log('addr', addr)
 
-            console.log('arch', os)
+            // console.log('arch', os)
 
             // macaddress.one(function (err, mac) {
             //     console.log('err', err)
@@ -67,12 +68,20 @@ function StyleDropzone(props) {
                 // content-type header should not be specified!
                 method: 'POST',
                 body: data,
-            }).then(response => response.json())
+            }).then(response => {
+                console.log('~~ response', response.json())
+                setResp(translate['Added to Queue. You will be notified once the file is analyzed.'])
+                setTimeout(function() { //Start the timer
+                    getHistory().push({pathname: '/a'}) //After 3 seconds, g back to where he left
+                }.bind(this), 3000)
+            })
             .then(success => {
                 // Do something with the successful response
-                console.log('success')
-                console.log(success)
+                console.log('~~ success', success)
                 setResp(success['message'])
+                setTimeout(function() { //Start the timer
+                    getHistory().push({pathname: '/a'}) //After 3 seconds, g back to where he left
+                }.bind(this), 3000)
             }).catch(error => {
                 // this.setState({ errorMessage: error.toString() });
                 console.error('There was an error!', error);
@@ -114,7 +123,8 @@ function StyleDropzone(props) {
 
     const acceptedFilesItems = acceptedFiles.map(file => (
         <div key={file.path} style={{padding: '10px'}}>
-            {translate['Checking']} {file.path}...
+            <div class='center'>{translate['Checking']} {file.path}...</div>
+            <div class='center'>{translate['Added to Queue. You will be notified once the file is analyzed.']}</div>
         </div>
     ))
     

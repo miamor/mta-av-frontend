@@ -308,9 +308,9 @@ class CaptureDetailPage extends Component {
                                     <a class="label">{translate['File name']}</a>
                                     <div class="value">
                                         <span>{item_capture.file_name}</span>
-                                        { (!('target' in behavior)) ? '' : (
-						<a class="italic" href={behavior.target.file.path}>{translate['Download file']} {behavior.target.file.path}</a>
-					)}
+                                        {/*(!('target' in behavior)) ? '' : (
+                    						<a class="italic" href={behavior.target.file.path}>{translate['Download file']} {behavior.target.file.path}</a>
+                    					)*/}
                                     </div>
                                 </div>
                                 {/* <div class="rows">

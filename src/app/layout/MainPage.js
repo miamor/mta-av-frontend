@@ -12,6 +12,8 @@ import HistoryPage from '../history/HistoryPage'
 import HistoryDetailPage from '../history/HistoryDetailPage'
 import UrlPage from '../url/UrlPage'
 import UrlDetailPage from '../url/UrlDetailPage'
+import NotiPage from '../noti/NotiPage'
+import NotiDetailPage from '../noti/NotiDetailPage'
 
 class MainPage extends Component{
     render(){
@@ -34,6 +36,9 @@ class MainPage extends Component{
                     // <Route exact path='/a/history/search/:hash' component={HistoryPage} />
                     <Route exact path='/a/url' component={UrlPage} />
                     <Route exact path="/a/url/:url_capture_id" component={UrlDetailPage} />
+
+                    <Route exact path='/a/noti' component={NotiPage} />
+                    <Route exact path="/a/noti/:noti_id" component={NotiDetailPage} />
 
                     <Redirect to='/a/dashboard'/>
                 </Switch>

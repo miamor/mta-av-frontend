@@ -34,7 +34,11 @@ class UrlPage extends Component {
         isLoading: true,
         isLoadingTbl: true,
         filter: {},
-        current_page: 1
+        totalUrl: 0,
+        num_pages: 0,
+        current_page: 1,
+        start_num: 0,
+        end_num: 0
     }
 
     componentDidMount() {
@@ -104,8 +108,15 @@ class UrlPage extends Component {
             let page_size = 30
             let num_pages = Math.ceil(totalUrl/30)
             console.log('~~~ totalUrl', totalUrl, 'num_pages', num_pages)
+            let end_num_ = (page+1)*page_size+1
+            if (end_num_ > totalUrl) {
+                end_num_ = totalUrl
+            }
             this.setState({
-                num_pages: num_pages,
+                totalUrl: totalUrl,
+                num_pages: Math.ceil(totalUrl/30),
+                start_num: page * page_size+1,
+                end_num: end_num_
             })
         })
     }
@@ -157,7 +168,7 @@ class UrlPage extends Component {
 
     render() {
 
-        const { selected, list_url, isLoading, num_pages, current_page, isLoadingTbl } = this.state
+        const { selected, list_url, isLoading, num_pages, current_page, isLoadingTbl, totalUrl, start_num, end_num } = this.state
 
         // if (isLoading) {
         //     return <p>Loading ...</p>
@@ -168,7 +179,7 @@ class UrlPage extends Component {
 
         return (
             <div className='UrlPage'>
-                <h1 className='PageTitle'>{translate['Scan History']}</h1>
+                <h1 className='PageTitle'>{translate['Malicious URLs']}</h1>
 
                 <div class="callout callout-info">
                     <div class="close" onClick={() => this.resetFilter()}>
@@ -177,20 +188,6 @@ class UrlPage extends Component {
                     <div class="callout-content">
                         <h5 class="callout-header">{translate['Filter']}</h5>
                         <form class="filter-form" onSubmit={this.handleSubmit}>
-                            <div class="row">
-                                <div class="label col-3">{translate['Source IP']}</div>
-                                <div class="value col-9">
-                                    <input type="text" name="source_ip" value={this.state.filter['source_ip']} onChange={this.handleChange} />
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="row">
-                                <div class="label col-3">{translate['Protocol']}</div>
-                                <div class="value col-9">
-                                    <input type="text" name="protocol" value={this.state.filter['protocol']} onChange={this.handleChange} />
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
                             <div class="row">
                                 <div class="label col-3">URL</div>
                                 <div class="value col-9">
@@ -208,9 +205,18 @@ class UrlPage extends Component {
 
             { (isLoading) ? 'Loading ...' : (
                 <div className='Table'>
+                    {(num_pages <= 0) ? '' : (
+                    <div class="row">
+                    <div class="col-5 pag_txt">
+                        {translate['Show results']} {translate['from']} {start_num} {translate['to']} {end_num} {translate['of']} {totalUrl}
+                    </div>
+                    <div class="col-7">
                     <MuiThemeProvider theme={theme}>
                         <Pagination count={num_pages} page={current_page} onChange={this.handleChange_pagination} color="primary" />
                     </MuiThemeProvider>
+                    </div>
+                    </div>
+                    )}
 
                     {(isLoadingTbl) ? 'Loading ...' : 
                     (list_url.length === 0) ? 'Empty' : (
@@ -218,10 +224,9 @@ class UrlPage extends Component {
                             <thead>
                                 <tr>
                                     <th width='4%'>#</th>
-                                    <th width='15%'>{translate['URL']}</th>
-                                    <th width='14%'>{translate['Source IP']}</th>
-                                    <th width='4%' class='center'>{translate['Protocol']}</th>
-                                    <th width='15%' class='center'>{translate['Time requested']}</th>
+                                    <th>{translate['URL']}</th>
+                                    <th width='4%' class='center'>{translate['Total connections']}</th>
+                                    <th width='15%' class='center'>{translate['Last requested']}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -242,14 +247,7 @@ class UrlPage extends Component {
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class='filtering source_ip' onClick={() => this.updateFilter('source_ip', item.source_ip)}>
-                                                    {item.source_ip}
-                                                </span>
-                                            </td>
-                                            <td class='center'>
-                                                <span class='filtering protocol' onClick={() => this.updateFilter('protocol', item.protocol)}>
-                                                    {item.protocol}
-                                                </span>
+                                                {item.total}
                                             </td>
                                             <td class='center'>{item.date_requested} {item.time_requested}</td>
                                         </tr>

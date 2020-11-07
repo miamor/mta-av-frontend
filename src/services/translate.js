@@ -6,8 +6,20 @@ export const translate = {
     'Users': 'Người dùng',
     'About Us': 'Về chúng tôi',
     'Settings': 'Cài đặt',
+    'Malicious URLs': 'URLs độc hại',
+    'Notifications': 'Thông báo',
+    'DGA': 'DGA',
     // '': '',
     'Filter': 'Lọc kết quả',
+
+    'Show results': 'Hiển thị kết quả',
+    'from': 'từ',
+    'to': 'đến',
+    'of': 'của',
+
+    'Captured Files': 'Files bắt được qua đường truyền',
+
+    'Added to Queue. You will be notified once the file is analyzed.': 'File đã được thêm vào hàng đợi. Quá trình phân tích có thể mất ít phút. Bạn sẽ nhận được thông báo khi file được scan xong.',
 
     'Drag & drop some files here, or click to select files': 'Kéo thả để upload hoặc click để chọn file',
     'Checking': 'Đang quét',

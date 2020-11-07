@@ -39,7 +39,11 @@ class HistoryPage extends Component {
             critical: true,
             benign: true
         },
-        current_page: 1
+        totalCapture: 0,
+        num_pages: 0,
+        current_page: 1,
+        start_num: 0,
+        end_num: 0
     }
 
     componentDidMount() {
@@ -114,8 +118,15 @@ class HistoryPage extends Component {
         countHistory(modes, this.state.filter).then(totalCapture => {
             let page_size = 30
             console.log('~~~ totalCapture', totalCapture)
+            let end_num_ = (page+1)*page_size+1
+            if (end_num_ > totalCapture) {
+                end_num_ = totalCapture
+            }
             this.setState({
+                totalCapture: totalCapture,
                 num_pages: Math.ceil(totalCapture/30),
+                start_num: page * page_size+1,
+                end_num: end_num_
             })
         })
     }
@@ -193,7 +204,7 @@ class HistoryPage extends Component {
 
     render() {
 
-        const { selected, list_capture, isLoading, num_pages, current_page, isLoadingTbl } = this.state
+        const { selected, list_capture, isLoading, num_pages, current_page, isLoadingTbl, totalCapture, start_num, end_num } = this.state
 
         // if (isLoading) {
         //     return <p>Loading ...</p>
@@ -217,13 +228,6 @@ class HistoryPage extends Component {
                                 <div class="label col-3">{translate['Source IP']}</div>
                                 <div class="value col-9">
                                     <input type="text" name="source_ip" value={this.state.filter['source_ip']} onChange={this.handleChange} />
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="row">
-                                <div class="label col-3">{translate['Protocol']}</div>
-                                <div class="value col-9">
-                                    <input type="text" name="protocol" value={this.state.filter['protocol']} onChange={this.handleChange} />
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -260,9 +264,16 @@ class HistoryPage extends Component {
             { (isLoading) ? 'Loading ...' : (
                 <div className='Table'>
                     {(num_pages <= 0) ? '' : (
+                    <div class="row">
+                    <div class="col-5 pag_txt">
+                        {translate['Show results']} {translate['from']} {start_num} {translate['to']} {end_num} {translate['of']} {totalCapture}
+                    </div>
+                    <div class="col-7">
                     <MuiThemeProvider theme={theme}>
                         <Pagination count={num_pages} page={current_page} onChange={this.handleChange_pagination} color="primary" />
                     </MuiThemeProvider>
+                    </div>
+                    </div>
                     )}
 
                     {(isLoadingTbl) ? 'Loading ...' : 
@@ -272,10 +283,8 @@ class HistoryPage extends Component {
                                 <tr>
                                     <th width='4%'>#</th>
                                     <th width='14%'>{translate['Source IP']}</th>
-                                    <th width='14%'>{translate['Destination IP']}</th>
-                                    <th width='4%' class='center'>{translate['Protocol']}</th>
                                     <th width='15%' class='center'>{translate['Time received']}</th>
-                                    <th width='15%'>{translate['File name']}</th>
+                                    <th>{translate['File name']}</th>
                                     <th width='20%' class='center'>Hash</th>
                                     <th width='8%'>{translate['Size']}</th>
                                     <th width='10%' class='center'>{translate['Status']}</th>
@@ -294,16 +303,6 @@ class HistoryPage extends Component {
                                             <td>
                                                 <span class='filtering source_ip' onClick={() => this.updateFilter('source_ip', item.source_ip)}>
                                                     {item.source_ip}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class='filtering destination_ip' onClick={() => this.updateFilter('destination_ip', item.destination_ip)}>
-                                                    {item.destination_ip}
-                                                </span>
-                                            </td>
-                                            <td class='center'>
-                                                <span class='filtering protocol' onClick={() => this.updateFilter('protocol', item.protocol)}>
-                                                    {item.protocol}
                                                 </span>
                                             </td>
                                             <td class='center'>{item.date_received} {item.time_received}</td>

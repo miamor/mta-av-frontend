@@ -10,7 +10,8 @@
 @import "./settings/_index.scss";
 @import "./fontawesome.scss";
 
-
+.pag_txt{padding-top:6px}
+.MuiPagination-root, .pagination{float:right!important}
 .rows {
   clear: both;
   // margin-top: 4px;
