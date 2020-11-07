@@ -48,6 +48,17 @@ export const getListCapture = (mode, filter, page) => {
     })
 }
 
+
+export const getCaptureHistory = (hash) => {
+    // console.log('*** filter', filter)
+    let filter_str = 'hash='+hash
+    return api.makeAuthRequest({
+        url: '/api/v1/capture?'+filter_str+'&p=-1',
+        method: 'GET'
+    })
+}
+
+
 export const updateCapture = (data, capture_id) => {
     return api.makeAuthRequest({
         url: `/api/v1/capture/${capture_id}`,

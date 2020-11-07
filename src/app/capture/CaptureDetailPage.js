@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { translate } from '../../services/translate'
 import { bytesToSize } from '../../services/bytesToSize'
-import { getListHistory } from '../../services/apis/HistoryAPI'
-import { getCapture, getBehaviorReport } from '../../services/apis/CaptureAPI'
+import { getCapture, getBehaviorReport, getCaptureHistory } from '../../services/apis/CaptureAPI'
 
 
 import PropTypes from 'prop-types';
@@ -169,7 +168,7 @@ class CaptureDetailPage extends Component {
             }
 
             // all submissions of this hash
-            getListHistory(item.hash).then(data => {
+            getCaptureHistory(item.hash).then(data => {
                 data.map((item_o, index) => {
                     if (item_o.detected_by === '' || item_o.detected_by == null) {
                         item_o.status = 'OK'

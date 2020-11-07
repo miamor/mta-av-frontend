@@ -4,7 +4,7 @@ import { PieChart, Pie, Tooltip, Cell, ResponsiveContainer, AreaChart, Area, XAx
 
 import { pie1, pie2, pie3, pie4, area, table_client, table_domain } from './assets/sample'
 import { translate } from '../../services/translate'
-import { getStatTotal, getStatUrl } from '../../services/apis/StatAPI'
+import { getStatTotal, getStatUrl, getStatCaptureDate, getStatUrlDate } from '../../services/apis/StatAPI'
 
 import Chart from "react-apexcharts";
 
@@ -15,7 +15,16 @@ class DashboardPage extends Component {
         statData: {},
         isLoading: false,
         stat_data: {},
+        stat_by_date: {},
         stat_by_date_url: {},
+        cf__stat_date_capture: {
+            days: 30,
+            split: 21600 // Every 6(hour)*3600 = 21600(s)
+        },
+        cf__stat_date_url: {
+            days: 30,
+            split: 21600
+        }
         // top_url: {}
     }
 
@@ -28,89 +37,112 @@ class DashboardPage extends Component {
     componentDidMount() {
         this.setState({ isLoading: true });
 
-        let stat_data = getStatTotal()
-        let stat_data_url = getStatUrl()
-
-
-        stat_data_url.then(data => {
+        getStatCaptureDate(this.state.cf__stat_date_capture.days, this.state.cf__stat_date_capture.split).then(data => {
+            // console.log('~~', data)
+            let stat_by_date = data['stat_by_date']
             this.setState({
-                top_url: data['top_url'],
-
-                stat_by_date_url: {
-                    'series': data['stat_by_date']['series'],
-                    // Options for line + column
+                stat_by_date: {
+                    'series': stat_by_date['series'],
+                    // Options for stacked bar
                     'options': {
-                      colors: ['#feb21b', '#da1c1c'],
-                      // chart: {
-                      //   height: 350,
-                      //   type: 'line',
-                      //   dropShadow: {
-                      //     enabled: true,
-                      //     color: '#000',
-                      //     top: 18,
-                      //     left: 7,
-                      //     blur: 10,
-                      //     opacity: 0.2
-                      //   },
-                      //   toolbar: {
-                      //     show: false
-                      //   }
-                      // },
-                      // dataLabels: {
-                      //   enabled: true,
-                      // },
-                      // stroke: {
-                      //   curve: 'smooth'
-                      // },
-                      // grid: {
-                      //   borderColor: '#e7e7e7',
-                      //   row: {
-                      //     colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                      //     opacity: 0.5
-                      //   },
-                      // },
-                      // markers: {
-                      //   size: 1
-                      // },
-                      // xaxis: {
-                      //   categories: data['stat_by_date']['cat'],
-                      // },
-
-                      chart: {
-                        height: 350,
-                        type: 'line',
-                      },
-                      stroke: {
-                        width: [0, 4]
-                      },
-                      dataLabels: {
-                        enabled: true,
-                        enabledOnSeries: [1]
-                      },
-                      labels: data['stat_by_date']['cat'],
-                      xaxis: {
-                        // type: 'datetime'
-                      },
-                      yaxis: [{
-                        title: {
-                          text: 'Total URLs',
+                        'colors': ['#05924c', '#da1c1c', '#feb21b'],
+                        'chart': {
+                            'type': 'bar',
+                            'height': 350,
+                            'stacked': true,
+                            'toolbar': {
+                                'show': true
+                            },
+                            'zoom': {
+                                'enabled': true
+                            }
                         },
-                      
-                      }, {
-                        opposite: true,
-                        title: {
-                          text: 'Total requests'
+                        'responsive': [{
+                            'breakpoint': 480,
+                            'options': {
+                                'legend': {
+                                    'position': 'bottom',
+                                    'offsetX': -10,
+                                    'offsetY': 0
+                                }
+                            }
+                        }],
+                        'plotOptions': {
+                            'bar': {
+                                'horizontal': false,
+                            },
+                        },
+                        'xaxis': {
+                            // 'type': 'datetime',
+                            'categories': stat_by_date['cat']
+                        },
+                        'legend': {
+                            'position': 'bottom',
+                            'offsetY': 0
+                        },
+                        'fill': {
+                            'opacity': 1
                         }
-                      }]
                     },
-                }
+                },
 
             })
         })
 
 
-        stat_data.then(data => {
-            console.log(data)
+        getStatUrl().then(data => {
+            // console.log('~~', data)
+            let stat_data = data['stat_data']
+            this.setState({
+                top_url: stat_data['top_url'],
+            })
+        })
+
+
+        getStatUrlDate(this.state.cf__stat_date_url.days, this.state.cf__stat_date_url.split).then(data => {
+            console.log('~~', data)
+            let stat_by_date = data['stat_by_date']
+            this.setState({
+                stat_by_date_url: {
+                    'series': stat_by_date['series'],
+                    // Options for line + column
+                    'options': {
+                        colors: ['#feb21b', '#da1c1c'],
+
+                        chart: {
+                            height: 350,
+                            type: 'line',
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            // width: [0, 4]
+                        },
+                        fill: {
+                            type:'solid',
+                            opacity: [0.35, 1],
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            enabledOnSeries: [1]
+                        },
+                        labels: stat_by_date['cat'],
+                        yaxis: [{
+                            title: {
+                                text: 'Total URLs',
+                            },
+                        }, {
+                            opposite: true,
+                            title: {
+                                text: 'Total requests'
+                            }
+                        }]
+                    },
+                }
+            })
+        })
+
+        getStatTotal().then(data => {
+            // console.log('~~', data)
             let stat_data = data['stat_data']
 
             this.setState({
@@ -153,50 +185,6 @@ class DashboardPage extends Component {
                         },
                         dataLabels: {
                             enabled: false
-                        }
-                    },
-                },
-                stat_by_date: {
-                    'series': stat_data['stat_by_date']['series'],
-                    // Options for stacked bar
-                    'options': {
-                        'colors': ['#05924c', '#da1c1c', '#feb21b'],
-                        'chart': {
-                            'type': 'bar',
-                            'height': 350,
-                            'stacked': true,
-                            'toolbar': {
-                                'show': true
-                            },
-                            'zoom': {
-                                'enabled': true
-                            }
-                        },
-                        'responsive': [{
-                            'breakpoint': 480,
-                            'options': {
-                                'legend': {
-                                    'position': 'bottom',
-                                    'offsetX': -10,
-                                    'offsetY': 0
-                                }
-                            }
-                        }],
-                        'plotOptions': {
-                            'bar': {
-                                'horizontal': false,
-                            },
-                        },
-                        'xaxis': {
-                            // 'type': 'datetime',
-                            'categories': stat_data['stat_by_date']['cat']
-                        },
-                        'legend': {
-                            'position': 'bottom',
-                            'offsetY': 0
-                        },
-                        'fill': {
-                            'opacity': 1
                         }
                     },
                 },
