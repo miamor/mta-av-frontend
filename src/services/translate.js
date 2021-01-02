@@ -16,6 +16,9 @@ export const translate = {
     'from': 'từ',
     'to': 'đến',
     'of': 'của',
+    'Last requested': 'Truy vấn lần cuối',
+    'URL': 'URL',
+    //'Total connections': 'Số lần request',
 
     'Captured Files': 'Files bắt được qua đường truyền',
 

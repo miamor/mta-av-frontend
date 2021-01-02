@@ -10,6 +10,9 @@
 @import "./settings/_index.scss";
 @import "./fontawesome.scss";
 
+.left{float:left}
+.right{float:right}
+.clear,.clearfix{clear:both}
 .pag_txt{padding-top:6px}
 .MuiPagination-root, .pagination{float:right!important}
 .rows {
@@ -233,11 +236,9 @@ select:focus,
   opacity: 1;
 }
 
-.alert:before,
-.alerts:before,
-.callout:before {
-  font-family: "FontAwesome";
-  content: "";
+.alert-icon,
+.alerts-icon,
+.callout-icon {
   position: absolute;
   font-size:1.2rem;
   top: calc(50% - 15px);
@@ -272,13 +273,12 @@ select:focus,
 
 .alert-danger,
 .alert-error,
-.alert-danger:before,
-.alert-error:before,
+.alert-danger .alert-icon,
+.alert-error .alert-icon,
 .callout-danger,
 .callout-error,
-.callout-danger:before,
-.callout-error:before {
-  content: "\f06a";
+.callout-danger .alert-icon,
+.callout-error .alert-icon {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
@@ -286,10 +286,10 @@ select:focus,
 
 .alert-info,
 .alert-tip,
-.alert-info:before,
-.alert-tip:before,
+.alert-info .alert-icon,
+.alert-tip .alert-icon,
 .callout-info,
-.callout-info:before {
+.callout-info .alert-icon {
   content: "\f129";
   color: #31708f;
   background-color: #d9edf7;
@@ -297,9 +297,9 @@ select:focus,
 }
 
 .alert-success,
-.alert-success:before,
+.alert-success .alert-icon,
 .callout-success,
-.callout-success:before {
+.callout-success .alert-icon {
   content: "\f00c";
   color: #3c763d;
   background-color: #dff0d8;
@@ -307,9 +307,9 @@ select:focus,
 }
 
 .alert-warning,
-.alert-warning:before,
+.alert-warning .alert-icon,
 .callout-warning,
-.callout-warning:before {
+.callout-warning .alert-icon {
   content: "\f071";
   color: #8a6d3b;
   background-color: #fcf8e3;
@@ -317,18 +317,18 @@ select:focus,
 }
 
 .alert-suggest,
-.alert-suggest:before,
+.alert-suggest .alert-icon,
 .callout-suggest,
-.callout-suggest:before {
+.callout-suggest .alert-icon {
   color: #b94a48;
   background-color: #e9cdfa;
   border-color: #e0baf5;
 }
 
 .alert-help,
-.alert-help:before,
+.alert-help .alert-icon,
 .callout-help,
-.callout-help:before {
+.callout-help .alert-icon {
   content: "\f128";
   color: #2a8752;
   background-color: #dcf2f5;
@@ -336,9 +336,9 @@ select:focus,
 }
 
 .alert-classic,
-.alert-classic:before,
+.alert-classic .alert-icon,
 .callout-classic,
-.callout-classic:before {
+.callout-classic .alert-icon {
   color: #3a87ad;
   background-color: #eef;
   border-color: #e4e4f7;
@@ -346,12 +346,12 @@ select:focus,
 
 .alert-block,
 .alert-important,
-.alert-block:before,
-.alert-important:before,
+.alert-block .alert-icon,
+.alert-important .alert-icon,
 .callout-block,
 .callout-important,
-.callout-block:before,
-.callout-important:before {
+.callout-block .alert-icon,
+.callout-important .alert-icon {
   color: #c09853;
   background-color: #fcf8e3;
   border-color: #fbeed5;

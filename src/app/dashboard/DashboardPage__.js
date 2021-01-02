@@ -11,61 +11,33 @@ import Chart from "react-apexcharts";
 class DashboardPage extends Component {
 
     state = {
-        isOpen: {
-            capture: {
-                days: false,
-                split: false
-            },
-            url: {
-                days: false,
-                split: false
-            }
-        },
+        isOpen: false,
         statData: {},
         isLoading: false,
         stat_data: {},
         stat_by_date: {},
         stat_by_date_url: {},
-        cf__stat_date: {
-            capture: {
-                days: 30,
-                split: 21600 // Every 6(hour)*3600 = 21600(s)
-            },
-            url: {
-                days: 30,
-                split: 21600 // Every 6(hour)*3600 = 21600(s)
-            },
+        cf__stat_date_capture: {
+            days: 30,
+            split: 21600 // Every 6(hour)*3600 = 21600(s)
+        },
+        cf__stat_date_url: {
+            days: 30,
+            split: 21600
         }
         // top_url: {}
     }
 
-    _toggle = (stat_type, type) => {
-        let isOpen = this.state.isOpen
-        isOpen[stat_type][type] = !isOpen[stat_type][type]
-        this.setState({
-            isOpen: isOpen
-        })
+    _toggle = () => {
+        this.setState(({ isOpen }) => ({
+            isOpen: !isOpen
+        }))
     }
-
-    _stat_change_cf = (stat_type, type, evt) => {
-        let cf__stat_date = this.state.cf__stat_date
-        cf__stat_date[stat_type][type] = evt.target.value
-        console.log('~~ cf__stat_date', cf__stat_date)
-        this.setState({
-            cf__stat_date: cf__stat_date
-        })
-        this.loadStat()
-    }
-
-
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        this.loadStat()
-    }
 
-    loadStat = () => {
-        getStatCaptureDate(this.state.cf__stat_date.capture.days, this.state.cf__stat_date.capture.split).then(data => {
+        getStatCaptureDate(this.state.cf__stat_date_capture.days, this.state.cf__stat_date_capture.split).then(data => {
             // console.log('~~', data)
             let stat_by_date = data['stat_by_date']
             this.setState({
@@ -127,7 +99,7 @@ class DashboardPage extends Component {
         })
 
 
-        getStatUrlDate(this.state.cf__stat_date.url.days, this.state.cf__stat_date.url.split).then(data => {
+        getStatUrlDate(this.state.cf__stat_date_url.days, this.state.cf__stat_date_url.split).then(data => {
             console.log('~~', data)
             let stat_by_date = data['stat_by_date']
             this.setState({
@@ -150,20 +122,20 @@ class DashboardPage extends Component {
                             opacity: [0.35, 1],
                         },
                         dataLabels: {
-                            enabled: false,
-                            // enabledOnSeries: [1]
+                            enabled: true,
+                            enabledOnSeries: [1]
                         },
                         labels: stat_by_date['cat'],
-                        // yaxis: [{
-                        //     title: {
-                        //         text: 'Total URLs',
-                        //     },
-                        // }, {
-                        //     opposite: true,
-                        //     title: {
-                        //         text: 'Total requests'
-                        //     }
-                        // }]
+                        yaxis: [{
+                            title: {
+                                text: 'Total URLs',
+                            },
+                        }, {
+                            opposite: true,
+                            title: {
+                                text: 'Total requests'
+                            }
+                        }]
                     },
                 }
             })
@@ -220,6 +192,7 @@ class DashboardPage extends Component {
                 isLoading: false,
             })
         })
+
     }
 
     isEmpty = (obj) => {
@@ -231,10 +204,10 @@ class DashboardPage extends Component {
     }
 
     render() {
-        const { isOpen, isLoading, stat_data, chartsFilesnum, top_url, stat_by_date, stat_by_date_url } = this.state
 
-        // console.log('~~ stat_by_date_url', this.state.stat_by_date_url)
-        // console.log(chartsFilesnum, '~~ top_url', top_url)
+        const { isOpen, isLoading, stat_data, chartsFilesnum, stat_by_date_url, top_url } = this.state
+
+        console.log(chartsFilesnum, '~~ top_url', top_url)
 
         if (isLoading || this.isEmpty(stat_data)) {
             return <div className='DashboardPage'>Loading ...</div>
@@ -243,7 +216,67 @@ class DashboardPage extends Component {
 
         return (
             <div className='DashboardPage'>
+                {/* <div className='MenuPeriod'>
+                    <div>Period</div>
+                    <Dropdown isOpen={isOpen} toggle={this._toggle}>
+                        <DropdownToggle caret>
+                            Last 30 days
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Last 30 days</DropdownItem>
+                            <DropdownItem>Last 60 days</DropdownItem>
+                            <DropdownItem>Last 90 days</DropdownItem>
+                            <DropdownItem>Last 120 days</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div> */}
                 <div className='Main'>
+                    {/* <div className='card'>
+                        <div class='card-header'><h2>At a glance</h2></div>
+                        <div class='row stat-num'>
+                            <div className='Item col'>
+                                <div class="ItemIcon fas fa-chart-bar"></div>
+                                <div className='ItemCount'>
+                                    {statData['malwares_num']}
+                                    <span class="small">.</span>
+                                </div>
+                                <h3>{translate['Files captured']}</h3>
+                                <Chart options={this.state.chartsProtocol.options} series={this.state.chartsProtocol.series} type="pie" width="220" />
+                            </div>
+                            <div className='Item Last col'>
+                                <div class="ItemIcon fas fa-chart-bar"></div>
+                                <div className='ItemCount'>
+                                    {statData['ip_malwares_num']}
+                                    <span class="small">hosts contain</span>
+                                </div>
+                                <h3>{translate['IPs containing malicious files detected']}</h3>
+                            </div>
+                        </div>
+
+                        <div class='row stat-num'>
+                            <div className='Item col'>
+                                <div class="ItemIcon fas fa-chart-bar"></div>
+                                <div className='ItemCount num-malware'>
+                                    {statData['malwares_num']}
+                                    <span class="small">detections of</span>
+                                </div>
+                                <h3>{translate['Malicious files detected']}</h3>
+
+                                <Chart options={chartsFilesnum.options} series={chartsFilesnum.series} type="donut" width="220" />
+
+                            </div>
+                            <div className='Item Last col'>
+                                <div class="ItemIcon fas fa-chart-bar"></div>
+                                <div className='ItemCount'>
+                                    {statData['ip_malwares_num']}
+                                    <span class="small">.</span>
+                                </div>
+                                <h3>{translate['Connections to malicious URLs']}</h3>
+                            </div>
+                        </div>
+                    </div> */}
+
+
                     <div className='row'>
                         <div className='col-8'>
                             <div className='Item card'>
@@ -276,28 +309,10 @@ class DashboardPage extends Component {
                     <div className='row'>
                         <div className='col'>
                             <div className='Item card'>
-                                <div className='card-header ItemTitle with-options'>
-                                    <h3 class='left'>{translate['Files captured']}</h3>
-                <div className='MenuPeriod right'>
-                    <select value={this.state.cf__stat_date.capture.days} onChange={(evt) => this._stat_change_cf('capture', 'days', evt)}>
-                            <option value="30">Last 30 days</option>
-                            <option value="60">Last 60 days</option>
-                            <option value="90">Last 90 days</option>
-                            <option value="120">Last 120 days</option>
-                    </select>
-                </div>
-                <div className='MenuSplit right'>
-                    <select value={this.state.cf__stat_date.capture.split} onChange={(evt) => this._stat_change_cf('capture', 'split', evt)}>
-                            <option value="21600">Every 6 hours</option>
-                            <option value="43200">Every 12 hours</option>
-                            <option value="86400">Every 24 hours</option>
-                            <option value="129600">Every 36 hours</option>
-                            <option value="172800">Every 48 hours</option>
-                    </select>
-                </div>
+                                <div className='card-header ItemTitle'>
+                                    <h3>{translate['Files captured']}</h3>
                                 </div>
-
-                                <Chart options={stat_by_date.options} series={stat_by_date.series} type="bar" height="400" />
+                                <Chart options={this.state.stat_by_date.options} series={this.state.stat_by_date.series} type="bar" height="400" />
                             </div>
                         </div>
                     </div>
@@ -306,26 +321,9 @@ class DashboardPage extends Component {
                         <div className='col'>
                             <div className='Item card'>
                                 <div className='card-header ItemTitle'>
-                                    <h3 class='left'>{translate['Total malicious URLs requested']}</h3>
-                <div className='MenuPeriod right'>
-                    <select value={this.state.cf__stat_date.url.days} onChange={(evt) => this._stat_change_cf('url', 'days', evt)}>
-                            <option value="30">Last 30 days</option>
-                            <option value="60">Last 60 days</option>
-                            <option value="90">Last 90 days</option>
-                            <option value="120">Last 120 days</option>
-                    </select>
-                </div>
-                <div className='MenuSplit right'>
-                    <select value={this.state.cf__stat_date.url.split} onChange={(evt) => this._stat_change_cf('url', 'split', evt)}>
-                            <option value="21600">Every 6 hours</option>
-                            <option value="43200">Every 12 hours</option>
-                            <option value="86400">Every 24 hours</option>
-                            <option value="129600">Every 36 hours</option>
-                            <option value="172800">Every 48 hours</option>
-                    </select>
-                </div>
+                                    <h3>{translate['Total malicious URLs requested']}</h3>
                                 </div>
-                                <Chart options={stat_by_date_url.options} series={stat_by_date_url.series} type="line" height="400" />
+                                <Chart options={this.state.stat_by_date_url.options} series={this.state.stat_by_date_url.series} type="line" height="400" />
                             </div>
                         </div>
                     </div>

@@ -225,8 +225,8 @@ class UrlPage extends Component {
                                 <tr>
                                     <th width='4%'>#</th>
                                     <th>{translate['URL']}</th>
-                                    <th width='4%' class='center'>{translate['Total connections']}</th>
-                                    <th width='15%' class='center'>{translate['Last requested']}</th>
+                                    <th width='18%' class='center'>{translate['Source IP']}</th>
+                                    <th width='18%' class='center'>{translate['Last requested']}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -246,8 +246,8 @@ class UrlPage extends Component {
                                                     {item.url}
                                                 </span>
                                             </td>
-                                            <td>
-                                                {item.total}
+                                            <td class='center'>
+                                                {item.source_ip}
                                             </td>
                                             <td class='center'>{item.date_requested} {item.time_requested}</td>
                                         </tr>

@@ -4998,7 +4998,8 @@
 }
 
 @font-face {
-    font-family: "Font Awesome 5 Brands";
+    //font-family: "Font Awesome 5 Brands";
+    font-family: "FontAwesome";
     font-style: normal;
     font-weight: normal;
     src: url(/fonts/fa-brands-400.eot);
@@ -5006,7 +5007,8 @@
 }
 
 .fab {
-    font-family: "Font Awesome 5 Brands"
+    //font-family: "Font Awesome 5 Brands"
+    font-family: "FontAwesome"
 }
 
 
@@ -5019,7 +5021,8 @@
 .fa,
 .far,
 .fas {
-    font-family: "Font Awesome 5 Free"!important
+    //font-family: "Font Awesome 5 Free"!important
+    font-family: "FontAwesome"!important
 }
 
 .fa,
@@ -5029,7 +5032,8 @@
 
 
 @font-face {
-    font-family: "Font Awesome 5 Free";
+    //font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-style: normal;
     font-weight: 400;
     src: url(/fonts/fa-regular-400.eot);
@@ -5038,7 +5042,8 @@
 
 
 @font-face {
-    font-family: "Font Awesome 5 Free";
+    //font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-style: normal;
     font-weight: 900;
     src: url(/fonts/fa-solid-900.eot);

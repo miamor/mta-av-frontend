@@ -13,8 +13,14 @@
         h2, h3{
           font-size:1.1rem;line-height:1.4rem;margin:0;
           overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-          display:block; width:100%;
+          /*display:block; width:100%;*/
         }
+        .MenuSplit{
+          margin-right:10px
+        }
+      }
+      .card-header.with-options{
+        h3{margin-top:0.6rem}
       }
       .card-body{
         padding-top:0;

@@ -216,6 +216,7 @@ class CapturePage extends Component {
                 <h1 className='PageTitle'>{translate['Captured Files']}</h1>
 
                 <div class="callout callout-info">
+                    <div class="callout-icon fas fa-info"></div>
                     <div class="close" onClick={() => this.resetFilter()}>
                         <i class="fa fa-times"></i>
                     </div>
