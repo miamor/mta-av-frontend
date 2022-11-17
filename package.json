@@ -22,7 +22,7 @@
     "react-dropzone": "^10.1.7",
     "react-dynamic-charts": "^1.0.5",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "reactstrap": "^8.0.1",
     "recharts": "^1.7.1"
   },
